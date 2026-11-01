@@ -77,6 +77,14 @@ button { font: inherit; }
 .progress > span { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--teal); transition: width .2s; }
 .side-actions { display: grid; gap: 7px; margin-top: 14px; }
 .side-note { color: var(--muted); font-size: 11px; line-height: 1.45; margin: 12px 0 0; }
+.local-save-panel { margin: 12px 0 14px; padding: 10px; border: 1px solid #dce8e7; border-radius: 11px; background: #f4faf9; }
+.local-save-heading { display: flex; align-items: center; gap: 7px; color: #155e59; font-size: 11px; }
+.local-save-heading strong { font-weight: 850; }
+.local-save-indicator { width: 8px; height: 8px; border-radius: 50%; background: #c28a26; box-shadow: 0 0 0 3px #f7edda; flex: 0 0 auto; }
+.local-save-indicator[data-state="saved"] { background: #16845e; box-shadow: 0 0 0 3px #dcefe7; }
+.local-save-indicator[data-state="error"] { background: #b42318; box-shadow: 0 0 0 3px #fbe4e2; }
+.local-save-state { color: #526477; font-size: 10px; line-height: 1.4; margin: 5px 0 8px 15px; overflow-wrap: anywhere; }
+.local-save-button { width: 100%; background: #fff; }
 .main-panel { min-width: 0; overflow: hidden; }
 .question-head { padding: 19px 22px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
 .question-index { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 900; color: var(--teal); }
@@ -482,7 +490,7 @@ button { font: inherit; }
       <div>
         <div class="eyebrow">IB MYP 5 · Extended Mathematics · SA 2</div>
         <h1>Two full-length mock papers</h1>
-        <p>Original Criterion C &amp; D practice with a question-by-question response workspace, rich mathematical notation and WIRIS MathType.</p>
+        <p>Original Criterion C &amp; D practice with WIRIS MathType, question-by-question answers and automatic on-device saving.</p>
       </div>
       <div class="hero-stat"><strong>2 × 65 min</strong><span>40 marks per paper · 80 marks total</span></div>
     </div>
@@ -518,6 +526,11 @@ button { font: inherit; }
     <aside class="sidebar">
       <h2>Question navigator</h2>
       <div class="sidebar-title" id="sidebar-paper-title">Mock Paper 1</div>
+      <div class="local-save-panel" aria-live="polite">
+        <div class="local-save-heading"><span class="local-save-indicator" id="local-save-indicator"></span><strong>On-device autosave</strong></div>
+        <div class="local-save-state" id="local-save-state">Checking this browser…</div>
+        <button class="btn small local-save-button" id="save-local-now" type="button">Save now</button>
+      </div>
       <div class="q-nav" id="q-nav" aria-label="Questions"></div>
       <div class="progress-wrap">
         <div class="progress-head"><span>Answered</span><strong id="progress-label">0 / 8</strong></div>
@@ -527,7 +540,7 @@ button { font: inherit; }
         <button class="btn dark" id="export-paper">Export my answers</button>
         <button class="btn" id="paper-review">Review unanswered</button>
       </div>
-      <p class="side-note">Your work is saved separately for each question in this browser. The MathType editor is mounted once and follows the selected question so the WIRIS dialog stays attached to the active answer.</p>
+      <p class="side-note">Answers are saved on this device using browser storage. Reopen the same GitHub Pages address in the same browser to restore them. Private browsing or clearing site data may remove local saves. Export a backup for long-term safekeeping.</p>
     </aside>
 
     <main class="main-panel">
@@ -2256,7 +2269,15 @@ async function createAnswerInputBar(host, options = {}) {
 
 const PAPERS = {"paper1": {"title": "Mock Paper 1 — Probability & Data Interpretation", "subtitle": "Probability foundations, sampling, graphs and real-world interpretation", "questions": [{"title": "Relative frequency and theoretical probability", "marks": 4, "skills": "Relative frequency · theoretical probability · experimental probability", "prompt": "<p>A spinner has <strong>8 equal sectors</strong>: 3 red, 2 blue and 3 yellow. It is spun 40 times. The recorded results are:</p><table class='data-table'><thead><tr><th>Colour</th><th>Red</th><th>Blue</th><th>Yellow</th></tr></thead><tbody><tr><th>Frequency</th><td>17</td><td>8</td><td>15</td></tr></tbody></table>", "parts": [["Calculate the relative frequency of landing on yellow.", 1], ["Determine the theoretical probability of landing on blue.", 1], ["Calculate the experimental probability of landing on blue and compare it with the theoretical probability.", 1], ["Explain why the experimental and theoretical probabilities may differ after 40 spins.", 1]]}, {"title": "Venn diagrams and combined events", "marks": 5, "skills": "Venn diagrams · union · intersection · mutually exclusive events", "prompt": "<p>In a group of 48 students, 27 use music app A, 23 use music app B and 11 use both apps. Let A and B represent the corresponding events for a randomly selected student.</p>", "parts": [["Draw a Venn diagram and determine the number of students in A only, B only and neither set.", 3], ["Calculate P(A ∪ B). Give your answer as a simplified fraction.", 1], ["Are A and B mutually exclusive? Justify your answer using the information given.", 1]]}, {"title": "Tree diagrams and dependent events", "marks": 5, "skills": "Tree diagrams · multiplication rule · dependent events · without replacement", "prompt": "<p>A bag contains 6 orange counters and 4 purple counters. Two counters are selected at random <strong>without replacement</strong>.</p>", "parts": [["Draw a fully labelled probability tree for the two selections.", 2], ["Calculate the probability that the two counters are different colours.", 2], ["Find P(second counter is purple | first counter is orange).", 1]]}, {"title": "Conditional probability and independence", "marks": 5, "skills": "Conditional probability · two-way counts · independence test", "prompt": "<p>In a year group of 100 students, 36 attend the mathematics club, 50 attend the coding club and 24 attend both clubs. A student is selected at random.</p><p>Let M = attends mathematics club and C = attends coding club.</p>", "parts": [["Calculate P(M | C).", 2], ["Determine whether M and C are independent. Show a valid test using probabilities.", 2], ["Interpret your result in the context of the two clubs.", 1]]}, {"title": "Sampling techniques and response rates", "marks": 5, "skills": "Response rate · voluntary response · sampling bias · representative samples", "prompt": "<p>A school invites 300 students to complete an online survey about lunchtime activities. A link is posted in one house group's chat, and participation is voluntary. A total of 186 students respond.</p>", "parts": [["Calculate the response rate as a percentage.", 1], ["Explain two reasons why the respondents may not be representative of all 300 invited students.", 2], ["Recommend a more suitable sampling method and justify why it would improve the investigation.", 2]]}, {"title": "Data manipulation and misleading representations", "marks": 4, "skills": "Percentage change · misleading axes · critical interpretation", "prompt": "<p>A report states that the number of bus passes sold increased from 40 in Week 1 to 50 in Week 2. Its bar chart uses a vertical axis beginning at 38 and ending at 52. The report headline says: <strong>“Bus-pass sales almost doubled!”</strong></p>", "parts": [["Calculate the actual percentage increase in sales.", 1], ["Explain how the truncated vertical axis could exaggerate the apparent change.", 2], ["Write one mathematically defensible sentence describing the change.", 1]]}, {"title": "Histograms and grouped continuous data", "marks": 5, "skills": "Continuous fixed intervals · histogram · modal class · estimated mean", "prompt": "<p>The table shows the time, in minutes, taken by 40 students to complete a task. The data are grouped into continuous intervals of equal width.</p><table class='data-table'><thead><tr><th>Time, t (minutes)</th><th>0 ≤ t &lt; 10</th><th>10 ≤ t &lt; 20</th><th>20 ≤ t &lt; 30</th><th>30 ≤ t &lt; 40</th><th>40 ≤ t &lt; 50</th></tr></thead><tbody><tr><th>Frequency</th><td>4</td><td>9</td><td>15</td><td>8</td><td>4</td></tr></tbody></table>", "parts": [["Construct a histogram. Label both axes and use the correct class boundaries.", 2], ["State the modal class. Explain why the exact mode cannot be identified from the grouped table alone.", 1], ["Estimate the mean time using class midpoints. Show your working.", 2]], "graph": {"xMin": 0, "xMax": 50, "xStep": 10, "yMin": 0, "yMax": 20, "yStep": 5, "xLabel": "Time (minutes)", "yLabel": "Frequency", "title": "Histogram workspace"}}, {"title": "Scatter graphs and lines of best fit", "marks": 7, "skills": "Bivariate data · scatter graph · correlation · interpolation · extrapolation", "prompt": "<p>A coach investigates the relationship between the number of training sessions completed and the number of errors made during a skills test.</p><table class='data-table'><thead><tr><th>Training sessions, x</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr></thead><tbody><tr><th>Errors, y</th><td>19</td><td>16</td><td>15</td><td>13</td><td>11</td><td>10</td><td>8</td></tr></tbody></table>", "parts": [["Plot the data on a scatter graph. Label the axes and choose suitable scales.", 2], ["Describe the direction and strength of the correlation.", 1], ["Draw a suitable line of best fit.", 1], ["Use your line to estimate the number of errors for 4.5 training sessions.", 1], ["Explain why using the same line to predict the number of errors after 15 training sessions would be unreliable.", 2]], "graph": {"xMin": 0, "xMax": 8, "xStep": 1, "yMin": 0, "yMax": 20, "yStep": 2, "xLabel": "Training sessions", "yLabel": "Number of errors", "title": "Scatter graph workspace"}}]}, "paper2": {"title": "Mock Paper 2 — Statistical Analysis & Conditional Probability", "subtitle": "Quartiles, percentiles, dispersion, correlation, regression and contextual evaluation", "questions": [{"title": "Quartiles, percentiles and box plots", "marks": 6, "skills": "Discrete data · median-of-halves · nearest-rank percentile · box plot · IQR", "prompt": "<p>The following 16 values are already in ascending order:</p><p class='number-row'>8, 9, 11, 12, 12, 13, 14, 15, 17, 19, 21, 23, 24, 26, 28, 31</p><p>For this question, use the <strong>median-of-halves convention</strong> for quartiles and the <strong>nearest-rank method</strong> for percentiles.</p>", "parts": [["Determine the minimum, lower quartile, median, upper quartile and maximum.", 3], ["Calculate the interquartile range and explain what it represents for this dataset.", 1], ["Estimate the 90th percentile using the nearest-rank method. Show how you selected the rank.", 1], ["Construct a box plot using your five-number summary.", 1]], "graph": {"xMin": 0, "xMax": 35, "xStep": 5, "yMin": 0, "yMax": 1, "yStep": 1, "xLabel": "Data value", "yLabel": "", "title": "Box-plot workspace"}}, {"title": "Cumulative frequency and continuous percentiles", "marks": 7, "skills": "Continuous grouped data · cumulative frequency · quartiles · percentile · IQR", "prompt": "<p>The time taken by 40 participants to complete a challenge is grouped below.</p><table class='data-table'><thead><tr><th>Time, t (minutes)</th><th>0 ≤ t &lt; 10</th><th>10 ≤ t &lt; 20</th><th>20 ≤ t &lt; 30</th><th>30 ≤ t &lt; 40</th><th>40 ≤ t &lt; 50</th></tr></thead><tbody><tr><th>Frequency</th><td>4</td><td>8</td><td>14</td><td>10</td><td>4</td></tr></tbody></table>", "parts": [["Complete a cumulative frequency table.", 1], ["Draw a cumulative frequency graph, with suitable scales and labelled axes.", 2], ["Use your graph to estimate Q1, the median and Q3.", 2], ["Calculate the estimated interquartile range.", 1], ["Use your graph to estimate the 90th percentile.", 1]], "graph": {"xMin": 0, "xMax": 50, "xStep": 10, "yMin": 0, "yMax": 40, "yStep": 5, "xLabel": "Time (minutes)", "yLabel": "Cumulative frequency", "title": "Cumulative frequency workspace"}}, {"title": "Mean and standard deviation", "marks": 6, "skills": "Mean · population standard deviation · dispersion · outliers", "prompt": "<p>Two groups complete the same assessment. Their scores are:</p><table class='data-table'><thead><tr><th>Group A</th><td>14</td><td>15</td><td>15</td><td>16</td><td>20</td></tr><tr><th>Group B</th><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td></tr></thead></table><p>Treat each list as the <strong>entire population</strong> for its group. Use the population standard deviation, σ.</p>", "parts": [["Calculate the mean score for each group.", 1], ["Use your calculator or statistical technology to find the population standard deviation for each group. Give suitable accuracy.", 2], ["Explain what the standard deviations show about the spread of scores, referring to the means in your comparison.", 2], ["For a different dataset containing a severe outlier, state whether the mean/standard deviation or median/IQR would usually give a more representative summary. Justify your choice.", 1]]}, {"title": "Numerical correlation using technology", "marks": 6, "skills": "Bivariate data · scatter graph · Pearson correlation coefficient · causation", "prompt": "<p>A learning researcher records the number of weekly practice sessions and the accuracy score for eight participants.</p><table class='data-table'><thead><tr><th>Practice sessions, x</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr></thead><tbody><tr><th>Accuracy, y (%)</th><td>42</td><td>46</td><td>45</td><td>53</td><td>52</td><td>59</td><td>57</td><td>66</td></tr></tbody></table><p>Use a school-approved calculator, spreadsheet or statistical tool to calculate the Pearson correlation coefficient.</p>", "parts": [["Plot the paired data on a scatter graph.", 2], ["Calculate the correlation coefficient, r, correct to three decimal places.", 2], ["Interpret the direction and strength of the linear association in context.", 1], ["Explain why the correlation does not, by itself, prove that practice sessions cause accuracy to increase.", 1]], "graph": {"xMin": 0, "xMax": 9, "xStep": 1, "yMin": 30, "yMax": 70, "yStep": 5, "xLabel": "Practice sessions", "yLabel": "Accuracy (%)", "title": "Scatter graph workspace"}}, {"title": "Regression and predictions", "marks": 5, "skills": "Line of best fit · regression equation · interpolation · extrapolation · model validity", "prompt": "<p>Use the same paired dataset from Question 4: practice sessions x = 1, 2, 3, 4, 5, 6, 7, 8 and accuracy scores y = 42, 46, 45, 53, 52, 59, 57, 66.</p>", "parts": [["Use technology to obtain the least-squares regression line in the form y = a + bx. State the equation to an appropriate degree of accuracy.", 2], ["Use your equation to estimate the accuracy score for 5.5 practice sessions. State whether this is interpolation or extrapolation.", 1], ["Use your equation to estimate the score for 12 practice sessions. Explain why this prediction should be treated with caution.", 2]]}, {"title": "Conditional probability from a two-way situation", "marks": 6, "skills": "Conditional probability · combined events · independent/dependent events", "prompt": "<p>In a group of 60 students, 30 are members of the school library, 38 participate in a sports club and 18 do both.</p><p>Let L = library member and S = sports-club participant.</p>", "parts": [["Calculate P(L | S). Give your answer as a simplified fraction.", 2], ["Calculate P(S | L).", 1], ["Determine whether L and S are independent. Show your test clearly.", 2], ["Calculate the probability that a randomly selected student belongs to neither group.", 1]]}, {"title": "Response rates and evaluating a survey claim", "marks": 4, "skills": "Response rate · percentage interpretation · non-response bias · validity", "prompt": "<p>A voluntary online survey is sent to 200 students. Only 86 respond, and 64 of those respondents support a proposed change to the school timetable. The year group contains 1,200 students.</p>", "parts": [["Calculate the response rate.", 1], ["Calculate the percentage of respondents who support the proposal.", 1], ["A student claims that this percentage reliably represents all 1,200 students. Evaluate the claim, referring to non-response and sampling bias.", 2]]}]}};
 const STORAGE_KEY = "myp5-sa2-two-mocks-v1";
+const LOCAL_DB_NAME = "myp5-sa2-practice-local";
+const LOCAL_DB_VERSION = 1;
+const LOCAL_DB_STORE = "practice";
+const LOCAL_DB_KEY = "answers-and-timers";
 const INITIAL_SECONDS = 65 * 60;
+let localDbPromise = null;
+let indexedSaveTimer = null;
+let localSaveLastState = null;
+let suppressEditorAutosave = false;
 let currentPaperId = "paper1";
 let currentQuestionIndex = 0;
 let answerBar = null;
@@ -2271,19 +2292,145 @@ let saved = { paper1: {}, paper2: {} };
 let manualDone = { paper1: {}, paper2: {} };
 let toastTimeout = null;
 
-function loadState() {
+function setLocalSaveStatus(message, state = "") {
+  const label = document.getElementById("local-save-state");
+  const indicator = document.getElementById("local-save-indicator");
+  if (label) label.textContent = message;
+  if (indicator) indicator.dataset.state = state;
+}
+
+function applyLoadedState(state) {
+  if (!state || typeof state !== "object") return;
+  if (state.answers && typeof state.answers === "object") {
+    // Merge paper maps separately so restoring one paper never erases the other.
+    saved = {
+      paper1: { ...(state.answers.paper1 || {}) },
+      paper2: { ...(state.answers.paper2 || {}) }
+    };
+  }
+  if (state.done && typeof state.done === "object") {
+    manualDone = {
+      paper1: { ...(state.done.paper1 || {}) },
+      paper2: { ...(state.done.paper2 || {}) }
+    };
+  }
+  if (state.timers && typeof state.timers === "object") timers = { ...timers, ...state.timers };
+  localSaveLastState = state.savedAt || null;
+}
+
+function openLocalDatabase() {
+  if (!("indexedDB" in window)) return Promise.reject(new Error("IndexedDB is not available in this browser."));
+  if (localDbPromise) return localDbPromise;
+  localDbPromise = new Promise((resolve, reject) => {
+    const request = indexedDB.open(LOCAL_DB_NAME, LOCAL_DB_VERSION);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(LOCAL_DB_STORE)) db.createObjectStore(LOCAL_DB_STORE);
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error || new Error("Could not open local answer storage."));
+    request.onblocked = () => reject(new Error("Local answer storage is blocked by another tab."));
+  }).catch(error => {
+    localDbPromise = null;
+    throw error;
+  });
+  return localDbPromise;
+}
+
+async function readIndexedState() {
+  const db = await openLocalDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(LOCAL_DB_STORE, "readonly");
+    const request = tx.objectStore(LOCAL_DB_STORE).get(LOCAL_DB_KEY);
+    request.onsuccess = () => resolve(request.result || null);
+    request.onerror = () => reject(request.error || new Error("Could not read local answers."));
+  });
+}
+
+async function writeIndexedState(state) {
+  const db = await openLocalDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(LOCAL_DB_STORE, "readwrite");
+    tx.objectStore(LOCAL_DB_STORE).put(state, LOCAL_DB_KEY);
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => reject(tx.error || new Error("Could not save answers to local storage."));
+    tx.onabort = () => reject(tx.error || new Error("Local answer save was interrupted."));
+  });
+}
+
+function buildStateSnapshot() {
+  return JSON.parse(JSON.stringify({
+    answers: saved,
+    done: manualDone,
+    timers,
+    savedAt: Date.now()
+  }));
+}
+
+async function loadState() {
+  let localState = null;
+  let indexedState = null;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const state = JSON.parse(raw);
-    if (state.answers) saved = { ...saved, ...state.answers };
-    if (state.done) manualDone = { ...manualDone, ...state.done };
-    if (state.timers) timers = { ...timers, ...state.timers };
-  } catch (error) { console.warn("Saved practice data could not be restored:", error); }
+    if (raw) localState = JSON.parse(raw);
+  } catch (error) {
+    console.warn("The localStorage copy could not be read:", error);
+  }
+  try {
+    indexedState = await readIndexedState();
+  } catch (error) {
+    console.info("IndexedDB restore unavailable; checking localStorage backup:", error);
+  }
+
+  const localTime = Number(localState?.savedAt || 0);
+  const indexedTime = Number(indexedState?.savedAt || 0);
+  const state = indexedTime > localTime ? indexedState : (localState || indexedState);
+  if (state) applyLoadedState(state);
+
+  const count = ["paper1", "paper2"].reduce((total, id) => total + Object.keys(saved[id] || {}).filter(key => {
+    const item = saved[id][key];
+    return !!(item && (item.html || item.text || item.latex));
+  }).length, 0);
+  const dbReady = !!indexedState || !!localDbPromise;
+  setLocalSaveStatus(state
+    ? `Restored ${count} saved response${count === 1 ? "" : "s"} from this browser.`
+    : "Ready. Your answers will autosave on this device.", "saved");
+  return { restored: !!state, indexedDbReady: dbReady };
 }
-function persistState() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ answers: saved, done: manualDone, timers })); }
-  catch (error) { console.warn("Browser storage is unavailable; export your answers to keep a copy.", error); }
+
+function persistState(options = {}) {
+  const state = buildStateSnapshot();
+  let localStorageOk = false;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    localStorageOk = true;
+  } catch (error) {
+    console.warn("localStorage could not store this answer set; IndexedDB will be used if available:", error);
+  }
+
+  setLocalSaveStatus("Saving this device's copy…", "");
+  if (indexedSaveTimer) clearTimeout(indexedSaveTimer);
+  const doIndexedWrite = async () => {
+    try {
+      await writeIndexedState(state);
+      localSaveLastState = state.savedAt;
+      setLocalSaveStatus(`Saved on this device · ${new Date(state.savedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`, "saved");
+      return true;
+    } catch (error) {
+      console.warn("IndexedDB save failed:", error);
+      if (localStorageOk) {
+        setLocalSaveStatus("Saved in this browser's localStorage backup.", "saved");
+        return true;
+      }
+      setLocalSaveStatus("Could not save locally. Use Export my answers to make a backup.", "error");
+      return false;
+    }
+  };
+
+  if (options.immediate) return doIndexedWrite();
+  indexedSaveTimer = window.setTimeout(doIndexedWrite, 350);
+  if (localStorageOk) setLocalSaveStatus("Autosaving · local browser copy updated", "saved");
+  return Promise.resolve(localStorageOk);
 }
 function currentPaper() { return PAPERS[currentPaperId]; }
 function currentQuestion() { return currentPaper().questions[currentQuestionIndex]; }
@@ -2319,6 +2466,7 @@ function renderProgress() {
   });
 }
 function saveCurrentAnswer(htmlValue, meta = null) {
+  if (suppressEditorAutosave) return;
   if (!saved[currentPaperId]) saved[currentPaperId] = {};
   saved[currentPaperId][currentQuestionIndex] = {
     html: htmlValue || "",
@@ -2385,11 +2533,13 @@ function renderQuestion() {
 }
 function selectQuestion(index) {
   if (index < 0 || index >= currentPaper().questions.length) return;
+  if (answerBar && !suppressEditorAutosave) saveCurrentAnswer(answerBar.getValue(), answerBar.getDetails());
   currentQuestionIndex = index;
   renderQuestion();
 }
 function switchPaper(id) {
   if (!PAPERS[id] || id === currentPaperId) return;
+  if (answerBar && !suppressEditorAutosave) saveCurrentAnswer(answerBar.getValue(), answerBar.getDetails());
   pauseTimer();
   currentPaperId = id;
   currentQuestionIndex = 0;
@@ -2553,20 +2703,31 @@ document.getElementById("insert-graph").addEventListener("click", () => {
 // The single editor instance is deliberately reused. Each prompt stores a separate HTML answer,
 // while the WIRIS GenericIntegration and its document-level dialog remain attached to one editor.
 async function initializeAnswerEditor() {
+  // createAnswerInputBar emits an initial empty onChange event. Suppress it until
+  // the previously saved HTML has been restored, otherwise it overwrites the
+  // answer that was loaded from the previous visit.
+  suppressEditorAutosave = true;
+  const storedBeforeMount = saved[currentPaperId]?.[currentQuestionIndex]?.html || "";
   try {
     answerBar = await createAnswerInputBar(document.getElementById("answer-input-mount"), {
       valueFormat: "html",
       placeholder: "Write your working and conclusion here. Use Σ to insert equations with MathType…",
       showLatexPreview: true,
-      onChange(value, meta) { saveCurrentAnswer(value, meta); },
-      onSubmit(value) { saveCurrentAnswer(value, answerBar.getDetails()); showToast("Answer saved for this question."); },
+      onChange(value, meta) { if (!suppressEditorAutosave) saveCurrentAnswer(value, meta); },
+      onSubmit(value) {
+        saveCurrentAnswer(value, answerBar.getDetails());
+        persistState({ immediate: true });
+        showToast("Answer saved on this device.");
+      },
       onStatus(message, kind) {
         if (kind === "error" && message) showToast(message);
       }
     });
-    const stored = saved[currentPaperId]?.[currentQuestionIndex]?.html || "";
-    answerBar.setValue(stored);
+    answerBar.setValue(storedBeforeMount);
+    suppressEditorAutosave = false;
+    renderProgress();
   } catch (error) {
+    suppressEditorAutosave = false;
     console.error("Could not initialize WIRIS answer editor:", error);
     showToast("The response editor could not start. Check the browser console and WIRIS connection.");
   }
@@ -2578,22 +2739,49 @@ document.getElementById("timer-reset").addEventListener("click", resetTimer);
 document.getElementById("print-paper").addEventListener("click", () => window.print());
 document.getElementById("previous-question").addEventListener("click", () => selectQuestion(currentQuestionIndex - 1));
 document.getElementById("next-question").addEventListener("click", () => selectQuestion(currentQuestionIndex + 1));
-document.getElementById("save-next").addEventListener("click", () => {
+document.getElementById("save-next").addEventListener("click", async () => {
   if (answerBar) saveCurrentAnswer(answerBar.getValue(), answerBar.getDetails());
+  await persistState({ immediate: true });
   if (currentQuestionIndex < currentPaper().questions.length - 1) selectQuestion(currentQuestionIndex + 1);
-  else showToast("Last question saved. Review any unanswered questions from the sidebar.");
+  else showToast("Last question saved on this device. Review any unanswered questions from the sidebar.");
 });
 document.getElementById("export-paper").addEventListener("click", exportAnswers);
 document.getElementById("paper-review").addEventListener("click", reviewUnanswered);
-
-loadState();
-renderNavigator();
-renderQuestion();
-renderTimer();
-initializeAnswerEditor();
-window.addEventListener("beforeunload", () => {
+document.getElementById("save-local-now").addEventListener("click", async () => {
   if (answerBar) saveCurrentAnswer(answerBar.getValue(), answerBar.getDetails());
-  persistState();
+  const savedOk = await persistState({ immediate: true });
+  showToast(savedOk ? "All answers saved on this device." : "Local save failed. Please export a backup.");
+});
+
+async function bootPracticeApp() {
+  await loadState();
+  renderNavigator();
+  renderQuestion();
+  renderTimer();
+  await initializeAnswerEditor();
+}
+
+bootPracticeApp().catch(error => {
+  console.error("Practice app startup failed:", error);
+  setLocalSaveStatus("Could not restore local work. Export a backup after writing answers.", "error");
+  renderNavigator();
+  renderQuestion();
+  renderTimer();
+  initializeAnswerEditor();
+});
+
+function flushLocalAnswers() {
+  if (answerBar && !suppressEditorAutosave) {
+    saveCurrentAnswer(answerBar.getValue(), answerBar.getDetails());
+  }
+  // Cancel a pending debounced write and commit the latest snapshot immediately.
+  if (indexedSaveTimer) clearTimeout(indexedSaveTimer);
+  persistState({ immediate: true }).catch(error => console.warn("Final IndexedDB save was unavailable:", error));
+}
+window.addEventListener("pagehide", flushLocalAnswers);
+window.addEventListener("beforeunload", flushLocalAnswers);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") flushLocalAnswers();
 });
 
 </script>

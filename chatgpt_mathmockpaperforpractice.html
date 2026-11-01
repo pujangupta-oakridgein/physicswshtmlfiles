@@ -1,0 +1,2601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14263d">
+<title>MYP 5 Extended Mathematics — Two SA 2 Mock Papers</title>
+<style>
+
+:root {
+  --ink: #182334;
+  --muted: #627086;
+  --paper: #ffffff;
+  --canvas: #eef2f6;
+  --line: #d9e1ea;
+  --navy: #14263d;
+  --navy-soft: #1c3654;
+  --teal: #0f766e;
+  --teal-soft: #e6f5f2;
+  --amber: #b7791f;
+  --red: #b42318;
+  --radius: 16px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--canvas); color: var(--ink); }
+button { font: inherit; }
+.app { min-height: 100vh; }
+.hero {
+  color: #fff;
+  background: linear-gradient(120deg, #12263d 0%, #1b4562 70%, #0f766e 130%);
+  padding: 26px clamp(16px, 4vw, 54px) 24px;
+}
+.hero-inner { max-width: 1440px; margin: 0 auto; display: flex; align-items: flex-start; justify-content: space-between; gap: 22px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .13em; font-size: 11px; color: #b6d6dc; font-weight: 800; }
+.hero h1 { font-size: clamp(25px, 4vw, 38px); line-height: 1.1; margin: 8px 0 8px; letter-spacing: -.035em; }
+.hero p { max-width: 760px; margin: 0; color: #dce7ef; line-height: 1.55; }
+.hero-stat { min-width: 160px; border: 1px solid #ffffff3a; border-radius: 14px; padding: 13px 15px; background: #ffffff12; text-align: right; }
+.hero-stat strong { display: block; font-size: 24px; }
+.hero-stat span { font-size: 11px; color: #d3e3ec; }
+.top-wrap { max-width: 1440px; margin: 18px auto 0; padding: 0 clamp(12px, 2.3vw, 28px); }
+.topbar { display: flex; gap: 14px; justify-content: space-between; align-items: center; flex-wrap: wrap; background: var(--paper); border: 1px solid var(--line); border-radius: 15px; padding: 12px 14px; box-shadow: 0 4px 15px #16283d08; }
+.paper-tabs { display: flex; gap: 7px; flex-wrap: wrap; }
+.tab-btn, .btn { border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 10px; padding: 9px 12px; font-weight: 700; font-size: 13px; cursor: pointer; transition: .15s ease; }
+.tab-btn:hover, .btn:hover { border-color: #91a5b8; background: #f6f9fb; }
+.tab-btn.active { border-color: var(--navy); background: var(--navy); color: #fff; }
+.timer-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.timer-box { display: flex; align-items: baseline; gap: 7px; padding: 7px 11px; border-radius: 9px; background: #eff5f8; border: 1px solid #d9e5ec; }
+.timer-box span { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.timer-box strong { font-variant-numeric: tabular-nums; font-size: 19px; letter-spacing: .02em; }
+.timer-box.ended { background: #fff0ef; border-color: #f2c6c2; color: var(--red); }
+.btn.primary { color: #fff; background: var(--teal); border-color: var(--teal); }
+.btn.primary:hover { background: #0b625c; }
+.btn.dark { background: var(--navy); color: #fff; border-color: var(--navy); }
+.btn.ghost { background: transparent; }
+.btn.small { padding: 7px 9px; font-size: 12px; }
+.overview { max-width: 1440px; margin: 12px auto; padding: 0 clamp(12px, 2.3vw, 28px); }
+.overview-card { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; padding: 14px 17px; border: 1px solid var(--line); border-radius: 14px; background: #f9fbfc; }
+.overview-card h2 { margin: 0 0 4px; font-size: 16px; }
+.overview-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.pill-row { display: flex; flex-wrap: wrap; gap: 7px; justify-content: flex-end; }
+.pill { display: inline-flex; align-items: center; padding: 5px 9px; border-radius: 999px; color: #35516a; background: #eaf1f6; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.workspace { max-width: 1440px; margin: 14px auto 40px; padding: 0 clamp(12px, 2.3vw, 28px); display: grid; grid-template-columns: 270px minmax(0,1fr); gap: 14px; align-items: start; }
+.sidebar, .main-panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: 0 5px 20px #182a3c08; }
+.sidebar { padding: 16px; position: sticky; top: 12px; }
+.sidebar h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; margin: 0 0 4px; color: var(--muted); }
+.sidebar-title { font-size: 17px; font-weight: 800; margin: 0 0 14px; }
+.q-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.q-chip { position: relative; min-height: 42px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); cursor: pointer; font-size: 13px; font-weight: 800; }
+.q-chip:hover { background: #f3f7fa; border-color: #9db0c1; }
+.q-chip.active { color: #fff; background: var(--navy); border-color: var(--navy); }
+.q-chip.done::after { content: ""; position: absolute; width: 7px; height: 7px; right: 5px; top: 5px; border-radius: 50%; background: #1b9a79; box-shadow: 0 0 0 2px #fff; }
+.q-chip.active.done::after { background: #9df0d8; box-shadow: 0 0 0 2px var(--navy); }
+.progress-wrap { margin: 16px 0 12px; }
+.progress-head { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 11px; margin-bottom: 6px; }
+.progress { height: 7px; border-radius: 99px; background: #e9eef2; overflow: hidden; }
+.progress > span { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--teal); transition: width .2s; }
+.side-actions { display: grid; gap: 7px; margin-top: 14px; }
+.side-note { color: var(--muted); font-size: 11px; line-height: 1.45; margin: 12px 0 0; }
+.main-panel { min-width: 0; overflow: hidden; }
+.question-head { padding: 19px 22px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+.question-index { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 900; color: var(--teal); }
+.question-head h2 { font-size: clamp(19px, 2.6vw, 25px); line-height: 1.2; margin: 5px 0 5px; letter-spacing: -.025em; }
+.question-skills { color: var(--muted); font-size: 12px; }
+.marks { flex: 0 0 auto; border: 1px solid #dce6ed; border-radius: 10px; background: #f2f7fa; padding: 8px 10px; font-weight: 900; font-size: 13px; white-space: nowrap; }
+.question-body { padding: 19px 22px 22px; }
+.prompt { font-size: 14px; line-height: 1.62; }
+.prompt p { margin: 0 0 10px; }
+.prompt strong { color: #132b43; }
+.data-table { width: 100%; border-collapse: collapse; margin: 12px 0 15px; font-size: 13px; }
+.data-table th, .data-table td { border: 1px solid #cfd9e2; padding: 8px 10px; text-align: center; }
+.data-table th { background: #eef4f7; font-weight: 800; }
+.data-table tbody th { text-align: left; white-space: nowrap; }
+.number-row { padding: 10px 12px; background: #f2f7fa; border: 1px solid #e0e8ee; border-radius: 9px; font-weight: 800; letter-spacing: .02em; }
+.parts { list-style: none; counter-reset: part; padding: 0; margin: 15px 0 0; display: grid; gap: 9px; }
+.parts li { counter-increment: part; display: grid; grid-template-columns: 30px minmax(0,1fr) auto; gap: 10px; align-items: start; padding: 10px 11px; border: 1px solid #e3eaf0; border-radius: 11px; background: #fbfcfd; font-size: 13px; line-height: 1.5; }
+.parts li::before { content: "(" counter(part, lower-alpha) ")"; color: var(--teal); font-weight: 900; padding-top: 1px; }
+.part-mark { color: #718096; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.graph-workspace { margin: 19px 0 20px; padding: 12px; border: 1px solid #dce5eb; background: #f8fafb; border-radius: 13px; }
+.graph-header { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 9px; }
+.graph-header strong { font-size: 13px; }
+.graph-tools { display: flex; gap: 6px; flex-wrap: wrap; }
+.graph-tool { border: 1px solid #cdd8e0; border-radius: 8px; background: #fff; padding: 6px 9px; cursor: pointer; font-size: 11px; font-weight: 800; }
+.graph-tool.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.graph-canvas-wrap { background: #fff; border: 1px solid #d7e0e8; border-radius: 8px; overflow: hidden; }
+#graph-canvas { width: 100%; display: block; aspect-ratio: 900 / 520; touch-action: none; cursor: crosshair; }
+.graph-hint { margin: 7px 1px 0; color: var(--muted); font-size: 11px; }
+.editor-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 20px 0 8px; }
+.editor-heading h3 { margin: 0; font-size: 14px; }
+.editor-heading span { color: var(--muted); font-size: 11px; }
+#answer-input-mount { min-width: 0; }
+.answer-footnote { color: var(--muted); font-size: 11px; line-height: 1.5; margin: 8px 2px 0; }
+.question-footer { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 13px 22px; border-top: 1px solid var(--line); background: #fafcfd; }
+.footer-left, .footer-right { display: flex; gap: 7px; flex-wrap: wrap; }
+.toast { position: fixed; bottom: 18px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 10000; background: #14263d; color: #fff; border-radius: 10px; padding: 10px 14px; box-shadow: 0 6px 24px #0003; font-size: 12px; transition: .2s ease; max-width: calc(100vw - 24px); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.print-head { display:none; }
+.answer-input__calculator-trigger, .answer-input__snapshot-trigger { display: none !important; }
+@media (max-width: 900px) {
+  .workspace { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .q-nav { grid-template-columns: repeat(8, 1fr); }
+}
+@media (max-width: 620px) {
+  .hero-inner { display: block; }
+  .hero-stat { margin-top: 15px; text-align: left; display: inline-block; min-width: 0; }
+  .topbar { align-items: stretch; }
+  .timer-row { justify-content: space-between; }
+  .overview-card { display: block; }
+  .pill-row { justify-content: flex-start; margin-top: 10px; }
+  .q-nav { grid-template-columns: repeat(4, 1fr); }
+  .question-head, .question-body { padding-left: 14px; padding-right: 14px; }
+  .question-footer { padding-left: 14px; padding-right: 14px; }
+  .parts li { grid-template-columns: 25px minmax(0,1fr) auto; gap: 7px; }
+  .data-table { font-size: 11px; }
+  .data-table th, .data-table td { padding: 6px 5px; }
+}
+@media print {
+  body { background: #fff; }
+  .hero, .top-wrap, .overview, .sidebar, .question-footer, .editor-heading, .answer-footnote, .graph-tools { display: none !important; }
+  .workspace { display: block; margin: 0; padding: 0; }
+  .main-panel { border: 0; box-shadow: none; }
+  .question-head { padding: 0 0 10px; }
+  .question-body { padding: 0; }
+  .answer-input { display: none !important; }
+  .graph-workspace { break-inside: avoid; }
+}
+
+</style>
+<style>
+
+:root {
+  color-scheme: light;
+  --answer-ink: #222222;
+  --answer-muted: #686868;
+  --answer-line: #d7d7d7;
+  --answer-line-strong: #bdbdbd;
+  --answer-paper: #ffffff;
+  --answer-soft: #f4f4f4;
+  --answer-pressed: #e7e7e7;
+  --answer-green: #216d39;
+  --answer-red: #b42318;
+  --answer-classic-top: #fcfcfc;
+  --answer-classic-bottom: #e9e9e9;
+}
+
+.answer-input, .answer-input * { box-sizing: border-box; }
+.answer-input {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  color: var(--answer-ink);
+  background: var(--answer-paper);
+  border: 1px solid #d6d6d6;
+  border-radius: 11px;
+  overflow: visible;
+  font: 14px/1.5 Calibri, "Segoe UI", Arial, sans-serif;
+  box-shadow: 0 1px 2px #00000007;
+}
+.answer-input button, .answer-input select, .answer-input textarea, .answer-input input { font: inherit; }
+.answer-input button { cursor: pointer; }
+.answer-input button:focus-visible, .answer-input select:focus-visible,
+.answer-input textarea:focus-visible, .answer-input [contenteditable=true]:focus-visible {
+  outline: 2px solid #777777;
+  outline-offset: 2px;
+}
+
+/* Classic word-processor-like formatting strip, following the supplied reference. */
+.answer-input__toolbar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 7px 9px;
+  border: 1px solid #d3d3d3;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(var(--answer-classic-top), var(--answer-classic-bottom));
+}
+.answer-input__group { display: inline-flex; align-items: center; gap: 2px; }
+.answer-input__tool {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 31px;
+  height: 32px;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #343434;
+  font-size: 13px !important;
+  line-height: 1;
+}
+.answer-input__tool:hover { background: #ffffffbd; border-color: #cfcfcf; box-shadow: inset 0 1px #fff; }
+.answer-input__tool:active, .answer-input__tool[aria-pressed="true"] { background: #dedede; border-color: #bfbfbf; box-shadow: inset 0 1px 2px #00000012; }
+.answer-input__tool strong { font-size: 15px; }
+.answer-input__tool em { font-size: 15px; }
+.answer-input__tool.underline { text-decoration: underline; text-underline-offset: 2px; }
+.answer-input__tool small { font-size: 9px; margin-left: -4px; margin-top: 11px; }
+.answer-input__tool.symbol { font: 22px/1 Georgia, serif !important; min-width: 30px; }
+.answer-input__separator { flex: 0 0 1px; height: 24px; border-left: 1px solid #c9c9c9; border-right: 1px solid #ffffff; margin: 0 4px; }
+.answer-input__format {
+  min-width: 118px;
+  max-width: 155px;
+  height: 32px;
+  margin-left: 2px;
+  border: 1px solid #bfbfbf;
+  border-radius: 5px;
+  padding: 3px 8px;
+  background: linear-gradient(#fff, #f5f5f5);
+  color: #343434;
+  font-size: 12px !important;
+}
+.answer-input__math-trigger {
+  min-width: 106px;
+  padding: 4px 10px;
+  border-color: #c7c7c7;
+  background: linear-gradient(#ffffff, #f4f4f4);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.answer-input__math-trigger::first-letter { font-size: 17px; }
+.answer-input__math-trigger:hover { background: #ffffff; border-color: #a9a9a9; }
+.answer-input__wiris-toolbar { display: inline-flex; align-items: center; gap: 4px; }
+.answer-input__wiris-toolbar:empty::before { content: ""; }
+.answer-input__wiris-toolbar button, .answer-input__wiris-toolbar a,
+.answer-input__wiris-toolbar input, .answer-input__wiris-toolbar [role=button] { cursor: pointer; }
+/* Let the native toolbar initialize while visible. After initialization, the custom MathType button invokes its real native control; the ChemType control is never shown. */
+.answer-input__wiris-toolbar.answer-input__wiris-source--ready {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-width: 1px !important;
+  min-height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.answer-input__table-wrap { position: relative; margin-left: auto; }
+.answer-input__table-trigger { min-width: 35px; font-size: 19px !important; }
+
+/* Insert Table popover: 5×5 picker left, custom dimensions right. */
+.answer-input__table-menu {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 7px);
+  right: -5px;
+  width: 315px;
+  padding: 0;
+  color: #222;
+  background: #f1f1f1;
+  border: 1px solid #bcbcbc;
+  border-radius: 4px;
+  box-shadow: 0 5px 16px #00000024;
+  font: 13px/1.4 Calibri, "Segoe UI", Arial, sans-serif;
+}
+.answer-input__table-menu[hidden] { display: none !important; }
+.answer-input__table-title { padding: 10px 12px 7px; font-size: 15px; color: #303030; }
+.answer-input__table-menu-body { display: grid; grid-template-columns: 1fr 112px; gap: 10px; padding: 0 10px 11px; align-items: stretch; }
+.answer-input__grid-side { min-width: 0; display: grid; align-content: start; justify-items: center; gap: 5px; }
+.answer-input__table-grid { display: grid; grid-template-columns: repeat(5, 24px); grid-template-rows: repeat(5, 24px); gap: 3px; padding: 2px; }
+.answer-input__grid-cell {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid #858585;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.answer-input__grid-cell:hover, .answer-input__grid-cell.is-highlighted { background: #d7d7d7; border-color: #555555; }
+.answer-input__grid-size { min-height: 16px; color: #676767; font-size: 11px; text-align: center; }
+.answer-input__custom-side { display: grid; grid-template-columns: 1fr; align-content: start; gap: 7px; padding-left: 10px; border-left: 1px solid #d1d1d1; }
+.answer-input__custom-title { text-align: center; font-size: 11px; font-weight: 700; letter-spacing: .9px; padding: 1px 0 3px; }
+.answer-input__custom-side label { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px; align-items: center; font-size: 12px; }
+.answer-input__custom-side input { width: 100%; min-width: 0; height: 27px; border: 1px solid #b9b9b9; border-radius: 3px; background: #fff; color: #222; padding: 3px 5px; font-size: 12px; }
+.answer-input__table-insert { min-height: 31px; margin-top: 3px; border: 1px solid #888; border-radius: 3px; background: linear-gradient(#ffffff, #e4e4e4); color: #222; font-weight: 700; font-size: 12px; }
+.answer-input__table-insert:hover { background: #fff; }
+
+.answer-input__editor-wrap { position: relative; min-width: 0; overflow: visible; }
+.answer-input__editor {
+  min-height: 210px;
+  padding: 16px 18px;
+  outline: none;
+  background: #ffffff;
+  color: #202020;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.answer-input__editor:empty::before { content: attr(data-placeholder); color: #999999; pointer-events: none; }
+.answer-input__editor p { margin: 0 0 8px; }
+.answer-input__editor h3, .answer-input__editor h4 { line-height: 1.3; margin: 12px 0 7px; }
+.answer-input__editor ul, .answer-input__editor ol { padding-left: 25px; }
+.answer-input__editor blockquote { border-left: 3px solid #c9c9c9; margin: 10px 0; padding: 5px 12px; color: #555; }
+.answer-input__editor pre { white-space: pre-wrap; background: #f6f6f6; border-radius: 6px; padding: 10px; font: 12px/1.5 ui-monospace, Consolas, monospace; }
+.answer-input__editor table { border-collapse: collapse; max-width: 100%; margin: 9px 0; }
+.answer-input__editor td, .answer-input__editor th { min-width: 60px; padding: 5px 8px; border: 1px solid #bdbdbd; text-align: left; vertical-align: top; }
+.answer-input__editor th { background: #f5f5f5; }
+.answer-input__editor img { max-width: 100%; height: auto; vertical-align: middle; }
+.answer-input__editor a { color: #174ea6; text-decoration: underline; }
+
+/* WIRIS's native modal is moved here after it is created, so it occupies real layout space inside the answer bar. */
+.answer-input__math-dock { position: relative; width: 100%; min-height: 0; overflow: hidden; background: #ffffff; border-top: 1px solid #dadada; }
+.answer-input__math-dock[hidden] { display: none !important; }
+.answer-input__math-dock--has-dialog { min-height: 355px; height: min(385px, 56vh); }
+.answer-input__math-dock .wrs_modal_dialogContainer,
+.answer-input__math-dock .answer-input__embedded-wiris-dialog {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+.answer-input__math-dock .wrs_modal_dialog {
+  position: absolute !important;
+  top: 0 !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  width: min(100%, 850px) !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+.answer-input__math-dock iframe { max-width: 100% !important; }
+
+.answer-input__latex-panel { border-top: 1px solid var(--answer-line); padding: 9px 12px; background: #fcfcfc; }
+.answer-input__latex-panel summary { cursor: pointer; font-size: 12px; font-weight: 700; }
+.answer-input__latex-panel summary span { margin-left: 8px; font-weight: 400; color: var(--answer-muted); }
+.answer-input__latex-panel textarea { display: block; width: 100%; min-height: 75px; resize: vertical; margin-top: 10px; padding: 10px; border: 1px solid var(--answer-line-strong); border-radius: 7px; background: #ffffff; color: #222222; font: 12px/1.5 ui-monospace, Consolas, monospace; }
+.answer-input__footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 9px 12px; border-top: 1px solid var(--answer-line); background: #fafafa; border-radius: 0 0 10px 10px; }
+.answer-input__status { min-width: 120px; color: var(--answer-muted); font-size: 11px; }
+.answer-input__status[data-kind=ok] { color: var(--answer-green); }
+.answer-input__status[data-kind=error] { color: var(--answer-red); }
+.answer-input__footer-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.answer-input__secondary, .answer-input__submit { border: 1px solid #bdbdbd; border-radius: 5px; background: #ffffff; color: #171717; padding: 7px 10px; font-weight: 700; font-size: 11px !important; }
+.answer-input__submit { background: #171717; border-color: #171717; color: #ffffff; }
+.answer-input__secondary:hover { background: #f0f0f0; }
+.answer-input__submit:hover { background: #333333; }
+
+@media (max-width: 760px) {
+  .answer-input__toolbar { gap: 2px; padding: 5px; }
+  .answer-input__tool { min-width: 29px; height: 30px; padding: 3px 6px; }
+  .answer-input__separator { margin: 0 2px; }
+  .answer-input__format { min-width: 88px; max-width: 105px; }
+  .answer-input__math-trigger { min-width: 93px; padding: 4px 6px; }
+  .answer-input__table-menu { right: -5px; width: min(315px, calc(100vw - 28px)); }
+  .answer-input__table-menu-body { grid-template-columns: minmax(0, 1fr) 105px; gap: 6px; padding: 0 7px 9px; }
+  .answer-input__table-grid { grid-template-columns: repeat(5, 21px); grid-template-rows: repeat(5, 21px); gap: 3px; }
+  .answer-input__grid-cell { width: 21px; height: 21px; }
+  .answer-input__editor { min-height: 175px; padding: 12px; }
+  .answer-input__math-dock--has-dialog { min-height: 315px; height: 54vh; }
+  .answer-input__footer { align-items: flex-start; flex-direction: column; }
+  .answer-input__footer-actions { width: 100%; justify-content: flex-end; }
+}
+
+/* Reference toolbar ordering and iconography. */
+.answer-input__table-wrap { margin-left: 0; flex: 0 0 auto; }
+.answer-input__table-menu { left: 0; right: auto; }
+.answer-input__table-trigger { min-width: 32px; font-size: 17px !important; }
+.answer-input__toolbar-spacer { flex: 1 1 auto; min-width: 8px; }
+.answer-input__list-icon { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; min-width: 31px; height: 32px; font: 10px/10px Arial, sans-serif !important; padding: 2px 6px; }
+.answer-input__list-icon span { display: block; line-height: 9px; }
+.answer-input__list-icon:not(.answer-input__bullets) span { min-width: 17px; }
+.answer-input__bullets span { position: relative; padding-left: 11px; }
+.answer-input__bullets span::before { content: ""; position: absolute; top: 3px; left: 1px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+.answer-input__math-trigger { min-width: 33px; width: 33px; padding: 3px; font-size: 22px !important; font-weight: 400; }
+.answer-input__symbol-wrap { position: relative; }
+.answer-input__symbol-wrap > .symbol { font-family: Georgia, serif !important; font-size: 21px !important; }
+.answer-input__symbol-menu {
+  position: absolute; z-index: 1200; top: calc(100% + 6px); left: 0; width: 244px;
+  padding: 10px; border: 1px solid #bdbdbd; border-radius: 4px;
+  background: #f2f2f2; box-shadow: 0 5px 18px #00000022; color: #222;
+}
+.answer-input__symbol-menu[hidden] { display: none !important; }
+.answer-input__symbol-menu > strong { display: block; padding: 0 2px 7px; font-size: 12px; }
+.answer-input__symbol-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.answer-input__symbol-grid button { min-width: 0; height: 31px; padding: 2px; border: 1px solid #c9c9c9; border-radius: 3px; background: linear-gradient(#fff, #ededed); color: #222; font: 18px/1 Georgia, serif; }
+.answer-input__symbol-grid button:hover, .answer-input__symbol-grid button:focus { background: #dedede; border-color: #777; }
+.answer-input__snapshot-trigger { min-width: 30px; font-size: 17px !important; }
+.answer-input__calculator-trigger { min-width: 35px; font-size: 19px !important; font-weight: 700; }
+
+/* Desmos scientific calculator: independent bottom-right floating utility. */
+.desmos-scientific-dock {
+  position: fixed; z-index: 5000; right: 18px; bottom: 18px;
+  display: flex; flex-direction: column; width: min(430px, calc(100vw - 24px));
+  height: min(650px, calc(100vh - 36px)); max-height: calc(100vh - 36px);
+  background: #fff; color: #222; border: 1px solid #aeb3b7; border-radius: 7px;
+  box-shadow: 0 12px 36px #00000038; overflow: hidden;
+  font: 13px/1.45 Calibri, "Segoe UI", Arial, sans-serif;
+}
+.desmos-scientific-dock[hidden] { display: none !important; }
+.desmos-dock__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 7px 11px; background: linear-gradient(#fafafa, #e8e8e8); border-bottom: 1px solid #c4c4c4; }
+.desmos-dock__brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.desmos-dock__brand-mark { display: grid; place-items: center; width: 29px; height: 29px; border: 1px solid #c7c7c7; background: #fff; border-radius: 5px; color: #222; font-weight: 800; }
+.desmos-dock__brand strong { display: block; font-size: 13px; }
+.desmos-dock__brand small { display: block; color: #6a6a6a; font-size: 10px; }
+.desmos-dock__head-actions { display: flex; gap: 5px; }
+.desmos-dock__head-actions button { width: 27px; height: 27px; padding: 0; border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; color: #222; font: 18px/1 Arial, sans-serif; }
+.desmos-dock__body { flex: 1; min-height: 0; display: flex; flex-direction: column; background: #fff; }
+.desmos-dock__connect { padding: 13px; display: grid; gap: 8px; }
+.desmos-dock__connect[hidden], .desmos-dock__calculator[hidden], .desmos-dock__capture[hidden] { display: none !important; }
+.desmos-dock__connect p { color: #555; font-size: 12px; margin: 0; }
+.desmos-dock__connect label, .desmos-dock__capture label { font-size: 11px; font-weight: 700; }
+.desmos-dock__keyrow { display: flex; gap: 6px; }
+.desmos-dock__keyrow input, .desmos-dock__capture input { min-width: 0; flex: 1; border: 1px solid #b7b7b7; border-radius: 4px; background: #fff; color: #222; padding: 8px; font: 12px/1.2 Calibri, Arial, sans-serif; }
+.desmos-dock__keyrow button, .desmos-dock__capture button { flex: 0 0 auto; border: 1px solid #333; border-radius: 4px; padding: 7px 10px; background: #222; color: #fff; font-size: 11px; font-weight: 700; }
+.desmos-dock__connect small, .desmos-dock__capture small { color: #777; font-size: 10px; }
+.desmos-dock__connect a { color: #444; }
+.desmos-dock__calculator { flex: 1; min-height: 200px; width: 100%; }
+.desmos-dock__status { flex: 0 0 auto; padding: 7px 10px; border-top: 1px solid #e2e2e2; color: #666; font-size: 10px; }
+.desmos-dock__status[data-kind="error"] { color: #a92018; background: #fff8f7; }
+.desmos-dock__status[data-kind="ok"] { color: #216d39; }
+.desmos-dock__capture { flex: 0 0 auto; border-top: 1px solid #ddd; background: #fafafa; padding: 8px 10px; display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: center; }
+.desmos-dock__capture label, .desmos-dock__capture input, .desmos-dock__capture small { grid-column: 1 / -1; }
+.desmos-dock__capture button { justify-self: start; }
+.desmos-dock__capture small { line-height: 1.35; }
+.desmos-scientific-dock.is-minimized { height: auto; max-height: none; }
+.desmos-scientific-dock.is-minimized .desmos-dock__body { display: none; }
+@media (max-width: 600px) {
+  .answer-input__toolbar-spacer { flex-basis: 5px; }
+  .answer-input__symbol-menu { left: -70px; }
+  .desmos-scientific-dock { right: 8px; bottom: 8px; width: calc(100vw - 16px); height: min(600px, calc(100vh - 16px)); }
+}
+
+/* Keep the graphing workspace offset from the scientific dock on wide screens. */
+.desmos-graphing-dock { left: 16px; right: auto; }
+@media (max-width: 900px) {
+  .desmos-graphing-dock { left: 8px; right: 8px; bottom: auto; top: 8px; width: auto; height: min(600px, calc(100vh - 16px)); }
+}
+
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">IB MYP 5 · Extended Mathematics · SA 2</div>
+        <h1>Two full-length mock papers</h1>
+        <p>Original Criterion C &amp; D practice with a question-by-question response workspace, rich mathematical notation and WIRIS MathType.</p>
+      </div>
+      <div class="hero-stat"><strong>2 × 65 min</strong><span>40 marks per paper · 80 marks total</span></div>
+    </div>
+  </header>
+
+  <div class="top-wrap">
+    <div class="topbar">
+      <div class="paper-tabs" role="tablist" aria-label="Choose mock paper">
+        <button class="tab-btn active" id="tab-paper1" data-paper="paper1" role="tab" aria-selected="true">Mock Paper 1</button>
+        <button class="tab-btn" id="tab-paper2" data-paper="paper2" role="tab" aria-selected="false">Mock Paper 2</button>
+      </div>
+      <div class="timer-row">
+        <div class="timer-box" id="timer-box"><span>Time left</span><strong id="timer">65:00</strong></div>
+        <button class="btn primary" id="timer-start">Start timer</button>
+        <button class="btn small" id="timer-reset">Reset</button>
+        <button class="btn small ghost" id="print-paper">Print question</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="overview">
+    <div class="overview-card">
+      <div>
+        <h2 id="paper-title">Mock Paper 1 — Probability &amp; Data Interpretation</h2>
+        <p id="paper-subtitle">Probability foundations, sampling, graphs and real-world interpretation</p>
+        <p style="margin-top:6px">Attempt every question. Show enough working for your method to be followed, use units where appropriate, and finish contextual problems with an interpretation or validity check.</p>
+      </div>
+      <div class="pill-row"><span class="pill">Criterion C · Communication</span><span class="pill">Criterion D · Real-life application</span><span class="pill">Calculator permitted</span></div>
+    </div>
+  </section>
+
+  <div class="workspace">
+    <aside class="sidebar">
+      <h2>Question navigator</h2>
+      <div class="sidebar-title" id="sidebar-paper-title">Mock Paper 1</div>
+      <div class="q-nav" id="q-nav" aria-label="Questions"></div>
+      <div class="progress-wrap">
+        <div class="progress-head"><span>Answered</span><strong id="progress-label">0 / 8</strong></div>
+        <div class="progress"><span id="progress-bar"></span></div>
+      </div>
+      <div class="side-actions">
+        <button class="btn dark" id="export-paper">Export my answers</button>
+        <button class="btn" id="paper-review">Review unanswered</button>
+      </div>
+      <p class="side-note">Your work is saved separately for each question in this browser. The MathType editor is mounted once and follows the selected question so the WIRIS dialog stays attached to the active answer.</p>
+    </aside>
+
+    <main class="main-panel">
+      <div class="question-head">
+        <div>
+          <div class="question-index" id="question-index">Question 1 of 8</div>
+          <h2 id="question-title">Relative frequency and theoretical probability</h2>
+          <div class="question-skills" id="question-skills"></div>
+        </div>
+        <div class="marks" id="question-marks">4 marks</div>
+      </div>
+      <div class="question-body">
+        <div class="prompt" id="question-prompt"></div>
+        <ol class="parts" id="question-parts"></ol>
+        <section class="graph-workspace" id="graph-workspace" hidden>
+          <div class="graph-header">
+            <strong id="graph-title">Graph workspace</strong>
+            <div class="graph-tools">
+              <button class="graph-tool active" id="tool-point" type="button">Plot point</button>
+              <button class="graph-tool" id="tool-pen" type="button">Draw</button>
+              <button class="graph-tool" id="clear-graph" type="button">Clear graph</button>
+              <button class="graph-tool" id="insert-graph" type="button">Insert graph into answer</button>
+            </div>
+          </div>
+          <div class="graph-canvas-wrap"><canvas id="graph-canvas" width="900" height="520" aria-label="Blank graph grid. Click to plot points or choose Draw to sketch."></canvas></div>
+          <p class="graph-hint">Use “Plot point” to place points, or “Draw” to sketch bars, a cumulative curve or a line of best fit. Insert the finished graph into your answer as an image.</p>
+        </section>
+        <div class="editor-heading"><h3>Your mathematical response</h3><span>Use Σ to open WIRIS MathType</span></div>
+        <div id="answer-input-mount"></div>
+        <p class="answer-footnote">Each question keeps its own answer. WIRIS MathType requires an internet connection and a working MathType service entitlement; if its toolbar does not load, use the status message shown inside the editor.</p>
+      </div>
+      <div class="question-footer">
+        <div class="footer-left"><button class="btn" id="previous-question">← Previous</button><button class="btn" id="next-question">Next →</button></div>
+        <div class="footer-right"><button class="btn primary" id="save-next">Save &amp; next</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+
+
+/** Shared, de-duplicated loader for the Desmos JavaScript API. */
+const DEFAULT_API_VERSION = "v1.12"; // v1.12 is the currently stable production API line.
+
+function loadDesmosApi(apiKey, apiVersion = DEFAULT_API_VERSION) {
+  if (typeof window === "undefined" || typeof document === "undefined") {
+    return Promise.reject(new Error("Desmos can only be loaded in a browser document."));
+  }
+  if (window.Desmos) return Promise.resolve(window.Desmos);
+  const key = String(apiKey || "").trim();
+  if (!key) return Promise.reject(new Error("Enter a Desmos API key to connect the calculator."));
+  const src = `https://www.desmos.com/api/${apiVersion}/calculator.js?apiKey=${encodeURIComponent(key)}`;
+  const registry = window.__MYP_DESMOS_API_PROMISES__ instanceof Map
+    ? window.__MYP_DESMOS_API_PROMISES__
+    : (window.__MYP_DESMOS_API_PROMISES__ = new Map());
+  if (registry.has(src)) return registry.get(src);
+
+  const promise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    const timeout = window.setTimeout(() => {
+      script.remove();
+      registry.delete(src);
+      reject(new Error("Timed out loading Desmos. Check network access and the API key."));
+    }, 25000);
+    script.src = src;
+    script.async = true;
+    script.dataset.mypDesmosApi = apiVersion;
+    script.onload = () => {
+      clearTimeout(timeout);
+      if (window.Desmos) resolve(window.Desmos);
+      else {
+        registry.delete(src);
+        reject(new Error("The Desmos script loaded without exposing its API object."));
+      }
+    };
+    script.onerror = () => {
+      clearTimeout(timeout);
+      registry.delete(src);
+      reject(new Error("Could not load Desmos. Check the API key, connectivity and allowed domains."));
+    };
+    document.head.appendChild(script);
+  });
+  registry.set(src, promise);
+  return promise;
+}
+
+
+/**
+ * Desmos Scientific Calculator dock.
+ * API-key driven, bottom-right floating panel. Keys are kept in memory only.
+ * Snapshot capture uses a native screenshot method if the calculator exposes
+ * one; otherwise it captures the actual rendered calculator DOM as pixels.
+ * If neither produces an image, it reports an error and inserts nothing.
+ */
+
+/** Create a floating Desmos Scientific Calculator UI. */
+function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", stateKey = "myp-answer-input-desmos-scientific-state-v1", onStatus = null } = {}) {
+  if (!(trigger instanceof Element)) throw new TypeError("Desmos dock requires a toolbar trigger element.");
+
+  const panel = document.createElement("section");
+  panel.className = "desmos-scientific-dock";
+  panel.hidden = true;
+  panel.setAttribute("aria-label", "Desmos Scientific Calculator");
+  panel.innerHTML = `
+    <header class="desmos-dock__head">
+      <div class="desmos-dock__brand"><span class="desmos-dock__brand-mark">D</span><div><strong>Scientific Calculator</strong><small>Desmos · floating workspace</small></div></div>
+      <div class="desmos-dock__head-actions">
+        <button type="button" data-desmos-action="minimize" title="Minimize calculator" aria-label="Minimize calculator">−</button>
+        <button type="button" data-desmos-action="close" title="Close calculator" aria-label="Close calculator">×</button>
+      </div>
+    </header>
+    <div class="desmos-dock__body" data-desmos-role="body">
+      <div class="desmos-dock__connect" data-desmos-role="connect">
+        <p>Connect your Desmos API key to load the official scientific calculator. The key is kept in memory in this tab; it is not saved to local storage.</p>
+        <label for="desmos-api-key">Desmos API key</label>
+        <div class="desmos-dock__keyrow"><input id="desmos-api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste API key"><button type="button" data-desmos-action="connect">Connect</button></div>
+        <small>Scientific Calculator access must be enabled for the API key. <a href="https://www.desmos.com/my-api" target="_blank" rel="noopener noreferrer">Manage API key ↗</a></small>
+      </div>
+      <div class="desmos-dock__calculator" data-desmos-role="calculator" hidden></div>
+      <div class="desmos-dock__status" data-desmos-role="status" role="status" aria-live="polite">Not connected. Enter a Desmos API key.</div>
+      <div class="desmos-dock__capture" data-desmos-role="capture" hidden>
+        <label for="desmos-capture-caption">Snapshot caption (optional)</label>
+        <input id="desmos-capture-caption" type="text" maxlength="140" placeholder="e.g. Working for question 4">
+        <button type="button" data-desmos-action="capture">Insert calculator snapshot</button>
+        <small data-desmos-role="capture-note">Inserts a real image capture: native screenshot when exposed, otherwise rendered DOM pixels. No state-image fallback.</small>
+      </div>
+    </div>`;
+  document.body.appendChild(panel);
+
+  const connectView = panel.querySelector('[data-desmos-role="connect"]');
+  const calculatorHost = panel.querySelector('[data-desmos-role="calculator"]');
+  const status = panel.querySelector('[data-desmos-role="status"]');
+  const captureArea = panel.querySelector('[data-desmos-role="capture"]');
+  const keyInput = panel.querySelector("#desmos-api-key");
+  let calculator = null;
+  let currentKey = "";
+  let destroyed = false;
+  let minimized = false;
+  let saveTimer = null;
+  const stateStorageKey = String(stateKey || "myp-answer-input-desmos-scientific-state-v1");
+  const onCalculatorChange = () => {
+    clearTimeout(saveTimer);
+    saveTimer = window.setTimeout(() => {
+      try { if (calculator?.getState) localStorage.setItem(stateStorageKey, JSON.stringify(calculator.getState())); }
+      catch (_) { setStatus("Scientific calculator is running, but local state storage is unavailable or full.", "error"); }
+    }, 500);
+  };
+
+  if (apiKey) keyInput.value = apiKey;
+
+  function setStatus(message, kind = "") {
+    status.textContent = message;
+    status.dataset.kind = kind;
+    if (typeof onStatus === "function") onStatus(message, kind);
+  }
+
+  async function connect(key = keyInput.value) {
+    if (destroyed) return false;
+    const cleanKey = String(key || "").trim();
+    if (!cleanKey) {
+      setStatus("Enter a Desmos API key to connect.", "error");
+      connectView.hidden = false;
+      keyInput.focus();
+      return false;
+    }
+    if (calculator && currentKey === cleanKey) {
+      open();
+      setStatus("Scientific calculator is already connected.", "ok");
+      return true;
+    }
+    if (calculator && currentKey !== cleanKey) {
+      calculator.destroy?.();
+      calculator = null;
+      calculatorHost.innerHTML = "";
+    }
+
+    setStatus("Connecting to Desmos…");
+    try {
+      const Desmos = await loadDesmosApi(cleanKey);
+      if (Desmos.enabledFeatures && Desmos.enabledFeatures.ScientificCalculator === false) {
+        throw new Error("ScientificCalculator is not enabled for this API key. Check the features configured for your key.");
+      }
+      if (typeof Desmos.ScientificCalculator !== "function") {
+        throw new Error("The loaded Desmos build doesn't expose ScientificCalculator.");
+      }
+      connectView.hidden = true;
+      calculatorHost.hidden = false;
+      calculator = Desmos.ScientificCalculator(calculatorHost, {
+        fontSize: 16,
+        degreeMode: true,
+        invertedColors: false,
+        language: "en",
+        settingsMenu: true,
+        decimalToFraction: true,
+        autosize: true
+      });
+      try {
+        const savedState = localStorage.getItem(stateStorageKey);
+        if (savedState && typeof calculator.setState === "function") calculator.setState(JSON.parse(savedState));
+      } catch (restoreError) { console.warn("Could not restore saved Desmos scientific state:", restoreError); }
+      calculator.observeEvent?.("change", onCalculatorChange);
+      currentKey = cleanKey;
+      captureArea.hidden = false;
+      setStatus("Connected. Snapshot capture will use native screenshot or rendered DOM pixels.", "ok");
+      window.setTimeout(() => calculator?.resize?.(), 100);
+      return true;
+    } catch (error) {
+      calculatorHost.hidden = true;
+      connectView.hidden = false;
+      captureArea.hidden = true;
+      setStatus(error?.message || "Could not connect to Desmos.", "error");
+      return false;
+    }
+  }
+
+  function open() {
+    if (destroyed) return;
+    panel.hidden = false;
+    panel.classList.remove("is-minimized");
+    minimized = false;
+    window.setTimeout(() => calculator?.resize?.(), 120);
+    if (!calculator) keyInput.focus({ preventScroll: true });
+  }
+
+  function close() {
+    panel.hidden = true;
+    panel.classList.remove("is-minimized");
+    minimized = false;
+  }
+
+  async function loadHtml2Canvas() {
+    // IMPORTANT: always use html2canvas-pro, not the original html2canvas 1.4.1.
+    // Desmos emits CSS Color 4 values such as color(...), which the original
+    // parser rejects with: "Attempting to parse an unsupported color function \"color\"".
+    // html2canvas-pro supports color(), lab(), lch(), oklab(), and oklch().
+    const selector = 'script[data-html2canvas-pro="true"]';
+    let script = document.querySelector(selector);
+
+    if (script && script.dataset.loaded === "true" && typeof window.html2canvas === "function") {
+      return window.html2canvas;
+    }
+
+    if (!script) {
+      script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/html2canvas-pro@2.5.2/dist/html2canvas-pro.min.js";
+      script.async = true;
+      script.dataset.html2canvasPro = "true";
+    }
+
+    await new Promise((resolve, reject) => {
+      if (script.dataset.loaded === "true" && typeof window.html2canvas === "function") return resolve();
+      script.addEventListener("load", () => {
+        script.dataset.loaded = "true";
+        resolve();
+      }, { once: true });
+      script.addEventListener("error", () => reject(new Error("Could not load html2canvas-pro, the DOM pixel capture helper.")), { once: true });
+      if (!script.isConnected) document.head.appendChild(script);
+    });
+
+    if (typeof window.html2canvas !== "function") {
+      throw new Error("html2canvas-pro loaded without exposing its browser API.");
+    }
+    return window.html2canvas;
+  }
+  function dataUrlLooksLikeImage(value) {
+    return typeof value === "string" && /^data:image\/(?:png|jpeg|jpg|webp);base64,/i.test(value) && value.length > 100;
+  }
+
+  async function tryNativeScreenshot() {
+    if (typeof calculator?.screenshot !== "function") return null;
+
+    const width = Math.max(1, Math.round(calculatorHost.clientWidth || 600));
+    const height = Math.max(1, Math.round(calculatorHost.clientHeight || 420));
+    const result = await calculator.screenshot({ width, height, targetPixelRatio: 2 });
+
+    if (dataUrlLooksLikeImage(result)) {
+      return { src: result, method: "native .screenshot()" };
+    }
+
+    throw new Error("The calculator exposes screenshot(), but it did not return a PNG/JPEG/WebP image data URI.");
+  }
+
+  async function captureRenderedDomPixels() {
+    if (!calculatorHost.isConnected || calculatorHost.hidden || calculatorHost.clientWidth < 2 || calculatorHost.clientHeight < 2) {
+      throw new Error("The visible calculator DOM has no captureable size. Open the calculator and try again.");
+    }
+
+    const html2canvas = await loadHtml2Canvas();
+    // html2canvas-pro reads and rasterizes the actual rendered calculator DOM. It
+    // does not reconstruct an image from calculator state or substitute a mock.
+    const canvas = await html2canvas(calculatorHost, {
+      backgroundColor: "#ffffff",
+      scale: Math.min(2, Math.max(1, window.devicePixelRatio || 1)),
+      useCORS: true,
+      allowTaint: false,
+      logging: false,
+      imageTimeout: 15000,
+      width: Math.floor(calculatorHost.getBoundingClientRect().width),
+      height: Math.floor(calculatorHost.getBoundingClientRect().height),
+      windowWidth: Math.max(document.documentElement.clientWidth, window.innerWidth),
+      windowHeight: Math.max(document.documentElement.clientHeight, window.innerHeight),
+      scrollX: window.scrollX,
+      scrollY: window.scrollY
+    });
+
+    if (!(canvas instanceof HTMLCanvasElement) || canvas.width < 2 || canvas.height < 2) {
+      throw new Error("DOM pixel capture returned an empty canvas.");
+    }
+
+    // A cross-origin iframe may be shown as a blank rectangle by DOM capture.
+    // Do not insert a silent blank result and call it a screenshot.
+    const iframe = calculatorHost.querySelector("iframe");
+    if (iframe) {
+      let accessible = false;
+      try { accessible = !!iframe.contentDocument?.documentElement; } catch (_) { accessible = false; }
+      if (!accessible) {
+        throw new Error("Desmos rendered part of the calculator in a cross-origin iframe, which the browser will not expose to DOM pixel capture.");
+      }
+    }
+
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) throw new Error("Could not read the rendered calculator pixels from the canvas.");
+    const sample = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let nonWhiteSamples = 0;
+    const stride = Math.max(4, Math.floor((canvas.width * canvas.height) / 2500) * 4);
+    for (let index = 0; index < sample.length; index += stride) {
+      if (sample[index] < 238 || sample[index + 1] < 238 || sample[index + 2] < 238) nonWhiteSamples++;
+    }
+    if (nonWhiteSamples < 8) {
+      throw new Error("The rendered calculator capture appears blank. No image was inserted.");
+    }
+
+    const src = canvas.toDataURL("image/png");
+    if (!dataUrlLooksLikeImage(src)) throw new Error("DOM pixel capture did not produce a valid PNG data URI.");
+    return { src, method: "DOM pixel capture (html2canvas-pro)" };
+  }
+
+  async function capture() {
+    if (!calculator) {
+      setStatus("Connect Desmos before inserting a calculator snapshot.", "error");
+      open();
+      return false;
+    }
+
+    const caption = panel.querySelector("#desmos-capture-caption").value.trim() || "Calculator work";
+    const captureButton = panel.querySelector('[data-desmos-action="capture"]');
+    captureButton.disabled = true;
+    captureButton.textContent = "Capturing pixels…";
+
+    try {
+      // The public ScientificCalculator API does not document screenshot(),
+      // but use it if the loaded build does expose a native method.
+      let result = null;
+      let nativeError = null;
+      if (typeof calculator.screenshot === "function") {
+        try { result = await tryNativeScreenshot(); }
+        catch (error) { nativeError = error; }
+      }
+
+      if (!result) {
+        try { result = await captureRenderedDomPixels(); }
+        catch (domError) {
+          const nativeDetails = nativeError ? ` Native screenshot failed: ${nativeError.message}` : " Native screenshot() is not available on this ScientificCalculator instance.";
+          throw new Error(`Could not capture a real Desmos image. DOM pixel capture failed: ${domError.message}.${nativeDetails} No image was inserted.`);
+        }
+      }
+
+      if (typeof onInsertSnapshot === "function") {
+        await onInsertSnapshot({
+          src: result.src,
+          alt: `Desmos Scientific Calculator screenshot (${result.method}): ${caption}`
+        });
+      }
+      setStatus(`Inserted real calculator pixels using ${result.method}.`, "ok");
+      return true;
+    } catch (error) {
+      setStatus(error?.message || "Unable to capture calculator pixels. No image was inserted.", "error");
+      return false;
+    } finally {
+      captureButton.disabled = false;
+      captureButton.textContent = "Insert calculator screenshot";
+    }
+  }
+
+  trigger.addEventListener("click", open);
+  panel.querySelector('[data-desmos-action="connect"]').addEventListener("click", () => connect());
+  keyInput.addEventListener("keydown", event => { if (event.key === "Enter") connect(); });
+  panel.querySelector('[data-desmos-action="close"]').addEventListener("click", close);
+  panel.querySelector('[data-desmos-action="minimize"]').addEventListener("click", () => {
+    minimized = !minimized;
+    panel.classList.toggle("is-minimized", minimized);
+    if (!minimized) window.setTimeout(() => calculator?.resize?.(), 100);
+  });
+  panel.querySelector('[data-desmos-action="capture"]').addEventListener("click", capture);
+
+  if (apiKey) connect(apiKey);
+
+  return {
+    open,
+    close,
+    connect,
+    capture,
+    getCalculator: () => calculator,
+    isConnected: () => !!calculator,
+    getState: () => calculator?.getState?.() ?? null,
+    setState(value) {
+      if (!calculator?.setState) throw new Error("Connect Scientific Calculator before restoring a saved state.");
+      calculator.setState(value);
+    },
+    destroy() {
+      destroyed = true;
+      clearTimeout(saveTimer);
+      try {
+        if (calculator?.getState) localStorage.setItem(stateStorageKey, JSON.stringify(calculator.getState()));
+        calculator?.unobserveEvent?.("change", onCalculatorChange);
+      } catch (_) {}
+      calculator?.destroy?.();
+      calculator = null;
+      trigger.removeEventListener("click", open);
+      panel.remove();
+    }
+  };
+}
+
+
+/**
+ * Desmos Graphing Calculator dock.
+ * Uses the stable Desmos v1.12 API, stores opaque calculator state in this
+ * browser, and captures graphpaper through the official screenshot() method.
+ * API keys remain in memory only and are never written to localStorage.
+ */
+
+const DEFAULT_STATE_KEY = "myp-answer-input-desmos-graphing-state-v1";
+
+/** Create an independently managed floating Desmos Graphing Calculator. */
+function createDesmosGraphingDock({ trigger, onInsertSnapshot, apiKey = "", stateKey = DEFAULT_STATE_KEY, onStatus = null } = {}) {
+  if (!(trigger instanceof Element)) throw new TypeError("Desmos Graphing dock requires a toolbar trigger element.");
+
+  const panel = document.createElement("section");
+  panel.className = "desmos-scientific-dock desmos-graphing-dock";
+  panel.hidden = true;
+  panel.setAttribute("aria-label", "Desmos Graphing Calculator");
+  panel.innerHTML = `
+    <header class="desmos-dock__head">
+      <div class="desmos-dock__brand"><span class="desmos-dock__brand-mark">D</span><div><strong>Graphing Calculator</strong><small>Desmos · graph workspace</small></div></div>
+      <div class="desmos-dock__head-actions">
+        <button type="button" data-desmos-action="minimize" title="Minimize calculator" aria-label="Minimize calculator">−</button>
+        <button type="button" data-desmos-action="close" title="Close calculator" aria-label="Close calculator">×</button>
+      </div>
+    </header>
+    <div class="desmos-dock__body" data-desmos-role="body">
+      <div class="desmos-dock__connect" data-desmos-role="connect">
+        <p>Connect a Desmos API key with Graphing Calculator access enabled. The key stays in memory in this tab only.</p>
+        <label>Desmos API key</label>
+        <div class="desmos-dock__keyrow"><input data-desmos-role="key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste API key" aria-label="Desmos API key"><button type="button" data-desmos-action="connect">Connect</button></div>
+        <small>GraphingCalculator access must be enabled for this key. <a href="https://www.desmos.com/my-api" target="_blank" rel="noopener noreferrer">Manage API key ↗</a></small>
+      </div>
+      <div class="desmos-dock__calculator" data-desmos-role="calculator" hidden></div>
+      <div class="desmos-dock__status" data-desmos-role="status" role="status" aria-live="polite">Not connected. Enter a Desmos API key.</div>
+      <div class="desmos-dock__capture" data-desmos-role="capture" hidden>
+        <label>Snapshot caption (optional)</label>
+        <input data-desmos-role="caption" type="text" maxlength="140" placeholder="e.g. Graph for question 4" aria-label="Snapshot caption">
+        <button type="button" data-desmos-action="capture">Insert graph screenshot</button>
+        <small>Uses Desmos GraphingCalculator.screenshot() to return a PNG of the graphpaper.</small>
+      </div>
+    </div>`;
+  document.body.appendChild(panel);
+
+  const connectView = panel.querySelector('[data-desmos-role="connect"]');
+  const calculatorHost = panel.querySelector('[data-desmos-role="calculator"]');
+  const status = panel.querySelector('[data-desmos-role="status"]');
+  const captureArea = panel.querySelector('[data-desmos-role="capture"]');
+  const keyInput = panel.querySelector('[data-desmos-role="key"]');
+  const captureButton = panel.querySelector('[data-desmos-action="capture"]');
+  let calculator = null;
+  const stateStorageKey = String(stateKey || DEFAULT_STATE_KEY);
+  let currentKey = "";
+  let destroyed = false;
+  let minimized = false;
+  let saveTimer = null;
+  const onGraphChange = () => {
+    clearTimeout(saveTimer);
+    saveTimer = window.setTimeout(() => {
+      try {
+        if (calculator?.getState) localStorage.setItem(stateStorageKey, JSON.stringify(calculator.getState()));
+      } catch (error) {
+        setStatus("Graph is running, but browser storage is unavailable or full. Export the graph state from the host app.", "error");
+      }
+    }, 500);
+  };
+  if (apiKey) keyInput.value = apiKey;
+
+  function setStatus(message, kind = "") {
+    status.textContent = message;
+    status.dataset.kind = kind;
+    if (typeof onStatus === "function") onStatus(message, kind);
+  }
+
+  async function connect(key = keyInput.value) {
+    if (destroyed) return false;
+    const cleanKey = String(key || "").trim();
+    if (!cleanKey) {
+      setStatus("Enter a Desmos API key to connect.", "error");
+      connectView.hidden = false;
+      keyInput.focus();
+      return false;
+    }
+    if (calculator && currentKey === cleanKey) {
+      open();
+      setStatus("Graphing Calculator is already connected.", "ok");
+      return true;
+    }
+    if (calculator) {
+      try { calculator.unobserveEvent?.("change", onGraphChange); } catch (_) {}
+      calculator.destroy?.();
+      calculator = null;
+      calculatorHost.replaceChildren();
+    }
+
+    setStatus("Connecting to Desmos Graphing Calculator…");
+    try {
+      const Desmos = await loadDesmosApi(cleanKey);
+      if (Desmos.enabledFeatures && Desmos.enabledFeatures.GraphingCalculator === false) {
+        throw new Error("GraphingCalculator is not enabled for this API key. Enable it in the Desmos API settings.");
+      }
+      if (typeof Desmos.GraphingCalculator !== "function") throw new Error("The loaded Desmos build does not expose GraphingCalculator.");
+      connectView.hidden = true;
+      calculatorHost.hidden = false;
+      calculator = Desmos.GraphingCalculator(calculatorHost, {
+        expressions: true,
+        settingsMenu: true,
+        keypad: true,
+        autosize: true,
+        degreeMode: true,
+        images: true,
+        folders: true,
+        notes: true,
+        sliders: true
+      });
+      try {
+        const savedState = localStorage.getItem(stateStorageKey);
+        if (savedState && typeof calculator.setState === "function") calculator.setState(JSON.parse(savedState));
+      } catch (error) {
+        console.warn("Could not restore the saved Desmos graph state:", error);
+        setStatus("Connected. A previous graph state could not be restored; a new graph is ready.", "error");
+      }
+      calculator.observeEvent?.("change", onGraphChange);
+      currentKey = cleanKey;
+      captureArea.hidden = false;
+      if (status.dataset.kind !== "error") setStatus("Connected. Changes are saved in this browser; graph screenshots use the official PNG API.", "ok");
+      window.setTimeout(() => calculator?.resize?.(), 120);
+      return true;
+    } catch (error) {
+      calculatorHost.hidden = true;
+      connectView.hidden = false;
+      captureArea.hidden = true;
+      setStatus(error?.message || "Could not connect to Desmos Graphing Calculator.", "error");
+      return false;
+    }
+  }
+
+  function open() {
+    if (destroyed) return;
+    panel.hidden = false;
+    panel.classList.remove("is-minimized");
+    panel.style.height = "";
+    minimized = false;
+    window.setTimeout(() => calculator?.resize?.(), 120);
+    if (!calculator) keyInput.focus({ preventScroll: true });
+  }
+
+  function close() {
+    panel.hidden = true;
+    panel.classList.remove("is-minimized");
+    minimized = false;
+  }
+
+  async function capture() {
+    if (!calculator) {
+      setStatus("Connect Desmos before inserting a graph screenshot.", "error");
+      open();
+      return false;
+    }
+    captureButton.disabled = true;
+    captureButton.textContent = "Capturing graph…";
+    try {
+      if (typeof calculator.screenshot !== "function") throw new Error("The Graphing Calculator screenshot() API is unavailable in this loaded build.");
+      const width = Math.max(320, Math.round(calculatorHost.clientWidth || 720));
+      const height = Math.max(220, Math.round(calculatorHost.clientHeight || 480));
+      const src = calculator.screenshot({ width, height, targetPixelRatio: 2 });
+      if (!validPngDataUrl(src)) throw new Error("Desmos did not return a valid PNG data URI.");
+      const caption = panel.querySelector('[data-desmos-role="caption"]').value.trim();
+      const alt = caption ? `${caption} — Desmos graph screenshot` : "Desmos Graphing Calculator graph screenshot";
+      if (typeof onInsertSnapshot === "function") await onInsertSnapshot({ src, alt, kind: "graphing", method: "GraphingCalculator.screenshot()" });
+      setStatus("Inserted the genuine Desmos graphpaper PNG screenshot.", "ok");
+      return true;
+    } catch (error) {
+      setStatus(`${error?.message || "Graph screenshot failed."} No image was inserted.`, "error");
+      return false;
+    } finally {
+      captureButton.disabled = false;
+      captureButton.textContent = "Insert graph screenshot";
+    }
+  }
+
+  const onTrigger = () => open();
+  trigger.addEventListener("click", onTrigger);
+  panel.querySelector('[data-desmos-action="connect"]').addEventListener("click", () => connect());
+  keyInput.addEventListener("keydown", event => { if (event.key === "Enter") connect(); });
+  panel.querySelector('[data-desmos-action="close"]').addEventListener("click", close);
+  panel.querySelector('[data-desmos-action="minimize"]').addEventListener("click", () => {
+    minimized = !minimized;
+    panel.classList.toggle("is-minimized", minimized);
+    panel.style.height = minimized ? "auto" : "";
+    if (!minimized) window.setTimeout(() => calculator?.resize?.(), 120);
+  });
+  captureButton.addEventListener("click", capture);
+
+  if (apiKey) connect(apiKey);
+
+  return {
+    open,
+    close,
+    connect,
+    capture,
+    getCalculator: () => calculator,
+    isConnected: () => !!calculator,
+    getState: () => calculator?.getState?.() ?? null,
+    setState(value) {
+      if (!calculator?.setState) throw new Error("Connect Graphing Calculator before restoring a saved state.");
+      calculator.setState(value);
+    },
+    destroy() {
+      destroyed = true;
+      clearTimeout(saveTimer);
+      try {
+        if (calculator?.getState) localStorage.setItem(stateStorageKey, JSON.stringify(calculator.getState()));
+        calculator?.unobserveEvent?.("change", onGraphChange);
+      } catch (_) {}
+      calculator?.destroy?.();
+      calculator = null;
+      trigger.removeEventListener("click", onTrigger);
+      panel.remove();
+    }
+  };
+}
+
+
+/**
+ * MYP Practice Answer Input Bar
+ * Modular rich-text answer editor with WIRIS MathType, table insertion,
+ * keyboard table navigation, MathML/LaTeX extraction and a single-string API.
+ *
+ * Main public contract:
+ *   const bar = await createAnswerInputBar(host, { onSubmit(answerString) {} });
+ *   const answerHtml = bar.getValue();
+ *   bar.submit();
+ *   await bar.insertDesmosSnapshot({ src: dataUrl, alt: "Graph of y=x^2" });
+ */
+
+
+function runtimeDesmosApiKey() {
+  // A host can provide a runtime config object such as window.__MYP_CONFIG__.DESMOS_API_KEY.
+  const runtime = typeof window !== "undefined" ? window.__MYP_CONFIG__?.DESMOS_API_KEY : "";
+  const bundled = (window.__MYP_CONFIG__ && (window.__MYP_CONFIG__.VITE_DESMOS_API_KEY || window.__MYP_CONFIG__.DESMOS_API_KEY)) || "";
+  return String(runtime || bundled || "").trim();
+}
+
+const DEFAULTS = {
+  value: "",
+  valueFormat: "html", // html | text | latex
+  placeholder: "Write your answer…",
+  showLatexPreview: true,
+  loadWirisScripts: true,
+  genericScriptUrl: "https://cdn.jsdelivr.net/npm/@wiris/mathtype-generic/wirisplugin-generic.js",
+  viewerScriptUrl: "https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image",
+  desmosApiKey: "",
+  desmosStateKeyPrefix: "myp-answer-input-default",
+  onChange: null,
+  onSubmit: null,
+  onStatus: null
+};
+
+const ALLOWED_TAGS = new Set([
+  "A", "B", "STRONG", "I", "EM", "U", "S", "SUB", "SUP", "P", "DIV", "BR", "H3", "H4", "PRE", "CODE", "BLOCKQUOTE", "UL", "OL", "LI",
+  "TABLE", "THEAD", "TBODY", "TFOOT", "TR", "TH", "TD", "IMG", "MATH", "SEMANTICS", "ANNOTATION", "ANNOTATION-XML", "MROW", "MI", "MN", "MO", "MTEXT", "MFRAC", "MSQRT", "MROOT", "MSUP", "MSUB", "MSUBSUP", "MFENCED", "MTABLE", "MTR", "MLABELEDTR", "MTD", "MOVER", "MUNDER", "MUNDEROVER", "MENclose".toUpperCase()
+]);
+
+const GREEK = {
+  "α":"\\alpha","β":"\\beta","γ":"\\gamma","δ":"\\delta","ε":"\\epsilon","ϵ":"\\varepsilon","ζ":"\\zeta","η":"\\eta","θ":"\\theta","ϑ":"\\vartheta","ι":"\\iota","κ":"\\kappa","λ":"\\lambda","μ":"\\mu","ν":"\\nu","ξ":"\\xi","π":"\\pi","ρ":"\\rho","σ":"\\sigma","ς":"\\varsigma","τ":"\\tau","υ":"\\upsilon","φ":"\\phi","ϕ":"\\varphi","χ":"\\chi","ψ":"\\psi","ω":"\\omega",
+  "Γ":"\\Gamma","Δ":"\\Delta","Θ":"\\Theta","Λ":"\\Lambda","Ξ":"\\Xi","Π":"\\Pi","Σ":"\\Sigma","Φ":"\\Phi","Ψ":"\\Psi","Ω":"\\Omega"
+};
+
+const OPERATORS = {
+  "±":"\\pm","∓":"\\mp","×":"\\times","÷":"\\div","≤":"\\leq","≥":"\\geq","≠":"\\neq","≈":"\\approx","∞":"\\infty","∑":"\\sum","∏":"\\prod","∫":"\\int","∬":"\\iint","∮":"\\oint","∂":"\\partial","∇":"\\nabla","∈":"\\in","∉":"\\notin","∝":"\\propto","→":"\\to","←":"\\leftarrow","⇒":"\\Rightarrow","↔":"\\leftrightarrow","·":"\\cdot","⋅":"\\cdot","−":"-","…":"\\ldots","∅":"\\emptyset","∪":"\\cup","∩":"\\cap","⊂":"\\subset","⊆":"\\subseteq","∧":"\\land","∨":"\\lor","¬":"\\neg","°":"^{\\circ}","⁢":"","⁣":"","⁡":""
+};
+
+const scriptPromises = new Map();
+
+function loadScriptOnce(src) {
+  if (src.includes("wirisplugin-generic") && window.WirisPlugin?.GenericIntegration) return Promise.resolve();
+  if (src.includes("WIRISplugins.js") && window.__wirisViewerLoaded) return Promise.resolve();
+  if (scriptPromises.has(src)) return scriptPromises.get(src);
+
+  const promise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    const timeout = window.setTimeout(() => {
+      script.remove();
+      reject(new Error(`Timed out loading WIRIS script: ${src}`));
+    }, 20000);
+    script.src = src;
+    script.async = false;
+    script.onload = () => {
+      clearTimeout(timeout);
+      if (src.includes("WIRISplugins.js")) window.__wirisViewerLoaded = true;
+      script.dataset.loaded = "true";
+      resolve();
+    };
+    script.onerror = () => {
+      clearTimeout(timeout);
+      scriptPromises.delete(src);
+      reject(new Error(`Could not load WIRIS script: ${src}`));
+    };
+    document.head.appendChild(script);
+  });
+  scriptPromises.set(src, promise);
+  return promise;
+}
+
+function decodeEntities(value) {
+  const holder = document.createElement("textarea");
+  holder.innerHTML = String(value || "");
+  return holder.value;
+}
+
+function decodePossibleMathML(raw) {
+  if (!raw) return "";
+  let value = decodeEntities(String(raw).trim());
+  value = value.replace(/«/g, "<").replace(/»/g, ">").replace(/§/g, "&").replace(/¨/g, '"');
+  return value.trim();
+}
+
+function parseMathML(raw) {
+  const text = decodePossibleMathML(raw);
+  if (!text || !/<(?:math|semantics|mfrac|msqrt|mi|mn|mrow)(?:\s|>)/i.test(text)) return null;
+  try {
+    const xml = new DOMParser().parseFromString(text, "application/xml");
+    if (!xml.querySelector("parsererror")) {
+      return xml.documentElement.localName.toLowerCase() === "math" ? xml.documentElement : (xml.querySelector("math") || xml.documentElement);
+    }
+  } catch (_) { /* Try HTML parser. */ }
+  try {
+    return new DOMParser().parseFromString(text, "text/html").querySelector("math");
+  } catch (_) { return null; }
+}
+
+function latexAnnotation(mathRoot) {
+  if (!mathRoot) return "";
+  const nodes = [];
+  if ((mathRoot.localName || "").toLowerCase() === "annotation") nodes.push(mathRoot);
+  if (mathRoot.querySelectorAll) nodes.push(...mathRoot.querySelectorAll("annotation"));
+  const annotation = nodes.find(node => /latex|tex/i.test(node.getAttribute("encoding") || node.getAttribute("name") || ""));
+  return annotation ? annotation.textContent.trim() : "";
+}
+
+function childLatex(node) {
+  return [...(node.childNodes || [])]
+    .filter(child => !(child.nodeType === Node.ELEMENT_NODE && ["annotation", "annotation-xml"].includes((child.localName || "").toLowerCase())))
+    .map(mathMLNodeToLatex)
+    .join("")
+    .trim();
+}
+
+function mathMLNodeToLatex(node) {
+  if (!node) return "";
+  if (node.nodeType === Node.TEXT_NODE) return node.nodeValue.replace(/\s+/g, " ");
+  if (node.nodeType !== Node.ELEMENT_NODE) return "";
+
+  const tag = String(node.localName || node.nodeName).toLowerCase();
+  const children = [...(node.children || [])];
+  const at = index => children[index] ? mathMLNodeToLatex(children[index]).trim() : "";
+  const raw = (node.textContent || "").trim();
+
+  if (["annotation", "annotation-xml", "none", "mspace"].includes(tag)) return "";
+  if (["math", "mrow", "semantics", "mstyle", "mpadded", "mphantom"].includes(tag)) return childLatex(node);
+  if (tag === "mi" || tag === "mn") return [...raw].map(ch => GREEK[ch] || ch).join("");
+  if (tag === "mo") return OPERATORS[raw] ?? raw;
+  if (tag === "mtext" || tag === "ms") return "\\text{" + raw.replace(/[{}]/g, "") + "}";
+  if (tag === "mfrac") return "\\frac{" + at(0) + "}{" + at(1) + "}";
+  if (tag === "msqrt") return "\\sqrt{" + childLatex(node) + "}";
+  if (tag === "mroot") return "\\sqrt[" + at(1) + "]{" + at(0) + "}";
+  if (tag === "msup") return "{" + at(0) + "}^{" + at(1) + "}";
+  if (tag === "msub") return "{" + at(0) + "}_{" + at(1) + "}";
+  if (tag === "msubsup") return "{" + at(0) + "}_{" + at(1) + "}^{" + at(2) + "}";
+
+  if (tag === "mfenced") {
+    const open = node.getAttribute("open") ?? "(";
+    const close = node.getAttribute("close") ?? ")";
+    const separators = (node.getAttribute("separators") || ",").split("");
+    return "\\left" + open + children.map((child, index) =>
+      (index ? (separators[Math.min(index - 1, separators.length - 1)] || ",") : "") + mathMLNodeToLatex(child).trim()
+    ).join("") + "\\right" + close;
+  }
+
+  if (tag === "mtable") {
+    const rows = children.filter(row => ["mtr", "mlabeledtr"].includes((row.localName || "").toLowerCase()));
+    return "\\begin{matrix}" + rows.map(row => [...row.children]
+      .filter(cell => (cell.localName || "").toLowerCase() === "mtd")
+      .map(mathMLNodeToLatex).join(" & ")).join(" \\\\ ") + "\\end{matrix}";
+  }
+
+  if (tag === "mover") return "\\overset{" + at(1) + "}{" + at(0) + "}";
+  if (tag === "munder") return "\\underset{" + at(1) + "}{" + at(0) + "}";
+  if (tag === "munderover") return "\\overset{" + at(2) + "}{\\underset{" + at(1) + "}{" + at(0) + "}}";
+  if (tag === "menclose") return "\\boxed{" + childLatex(node) + "}";
+  if (tag === "maction") return mathMLNodeToLatex(children[0]);
+  return childLatex(node);
+}
+
+function latexFromMathML(mathRoot) {
+  if (!mathRoot) return null;
+  const annotated = latexAnnotation(mathRoot);
+  if (annotated) return { latex: annotated, method: "original LaTeX annotation" };
+  const converted = mathMLNodeToLatex(mathRoot).trim();
+  return converted ? { latex: converted, method: "MathML fallback conversion" } : null;
+}
+
+function candidateMathMLFromElement(element) {
+  const attributeNames = ["data-mathml", "data-mathml-content", "data-mathml-tex", "mathml", "data-formula", "data-latex", "data-tex"];
+  for (const name of attributeNames) {
+    const value = element.getAttribute && element.getAttribute(name);
+    if (!value) continue;
+    if ((/^data-latex$|^data-tex$/i.test(name)) && !/<math[\s>]/i.test(value)) {
+      if (value.trim()) return { latex: value.trim(), method: "LaTeX data attribute" };
+    }
+    const parsed = parseMathML(value);
+    if (parsed) {
+      const result = latexFromMathML(parsed);
+      if (result) return result;
+    }
+  }
+  for (const name of ["alt", "title", "aria-label"]) {
+    const value = element.getAttribute && element.getAttribute(name);
+    if (value && /<(?:math|semantics|mfrac|msqrt|mi|mn)(?:\s|>)/i.test(value)) {
+      const result = latexFromMathML(parseMathML(value));
+      if (result) return result;
+    }
+  }
+  return null;
+}
+
+function getFormulaResults(editor) {
+  const results = [];
+  const seen = new Set();
+  const add = result => {
+    if (!result || !result.latex || !result.latex.trim()) return;
+    const text = result.latex.trim();
+    if (!seen.has(text)) {
+      seen.add(text);
+      results.push({ latex: text, method: result.method });
+    }
+  };
+  editor.querySelectorAll("math").forEach(mathNode => add(latexFromMathML(mathNode)));
+  editor.querySelectorAll("[data-mathml],[data-mathml-content],[data-mathml-tex],[data-latex],[data-tex],img.Wirisformula,img[class*=\"Wiris\"],img[alt],img[title]")
+    .forEach(element => add(candidateMathMLFromElement(element)));
+  return results;
+}
+
+function answerAsPlainText(editor) {
+  const clone = editor.cloneNode(true);
+  const formulaNodes = [...clone.querySelectorAll("math,[data-mathml],[data-mathml-content],[data-mathml-tex],[data-latex],[data-tex],img.Wirisformula,img[class*=\"Wiris\"]")];
+  for (const node of formulaNodes) {
+    const result = node.matches("math") ? latexFromMathML(node) : candidateMathMLFromElement(node);
+    if (result?.latex) node.replaceWith(document.createTextNode("\\(" + result.latex + "\\)"));
+    else if (node.tagName === "IMG") node.replaceWith(document.createTextNode("[Image/formula]"));
+  }
+  clone.querySelectorAll("br").forEach(node => node.replaceWith(document.createTextNode("\n")));
+  clone.querySelectorAll("li").forEach(node => node.prepend(document.createTextNode("• ")));
+  clone.querySelectorAll("tr").forEach(row => row.append(document.createTextNode("\n")));
+  return clone.innerText || clone.textContent || "";
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>\"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+}
+
+function insertAtSelection(editor, html) {
+  editor.focus();
+  const selection = window.getSelection();
+  if (selection && selection.rangeCount && editor.contains(selection.anchorNode)) {
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    const fragment = range.createContextualFragment(html);
+    const lastNode = fragment.lastChild;
+    range.insertNode(fragment);
+    if (lastNode) {
+      range.setStartAfter(lastNode);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  } else {
+    editor.insertAdjacentHTML("beforeend", html);
+  }
+  editor.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertHTML" }));
+}
+
+function sanitizePastedFragment(html) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  for (const element of [...doc.body.querySelectorAll("*")]) {
+    if (!ALLOWED_TAGS.has(element.tagName)) {
+      element.replaceWith(...element.childNodes);
+      continue;
+    }
+    for (const attribute of [...element.attributes]) {
+      const name = attribute.name.toLowerCase();
+      const keep = ["href", "src", "alt", "title", "class", "style", "data-mathml", "data-mathml-content", "data-mathml-tex", "data-latex", "data-tex", "encoding", "open", "close", "separators", "mathvariant", "display", "xmlns", "width", "height", "colspan", "rowspan"].includes(name);
+      if (!keep || name.startsWith("on")) element.removeAttribute(attribute.name);
+      if (name === "href" && !/^https?:/i.test(attribute.value)) element.removeAttribute(attribute.name);
+      if (name === "src" && !/^data:image\/(?:png|jpe?g|gif|webp|svg\+xml);base64,/i.test(attribute.value) && !/^https?:/i.test(attribute.value)) element.removeAttribute(attribute.name);
+    }
+  }
+  return doc.body.innerHTML;
+}
+
+function makeButton(label, title, role, extraClass = "") {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `answer-input__tool ${extraClass}`.trim();
+  button.textContent = label;
+  button.title = title;
+  button.setAttribute("aria-label", title);
+  if (role) button.dataset.role = role;
+  return button;
+}
+
+/** Mount a standalone answer bar. Use getValue() / onSubmit(value) for one-string integration. */
+async function createAnswerInputBar(host, options = {}) {
+  if (!(host instanceof Element)) throw new TypeError("createAnswerInputBar(host) expects a DOM element.");
+  if (host.dataset.answerInputMounted === "true") throw new Error("An answer input bar is already mounted in this host.");
+
+  const config = { ...DEFAULTS, ...options };
+  const root = document.createElement("section");
+  root.className = "answer-input";
+  root.innerHTML = `
+    <div class="answer-input__toolbar" role="toolbar" aria-label="Answer formatting">
+      <div class="answer-input__group">
+        <button type="button" class="answer-input__tool" data-command="bold" title="Bold (Ctrl+B)" aria-label="Bold"><strong>B</strong></button>
+        <button type="button" class="answer-input__tool italic" data-command="italic" title="Italic (Ctrl+I)" aria-label="Italic"><em>I</em></button>
+        <span class="answer-input__separator" aria-hidden="true"></span>
+        <button type="button" class="answer-input__tool" data-command="undo" title="Undo" aria-label="Undo">↶</button>
+        <button type="button" class="answer-input__tool" data-command="redo" title="Redo" aria-label="Redo">↷</button>
+      </div>
+      <span class="answer-input__separator" aria-hidden="true"></span>
+      <div class="answer-input__group">
+        <button type="button" class="answer-input__tool underline" data-command="underline" title="Underline" aria-label="Underline">U</button>
+        <button type="button" class="answer-input__tool" data-command="subscript" title="Subscript" aria-label="Subscript">x₂</button>
+        <button type="button" class="answer-input__tool" data-command="superscript" title="Superscript" aria-label="Superscript">x²</button>
+      </div>
+      <span class="answer-input__separator" aria-hidden="true"></span>
+      <div class="answer-input__group">
+        <button type="button" class="answer-input__tool answer-input__list-icon" data-command="insertOrderedList" title="Numbered list" aria-label="Numbered list"><span>1.</span><span>2.</span><span>3.</span></button>
+        <button type="button" class="answer-input__tool answer-input__list-icon answer-input__bullets" data-command="insertUnorderedList" title="Bulleted list" aria-label="Bulleted list"><span>•</span><span>•</span><span>•</span></button>
+      </div>
+      <span class="answer-input__separator" aria-hidden="true"></span>
+      <div class="answer-input__symbol-wrap">
+        <button type="button" class="answer-input__tool symbol" data-role="symbol-trigger" title="Insert special symbol" aria-label="Insert special symbol">Ω</button>
+        <div class="answer-input__symbol-menu" data-role="symbol-menu" hidden aria-label="Special symbols">
+          <strong>Insert symbol</strong>
+          <div class="answer-input__symbol-grid">
+            ${["Ω","Σ","ρ","Π","π","μ","θ","α","β","γ","λ","Δ","φ","ψ","∞","±","×","÷","≤","≥","≠","∝","√","∫","→","°","·","∈"].map(symbol => `<button type="button" data-symbol="${symbol}" aria-label="Insert ${symbol}">${symbol}</button>`).join("")}
+          </div>
+        </div>
+      </div>
+      <div class="answer-input__table-wrap">
+        <button type="button" class="answer-input__tool answer-input__table-trigger" data-role="insert-table" title="Insert table" aria-label="Insert table">▦</button>
+        <div class="answer-input__table-menu" data-role="table-menu" hidden>
+          <div class="answer-input__table-title">Insert Table</div>
+          <div class="answer-input__table-menu-body">
+            <div class="answer-input__grid-side">
+              <div class="answer-input__table-grid" role="grid" aria-label="Choose table dimensions"></div>
+              <div class="answer-input__grid-size" data-role="grid-size">Choose size</div>
+            </div>
+            <div class="answer-input__custom-side">
+              <div class="answer-input__custom-title">CUSTOM</div>
+              <label>Rows:<input type="number" min="1" max="50" step="1" value="3" data-role="custom-rows" inputmode="numeric"></label>
+              <label>Col.:<input type="number" min="1" max="20" step="1" value="3" data-role="custom-cols" inputmode="numeric"></label>
+              <button type="button" class="answer-input__table-insert" data-role="custom-insert">Insert</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="answer-input__tool answer-input__math-trigger symbol" data-role="open-math" title="Open WIRIS MathType" aria-label="Open WIRIS MathType">Σ</button>
+      <select class="answer-input__format" aria-label="Styles" title="Styles">
+        <option value="">Styles</option><option value="P">Paragraph</option><option value="H3">Heading</option><option value="H4">Subheading</option><option value="PRE">Code</option><option value="BLOCKQUOTE">Quote</option>
+      </select>
+      <div class="answer-input__wiris-toolbar" aria-label="Native WIRIS toolbar source (MathType only visible)" role="toolbar"></div>
+      <span class="answer-input__toolbar-spacer"></span>
+      <button type="button" class="answer-input__tool answer-input__snapshot-trigger" data-role="capture-calculator" title="Insert scientific calculator snapshot" aria-label="Insert scientific calculator snapshot">▧</button>
+      <button type="button" class="answer-input__tool answer-input__calculator-trigger" data-role="open-calculator" title="Open Desmos scientific calculator" aria-label="Open Desmos scientific calculator">Sci</button>
+      <button type="button" class="answer-input__tool answer-input__calculator-trigger" data-role="open-graphing" title="Open Desmos graphing calculator" aria-label="Open Desmos graphing calculator">Graph</button>
+      <button type="button" class="answer-input__tool answer-input__snapshot-trigger" data-role="capture-graph" title="Insert graph screenshot" aria-label="Insert graph screenshot">▧G</button>
+    </div>
+    <div class="answer-input__editor-wrap">
+      <div class="answer-input__editor" contenteditable="true" role="textbox" aria-label="Student answer" aria-multiline="true"></div>
+      <div class="answer-input__math-dock" data-role="math-dock" hidden aria-label="Embedded MathType editor"></div>
+    </div>
+    ${config.showLatexPreview ? `
+      <details class="answer-input__latex-panel">
+        <summary>LaTeX source <span data-role="latex-status">No equation detected yet.</span></summary>
+        <textarea data-role="latex-output" readonly spellcheck="false" aria-label="Extracted LaTeX" placeholder="LaTeX from inserted MathType equations will appear here."></textarea>
+      </details>` : ""}
+    <div class="answer-input__footer">
+      <span data-role="status" class="answer-input__status" role="status" aria-live="polite">Preparing editor…</span>
+      <div class="answer-input__footer-actions">
+        <button type="button" class="answer-input__secondary" data-role="copy">Copy text</button>
+        <button type="button" class="answer-input__secondary" data-role="clear">Clear</button>
+        <button type="button" class="answer-input__submit" data-role="submit">Use answer</button>
+      </div>
+    </div>
+  `;
+
+  host.appendChild(root);
+  host.dataset.answerInputMounted = "true";
+
+  const editor = root.querySelector(".answer-input__editor");
+  const nativeToolbar = root.querySelector(".answer-input__wiris-toolbar");
+  const status = root.querySelector('[data-role="status"]');
+  const latexOutput = root.querySelector('[data-role="latex-output"]');
+  const latexStatus = root.querySelector('[data-role="latex-status"]');
+  const formatSelect = root.querySelector(".answer-input__format");
+  const tableMenu = root.querySelector('[data-role="table-menu"]');
+  const tableGrid = root.querySelector(".answer-input__table-grid");
+  const mathDock = root.querySelector('[data-role="math-dock"]');
+  let integration = null;
+  let observer = null;
+  let bodyDialogObserver = null;
+  let dialogContentObserver = null;
+  let currentDialog = null;
+  let destroyed = false;
+  let savedRange = null;
+  let refreshTimer = null;
+  let pendingScriptExit = null;
+  let lastTableSize = { rows: 1, cols: 1 };
+
+  editor.dataset.placeholder = config.placeholder;
+  editor.innerHTML = config.value || "";
+
+  function setStatus(message, kind = "") {
+    status.textContent = message;
+    status.dataset.kind = kind;
+    if (typeof config.onStatus === "function") config.onStatus(message, kind);
+  }
+
+  function rememberSelection() {
+    const selection = window.getSelection();
+    if (!selection?.rangeCount) return;
+    const range = selection.getRangeAt(0);
+    if (editor.contains(range.startContainer) && editor.contains(range.endContainer)) savedRange = range.cloneRange();
+  }
+
+  function restoreSelection() {
+    editor.focus();
+    if (!savedRange) return;
+    const selection = window.getSelection();
+    if (!selection) return;
+    try { selection.removeAllRanges(); selection.addRange(savedRange); }
+    catch (_) { savedRange = null; }
+  }
+
+  function emitChange() {
+    if (destroyed) return;
+    refreshLatex(false);
+    if (typeof config.onChange === "function") config.onChange(getValue(), details());
+  }
+
+  function getLatexValue() { return getFormulaResults(editor).map(result => result.latex).join("\n\n"); }
+  function getValue(format = config.valueFormat) {
+    if (format === "text") return answerAsPlainText(editor).trim();
+    if (format === "latex") return getLatexValue();
+    return editor.innerHTML;
+  }
+  function details() { return { html: editor.innerHTML, text: answerAsPlainText(editor).trim(), latex: getLatexValue(), format: config.valueFormat }; }
+
+  function refreshLatex(showStatus = false) {
+    const results = getFormulaResults(editor);
+    if (latexOutput) latexOutput.value = results.map(result => result.latex).join("\n\n");
+    const hasFormula = !!editor.querySelector("math,img.Wirisformula,img[class*=\"Wiris\"],[data-mathml],[data-mathml-content],[data-latex],[data-tex]");
+    if (latexStatus) {
+      if (results.length) {
+        const fallback = results.some(result => result.method !== "original LaTeX annotation");
+        latexStatus.textContent = `${results.length} equation${results.length === 1 ? "" : "s"} · ${fallback ? "MathML converted where needed" : "original LaTeX annotation"}`;
+      } else latexStatus.textContent = hasFormula ? "Formula found; source not exposed." : "No equation detected yet.";
+    }
+    if (showStatus) {
+      if (results.length) setStatus(`LaTeX updated for ${results.length} equation${results.length === 1 ? "" : "s"}.`, "ok");
+      else if (hasFormula) setStatus("A formula is visible, but its LaTeX/MathML source wasn't exposed.", "error");
+      else setStatus("No inserted formula detected yet.");
+    }
+    return results;
+  }
+
+  function scheduleRefresh() {
+    clearTimeout(refreshTimer);
+    refreshTimer = window.setTimeout(() => { refreshLatex(false); emitChange(); }, 120);
+  }
+
+  function selectedCell() {
+    const selection = window.getSelection();
+    if (!selection?.anchorNode) return null;
+    const node = selection.anchorNode.nodeType === Node.ELEMENT_NODE ? selection.anchorNode : selection.anchorNode.parentElement;
+    const cell = node?.closest?.("td,th");
+    return cell && editor.contains(cell) ? cell : null;
+  }
+
+  function placeCaretInCell(cell, atEnd = false) {
+    if (!cell) return;
+    editor.focus();
+    const range = document.createRange();
+    range.selectNodeContents(cell);
+    range.collapse(!atEnd);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    rememberSelection();
+  }
+
+  function createTableMarkup(rows, cols) {
+    let html = "<table><tbody>";
+    for (let r = 0; r < rows; r++) {
+      html += "<tr>";
+      for (let c = 0; c < cols; c++) html += "<td><br></td>";
+      html += "</tr>";
+    }
+    return html + "</tbody></table><p><br></p>";
+  }
+
+  function insertTable(rows, cols) {
+    rows = Math.max(1, Math.min(50, Number.parseInt(rows, 10) || 1));
+    cols = Math.max(1, Math.min(20, Number.parseInt(cols, 10) || 1));
+    restoreSelection();
+    insertAtSelection(editor, createTableMarkup(rows, cols));
+    const tables = editor.querySelectorAll("table");
+    const table = tables[tables.length - 1];
+    if (table?.rows[0]?.cells[0]) placeCaretInCell(table.rows[0].cells[0]);
+    closeTableMenu();
+    setStatus(`Inserted ${rows} × ${cols} table. Tab moves between cells; Tab at the end adds a row.`, "ok");
+    emitChange();
+  }
+
+  function openTableMenu() {
+    tableMenu.hidden = false;
+    tableMenu.querySelector('[data-role="custom-rows"]').focus({ preventScroll: true });
+  }
+  function closeTableMenu() { tableMenu.hidden = true; }
+
+  function paintGrid(rows, cols, syncInputs = true) {
+    lastTableSize = { rows, cols };
+    tableGrid.querySelectorAll("button").forEach(button => {
+      const r = Number(button.dataset.rows), c = Number(button.dataset.cols);
+      button.classList.toggle("is-highlighted", r <= rows && c <= cols);
+      button.setAttribute("aria-pressed", String(r === rows && c === cols));
+    });
+    root.querySelector('[data-role="grid-size"]').textContent = `${rows} × ${cols}`;
+    if (syncInputs) {
+      root.querySelector('[data-role="custom-rows"]').value = rows;
+      root.querySelector('[data-role="custom-cols"]').value = cols;
+    }
+  }
+
+  for (let rows = 1; rows <= 5; rows++) {
+    for (let cols = 1; cols <= 5; cols++) {
+      const cell = document.createElement("button");
+      cell.type = "button";
+      cell.className = "answer-input__grid-cell";
+      cell.dataset.rows = rows;
+      cell.dataset.cols = cols;
+      cell.title = `${rows} rows × ${cols} columns`;
+      cell.setAttribute("role", "gridcell");
+      cell.setAttribute("aria-label", `${rows} rows by ${cols} columns`);
+      cell.addEventListener("mouseenter", () => paintGrid(rows, cols));
+      cell.addEventListener("focus", () => paintGrid(rows, cols));
+      cell.addEventListener("mousedown", event => event.preventDefault());
+      cell.addEventListener("click", () => insertTable(rows, cols));
+      tableGrid.appendChild(cell);
+    }
+  }
+  paintGrid(3, 3);
+
+  root.querySelector('[data-role="insert-table"]').addEventListener("mousedown", event => event.preventDefault());
+  root.querySelector('[data-role="insert-table"]').addEventListener("click", () => tableMenu.hidden ? openTableMenu() : closeTableMenu());
+  root.querySelector('[data-role="custom-insert"]').addEventListener("mousedown", event => event.preventDefault());
+  root.querySelector('[data-role="custom-insert"]').addEventListener("click", () => insertTable(root.querySelector('[data-role="custom-rows"]').value, root.querySelector('[data-role="custom-cols"]').value));
+  root.querySelector('[data-role="custom-rows"]').addEventListener("input", event => {
+    const rows = Math.max(1, Math.min(50, Number.parseInt(event.target.value, 10) || 1));
+    const cols = Math.max(1, Math.min(20, Number.parseInt(root.querySelector('[data-role="custom-cols"]').value, 10) || 1));
+    paintGrid(Math.min(5, rows), Math.min(5, cols), false);
+  });
+  root.querySelector('[data-role="custom-cols"]').addEventListener("input", event => {
+    const rows = Math.max(1, Math.min(50, Number.parseInt(root.querySelector('[data-role="custom-rows"]').value, 10) || 1));
+    const cols = Math.max(1, Math.min(20, Number.parseInt(event.target.value, 10) || 1));
+    paintGrid(Math.min(5, rows), Math.min(5, cols), false);
+  });
+
+  const symbolTrigger = root.querySelector('[data-role="symbol-trigger"]');
+  const symbolMenu = root.querySelector('[data-role="symbol-menu"]');
+  function closeSymbolMenu() { symbolMenu.hidden = true; }
+  symbolTrigger.addEventListener("mousedown", event => { event.preventDefault(); rememberSelection(); });
+  symbolTrigger.addEventListener("click", () => { symbolMenu.hidden = !symbolMenu.hidden; });
+  symbolMenu.querySelectorAll("[data-symbol]").forEach(button => {
+    button.addEventListener("mousedown", event => event.preventDefault());
+    button.addEventListener("click", () => {
+      restoreSelection();
+      insertAtSelection(editor, escapeHtml(button.dataset.symbol));
+      closeSymbolMenu();
+      emitChange();
+      editor.focus();
+    });
+  });
+
+  const outsidePointerHandler = event => {
+    if (!root.contains(event.target)) { closeTableMenu(); closeSymbolMenu(); }
+    else {
+      if (!event.target.closest('.answer-input__symbol-wrap')) closeSymbolMenu();
+      if (!event.target.closest('.answer-input__table-wrap')) closeTableMenu();
+    }
+  };
+  document.addEventListener("pointerdown", outsidePointerHandler);
+
+  function insertNewRow(table, index, focusColumn = 0) {
+    const sampleCount = table.rows[0]?.cells.length || 1;
+    const row = table.insertRow(Math.max(0, Math.min(index, table.rows.length)));
+    for (let c = 0; c < sampleCount; c++) row.insertCell().innerHTML = "<br>";
+    placeCaretInCell(row.cells[Math.min(focusColumn, sampleCount - 1)] || row.cells[0]);
+    emitChange();
+  }
+
+  function insertNewColumn(table, index, focusRow = 0) {
+    [...table.rows].forEach(row => {
+      const cell = document.createElement(row.cells[0]?.tagName === "TH" ? "th" : "td");
+      cell.innerHTML = "<br>";
+      row.insertBefore(cell, row.cells[index] || null);
+    });
+    const row = table.rows[Math.min(focusRow, table.rows.length - 1)];
+    if (row?.cells[Math.min(index, row.cells.length - 1)]) placeCaretInCell(row.cells[Math.min(index, row.cells.length - 1)]);
+    emitChange();
+  }
+
+  function handleTableKeydown(event) {
+    const cell = selectedCell();
+    if (!cell) return false;
+    const table = cell.closest("table");
+    const row = cell.parentElement;
+    const cellIndex = [...row.cells].indexOf(cell);
+    const rowIndex = [...table.rows].indexOf(row);
+    const allCells = [...table.rows].flatMap(tr => [...tr.cells]);
+    const linearIndex = allCells.indexOf(cell);
+
+    if (event.key === "Tab") {
+      if (event.shiftKey && linearIndex === 0) return false;
+      event.preventDefault();
+      if (event.shiftKey) {
+        placeCaretInCell(allCells[linearIndex - 1], true);
+      } else if (linearIndex < allCells.length - 1) {
+        placeCaretInCell(allCells[linearIndex + 1]);
+      } else {
+        insertNewRow(table, table.rows.length, 0);
+        setStatus("Added a row at the end of the table.", "ok");
+      }
+      return true;
+    }
+
+    if (!(event.metaKey || event.ctrlKey) || !event.key.startsWith("Arrow")) return false;
+    let action = null;
+    if (event.key === "ArrowLeft") action = { kind: "column", index: cellIndex, message: "Insert a new column to the left of the current cell?" };
+    if (event.key === "ArrowRight") action = { kind: "column", index: cellIndex + 1, message: "Insert a new column to the right of the current cell?" };
+    if (event.key === "ArrowUp") action = { kind: "row", index: rowIndex, message: "Insert a new row above the current row?" };
+    if (event.key === "ArrowDown") action = { kind: "row", index: rowIndex + 1, message: "Insert a new row below the current row?" };
+    if (!action) return false;
+
+    event.preventDefault();
+    event.stopPropagation();
+    if (!window.confirm(action.message)) return true;
+
+    if (action.kind === "column") insertNewColumn(table, action.index, rowIndex);
+    else insertNewRow(table, action.index, cellIndex);
+    setStatus(action.kind === "column" ? "Column inserted." : "Row inserted.", "ok");
+    return true;
+  }
+
+  function scriptAncestor(node) {
+    let element = node?.nodeType === Node.ELEMENT_NODE ? node : node?.parentElement;
+    while (element && element !== editor) {
+      if (element.matches?.("sub,sup")) return element;
+      element = element.parentElement;
+    }
+    return null;
+  }
+
+  function caretAtScriptBoundary(script, direction) {
+    const selection = window.getSelection();
+    if (!selection?.rangeCount || !selection.isCollapsed) return false;
+    const caret = selection.getRangeAt(0).cloneRange();
+    const full = document.createRange();
+    full.selectNodeContents(script);
+    try {
+      return direction === "ArrowRight"
+        ? caret.compareBoundaryPoints(Range.END_TO_END, full) === 0
+        : caret.compareBoundaryPoints(Range.START_TO_START, full) === 0;
+    } catch (_) { return false; }
+  }
+
+  function moveCaretOutsideScript(script, direction) {
+    const range = document.createRange();
+    if (direction === "ArrowLeft") range.setStartBefore(script);
+    else range.setStartAfter(script);
+    range.collapse(true);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    rememberSelection();
+  }
+
+  editor.addEventListener("keydown", event => {
+    if (handleTableKeydown(event)) return;
+
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      const script = scriptAncestor(window.getSelection()?.anchorNode);
+      if (script && caretAtScriptBoundary(script, event.key)) {
+        const now = Date.now();
+        if (pendingScriptExit?.script === script && pendingScriptExit.direction === event.key && now - pendingScriptExit.at < 1500) {
+          event.preventDefault();
+          moveCaretOutsideScript(script, event.key);
+          pendingScriptExit = null;
+          return;
+        }
+        event.preventDefault();
+        pendingScriptExit = { script, direction: event.key, at: now };
+        setStatus(`Press ${event.key === "ArrowRight" ? "→" : "←"} once more to leave ${script.tagName.toLowerCase()} text.`, "");
+        return;
+      }
+    }
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") pendingScriptExit = null;
+  });
+
+  function controlsInToolbar() {
+    return [...nativeToolbar.querySelectorAll('button,a,input,[role="button"],[onclick],[tabindex],img')];
+  }
+
+  function findMathTypeControl() {
+    const candidates = controlsInToolbar();
+    const score = element => {
+      const label = [element.title, element.getAttribute("aria-label"), element.getAttribute("alt"), element.getAttribute("data-tooltip"), element.value, element.textContent, element.className]
+        .filter(Boolean).join(" ");
+      if (/chemtype|chemistry/i.test(label)) return 1;
+      if (/math(type)?/i.test(label)) return 12;
+      if (/wrs.*(math|equation)|math.*(button|editor|type)/i.test(label)) return 8;
+      return 0;
+    };
+    const matches = candidates.map((element, index) => ({ element, index, score: score(element) }))
+      .filter(item => item.score > 1).sort((a, b) => b.score - a.score || a.index - b.index);
+    if (matches.length) {
+      let element = matches[0].element;
+      const ancestor = element.closest('button,a,[role="button"],[onclick],[tabindex]');
+      if (ancestor && nativeToolbar.contains(ancestor)) element = ancestor;
+      return element;
+    }
+    // This is the same fallback used by the working HTML provided by the user.
+    return nativeToolbar.firstElementChild || null;
+  }
+
+  function hideChemTypeControls() {
+    for (const element of controlsInToolbar()) {
+      const label = [element.title, element.getAttribute("aria-label"), element.getAttribute("alt"), element.getAttribute("data-tooltip"), element.textContent, element.className].filter(Boolean).join(" ");
+      if (!/chemtype|chemistry/i.test(label)) continue;
+      const control = element.closest('button,a,[role="button"],[onclick],[tabindex]') || element;
+      control.style.display = "none";
+      control.setAttribute("aria-hidden", "true");
+    }
+    nativeToolbar.classList.add("answer-input__wiris-source--ready");
+  }
+
+  function dialogContainerFrom(node) {
+    if (!(node instanceof Element)) return null;
+    if (node.matches(".wrs_modal_dialogContainer")) return node;
+    return node.querySelector?.(".wrs_modal_dialogContainer") || null;
+  }
+
+  function dialogIsVisible(container) {
+    if (!container?.isConnected) return false;
+    if (container.hidden) return false;
+    const style = getComputedStyle(container);
+    if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
+    const dialog = container.querySelector(".wrs_modal_dialog") || container;
+    const innerStyle = getComputedStyle(dialog);
+    return innerStyle.display !== "none" && innerStyle.visibility !== "hidden";
+  }
+
+  function syncMathDockVisibility() {
+    window.setTimeout(() => {
+      if (destroyed) return;
+      if (currentDialog && dialogIsVisible(currentDialog)) mathDock.hidden = false;
+      else if (currentDialog) mathDock.hidden = true;
+    }, 180);
+  }
+
+  function dockWirisDialog(container) {
+    if (!container) return;
+    currentDialog = container;
+    if (!mathDock.contains(container)) mathDock.appendChild(container);
+    container.classList.add("answer-input__embedded-wiris-dialog");
+    mathDock.classList.add("answer-input__math-dock--has-dialog");
+    if (dialogContentObserver) dialogContentObserver.disconnect();
+    dialogContentObserver = new MutationObserver(syncMathDockVisibility);
+    dialogContentObserver.observe(container, { attributes: true, childList: true, subtree: true, attributeFilter: ["style", "class", "hidden", "aria-hidden"] });
+    syncMathDockVisibility();
+  }
+
+  function watchForWirisDialog() {
+    bodyDialogObserver = new MutationObserver(records => {
+      for (const record of records) {
+        for (const node of record.addedNodes) {
+          const dialog = dialogContainerFrom(node);
+          if (dialog) dockWirisDialog(dialog);
+        }
+      }
+    });
+    bodyDialogObserver.observe(document.body, { childList: true, subtree: true });
+    const existing = document.querySelector(".wrs_modal_dialogContainer");
+    if (existing) dockWirisDialog(existing);
+  }
+
+  async function openMathType() {
+    if (!integration) {
+      setStatus("MathType is still initializing. Check the browser console/network and reload.", "error");
+      return false;
+    }
+    rememberSelection();
+    restoreSelection();
+    const control = findMathTypeControl();
+    if (!control) {
+      setStatus("WIRIS loaded, but its native MathType toolbar control was not created.", "error");
+      return false;
+    }
+    try {
+      mathDock.hidden = false;
+      control.click();
+      setStatus("MathType opened inside the answer bar. Insert the formula to return to your answer.", "ok");
+      window.setTimeout(syncMathDockVisibility, 350);
+      return true;
+    } catch (error) {
+      mathDock.hidden = true;
+      setStatus("Could not open MathType. Click the native control from the integration notes.", "error");
+      return false;
+    }
+  }
+
+  function safeImageSource(src) {
+    const value = String(src || "").trim();
+    if (/^data:image\/(?:png|jpe?g|gif|webp|svg\+xml);/i.test(value)) return value;
+    try {
+      const url = new URL(value, window.location.href);
+      if (["https:", "http:"].includes(url.protocol) && !["javascript:", "vbscript:"].includes(url.protocol)) return url.href;
+    } catch (_) { /* invalid URL */ }
+    throw new Error("Image source must be an HTTPS/HTTP URL or an image data URL.");
+  }
+
+  function insertImageSource(src, alt = "") {
+    const safeSrc = safeImageSource(src);
+    restoreSelection();
+    insertAtSelection(editor, `<img src="${escapeHtml(safeSrc)}" alt="${escapeHtml(alt)}" loading="lazy">`);
+    emitChange();
+    setStatus("Image inserted in answer.", "ok");
+    return true;
+  }
+
+  async function blobToDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error("Could not read the image data."));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function insertImageBlob(blob, alt = "Image") {
+    if (!(blob instanceof Blob) || !blob.type.startsWith("image/")) throw new Error("Expected an image Blob/File.");
+    if (blob.size > 8 * 1024 * 1024) throw new Error("Image must be 8 MB or smaller.");
+    let src = await blobToDataUrl(blob);
+    if (blob.size > 700 * 1024) {
+      const img = await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("Could not decode the image."));
+        image.src = src;
+      });
+      const scale = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+      canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+      src = canvas.toDataURL(blob.type === "image/png" && blob.size < 2 * 1024 * 1024 ? "image/png" : "image/webp", 0.82);
+    }
+    insertImageSource(src, alt);
+  }
+
+  // Supported host integration: answerBar.insertDesmosSnapshot({src, alt}) or pass a Blob.
+  async function insertDesmosSnapshot(snapshot) {
+    if (snapshot instanceof Blob) return insertImageBlob(snapshot, "Desmos graph snapshot");
+    if (typeof snapshot === "string") return insertImageSource(snapshot, "Desmos graph snapshot");
+    if (snapshot && typeof snapshot === "object" && snapshot.src) return insertImageSource(snapshot.src, snapshot.alt || "Desmos graph snapshot");
+    throw new TypeError("insertDesmosSnapshot expects an image URL/data URL, {src, alt}, or an image Blob.");
+  }
+
+  let desmosDock = null;
+  let graphingDock = null;
+  function connectDesmosDock() {
+    if (desmosDock) return desmosDock;
+    desmosDock = createDesmosScientificDock({
+      trigger: root.querySelector('[data-role="open-calculator"]'),
+      apiKey: config.desmosApiKey || runtimeDesmosApiKey(),
+      stateKey: `${config.desmosStateKeyPrefix}:scientific`,
+      onStatus: (message, kind) => setStatus(message, kind),
+      onInsertSnapshot: snapshot => insertDesmosSnapshot(snapshot)
+    });
+    root.querySelector('[data-role="capture-calculator"]').addEventListener("click", () => {
+      if (desmosDock.isConnected()) desmosDock.capture();
+      else { desmosDock.open(); setStatus("Open and connect the scientific calculator before inserting a snapshot.", "error"); }
+    });
+    return desmosDock;
+  }
+  function connectGraphingDock() {
+    if (graphingDock) return graphingDock;
+    graphingDock = createDesmosGraphingDock({
+      trigger: root.querySelector('[data-role="open-graphing"]'),
+      apiKey: config.desmosApiKey || runtimeDesmosApiKey(),
+      stateKey: `${config.desmosStateKeyPrefix}:graphing`,
+      onStatus: (message, kind) => setStatus(message, kind),
+      onInsertSnapshot: snapshot => insertDesmosSnapshot(snapshot)
+    });
+    root.querySelector('[data-role="capture-graph"]').addEventListener("click", () => {
+      if (graphingDock.isConnected()) graphingDock.capture();
+      else { graphingDock.open(); setStatus("Open and connect the graphing calculator before inserting a graph screenshot.", "error"); }
+    });
+    return graphingDock;
+  }
+
+  function handlePaste(event) {
+    const items = [...(event.clipboardData?.items || [])];
+    const imageItem = items.find(item => item.type?.startsWith("image/"));
+    if (imageItem) {
+      event.preventDefault();
+      const file = imageItem.getAsFile();
+      if (file) insertImageBlob(file, file.name || "Pasted image").catch(error => setStatus(error.message, "error"));
+      return;
+    }
+    const html = event.clipboardData?.getData("text/html");
+    if (html) {
+      event.preventDefault();
+      restoreSelection();
+      insertAtSelection(editor, sanitizePastedFragment(html));
+      emitChange();
+    }
+  }
+
+  // Match the exact working sequence from the user's supplied file:
+  // GenericIntegration({ target: editor, toolbar }), init(), onTargetReady, currentInstance.
+  async function initializeWiris() {
+    try {
+      if (config.loadWirisScripts) {
+        if (!window.WirisPlugin?.GenericIntegration) await loadScriptOnce(config.genericScriptUrl);
+        if (!window.__wirisViewerLoaded && !window.wrs_intLoaded && !window.WIRISplugins) {
+          try { await loadScriptOnce(config.viewerScriptUrl); }
+          catch (error) { console.warn("WIRIS viewer script did not load:", error); }
+        }
+      }
+      if (!window.WirisPlugin || typeof window.WirisPlugin.GenericIntegration !== "function") {
+        setStatus("Could not load WIRIS Generic Integration. Check internet/CDN access and reload.", "error");
+        return false;
+      }
+      integration = new window.WirisPlugin.GenericIntegration({ target: editor, toolbar: nativeToolbar });
+      integration.init();
+      integration.listeners.fire("onTargetReady", {});
+      window.WirisPlugin.currentInstance = integration;
+      window.setTimeout(() => {
+        if (destroyed) return;
+        const count = controlsInToolbar().length;
+        hideChemTypeControls();
+        setStatus(count ? "MathType ready." : "WIRIS loaded, but its MathType control was not created. Check service/network access.", count ? "ok" : "error");
+      }, 500);
+      return true;
+    } catch (error) {
+      console.error("WIRIS initialization failed:", error);
+      setStatus("WIRIS initialization failed: " + (error?.message || String(error)), "error");
+      return false;
+    }
+  }
+
+  root.querySelectorAll('.answer-input__tool[data-command], .answer-input__tool[data-insert-text], .answer-input__math-trigger, .answer-input__table-trigger, [data-role="symbol-trigger"], [data-role="capture-calculator"], [data-role="capture-graph"], [data-role="open-calculator"], [data-role="open-graphing"]').forEach(button => {
+    button.addEventListener("mousedown", event => { event.preventDefault(); rememberSelection(); });
+  });
+
+  root.querySelectorAll("[data-command]").forEach(button => button.addEventListener("click", () => {
+    restoreSelection();
+    const command = button.dataset.command;
+    if (command === "formatBlock") document.execCommand(command, false, "<BLOCKQUOTE>");
+    else document.execCommand(command, false, null);
+    rememberSelection();
+    emitChange();
+  }));
+
+  root.querySelectorAll("[data-insert-text]").forEach(button => button.addEventListener("click", () => {
+    restoreSelection();
+    insertAtSelection(editor, escapeHtml(button.dataset.insertText));
+    emitChange();
+  }));
+
+  formatSelect.addEventListener("change", event => {
+    if (!event.target.value) return;
+    restoreSelection();
+    document.execCommand("formatBlock", false, `<${event.target.value}>`);
+    rememberSelection();
+    editor.focus();
+    emitChange();
+    formatSelect.value = "";
+  });
+
+  root.querySelector('[data-role="open-math"]').addEventListener("click", openMathType);
+  root.querySelector('[data-role="copy"]').addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(getValue("text")); setStatus("Answer text copied.", "ok"); }
+    catch (_) { setStatus("Clipboard blocked by browser permissions.", "error"); }
+  });
+  root.querySelector('[data-role="clear"]').addEventListener("click", () => {
+    if (!window.confirm("Clear the current answer?")) return;
+    editor.innerHTML = "";
+    if (latexOutput) latexOutput.value = "";
+    refreshLatex(false);
+    emitChange();
+    setStatus("Answer cleared.");
+    editor.focus();
+  });
+  root.querySelector('[data-role="submit"]').addEventListener("click", () => {
+    const value = getValue();
+    if (typeof config.onSubmit === "function") config.onSubmit(value);
+    else setStatus("Answer string generated. Use getValue() to retrieve it.", "ok");
+  });
+
+  editor.addEventListener("input", () => { pendingScriptExit = null; rememberSelection(); emitChange(); });
+  editor.addEventListener("keyup", rememberSelection);
+  editor.addEventListener("mouseup", rememberSelection);
+  editor.addEventListener("paste", handlePaste);
+  root.addEventListener("click", event => {
+    if (event.target?.closest('[data-role="open-math"]')) return;
+    window.setTimeout(() => { refreshLatex(false); emitChange(); }, 230);
+  });
+
+  // Place WIRIS's own dialog inside this component's allocated lower dock.
+  watchForWirisDialog();
+  initializeWiris();
+  refreshLatex(false);
+  if (typeof config.onChange === "function") config.onChange(getValue(), details());
+
+  return {
+    root,
+    editor,
+    getValue,
+    getTextValue: () => getValue("text"),
+    getLatexValue,
+    getDetails: details,
+    setValue(value) {
+      editor.innerHTML = String(value || "");
+      refreshLatex(false);
+      if (typeof config.onChange === "function") config.onChange(getValue(), details());
+    },
+    focus() { editor.focus(); },
+    openMathType,
+    refresh() { return refreshLatex(true); },
+    insertTable,
+    insertImage(srcOrOptions, alt) {
+      if (typeof srcOrOptions === "string") return insertImageSource(srcOrOptions, alt || "");
+      if (srcOrOptions instanceof Blob) return insertImageBlob(srcOrOptions, alt || "Image");
+      if (srcOrOptions && typeof srcOrOptions === "object" && srcOrOptions.src) return insertImageSource(srcOrOptions.src, srcOrOptions.alt || alt || "");
+      throw new TypeError("insertImage expects a source string, image Blob, or {src, alt} object.");
+    },
+    insertDesmosSnapshot,
+    openScientificCalculator() { return connectDesmosDock().open(); },
+    captureCalculatorSnapshot() { return connectDesmosDock().capture(); },
+    getDesmosCalculator() { return desmosDock?.getCalculator() || null; },
+    getScientificCalculatorState() { return desmosDock?.getState() ?? null; },
+    setScientificCalculatorState(value) { connectDesmosDock().setState(value); },
+    openGraphingCalculator() { return connectGraphingDock().open(); },
+    captureGraphingSnapshot() { return connectGraphingDock().capture(); },
+    getDesmosGraphingCalculator() { return graphingDock?.getCalculator() || null; },
+    getGraphingState() { return graphingDock?.getState() ?? null; },
+    setGraphingState(value) { connectGraphingDock().setState(value); },
+    submit() {
+      const value = getValue();
+      if (typeof config.onSubmit === "function") config.onSubmit(value);
+      return value;
+    },
+    destroy() {
+      destroyed = true;
+      if (observer) observer.disconnect();
+      if (bodyDialogObserver) bodyDialogObserver.disconnect();
+      if (dialogContentObserver) dialogContentObserver.disconnect();
+      desmosDock?.destroy();
+      graphingDock?.destroy();
+      document.removeEventListener("pointerdown", outsidePointerHandler);
+      clearTimeout(refreshTimer);
+      currentDialog?.remove();
+      root.remove();
+      delete host.dataset.answerInputMounted;
+    }
+  };
+}
+
+
+
+
+
+
+</script>
+<script>
+
+const PAPERS = {"paper1": {"title": "Mock Paper 1 — Probability & Data Interpretation", "subtitle": "Probability foundations, sampling, graphs and real-world interpretation", "questions": [{"title": "Relative frequency and theoretical probability", "marks": 4, "skills": "Relative frequency · theoretical probability · experimental probability", "prompt": "<p>A spinner has <strong>8 equal sectors</strong>: 3 red, 2 blue and 3 yellow. It is spun 40 times. The recorded results are:</p><table class='data-table'><thead><tr><th>Colour</th><th>Red</th><th>Blue</th><th>Yellow</th></tr></thead><tbody><tr><th>Frequency</th><td>17</td><td>8</td><td>15</td></tr></tbody></table>", "parts": [["Calculate the relative frequency of landing on yellow.", 1], ["Determine the theoretical probability of landing on blue.", 1], ["Calculate the experimental probability of landing on blue and compare it with the theoretical probability.", 1], ["Explain why the experimental and theoretical probabilities may differ after 40 spins.", 1]]}, {"title": "Venn diagrams and combined events", "marks": 5, "skills": "Venn diagrams · union · intersection · mutually exclusive events", "prompt": "<p>In a group of 48 students, 27 use music app A, 23 use music app B and 11 use both apps. Let A and B represent the corresponding events for a randomly selected student.</p>", "parts": [["Draw a Venn diagram and determine the number of students in A only, B only and neither set.", 3], ["Calculate P(A ∪ B). Give your answer as a simplified fraction.", 1], ["Are A and B mutually exclusive? Justify your answer using the information given.", 1]]}, {"title": "Tree diagrams and dependent events", "marks": 5, "skills": "Tree diagrams · multiplication rule · dependent events · without replacement", "prompt": "<p>A bag contains 6 orange counters and 4 purple counters. Two counters are selected at random <strong>without replacement</strong>.</p>", "parts": [["Draw a fully labelled probability tree for the two selections.", 2], ["Calculate the probability that the two counters are different colours.", 2], ["Find P(second counter is purple | first counter is orange).", 1]]}, {"title": "Conditional probability and independence", "marks": 5, "skills": "Conditional probability · two-way counts · independence test", "prompt": "<p>In a year group of 100 students, 36 attend the mathematics club, 50 attend the coding club and 24 attend both clubs. A student is selected at random.</p><p>Let M = attends mathematics club and C = attends coding club.</p>", "parts": [["Calculate P(M | C).", 2], ["Determine whether M and C are independent. Show a valid test using probabilities.", 2], ["Interpret your result in the context of the two clubs.", 1]]}, {"title": "Sampling techniques and response rates", "marks": 5, "skills": "Response rate · voluntary response · sampling bias · representative samples", "prompt": "<p>A school invites 300 students to complete an online survey about lunchtime activities. A link is posted in one house group's chat, and participation is voluntary. A total of 186 students respond.</p>", "parts": [["Calculate the response rate as a percentage.", 1], ["Explain two reasons why the respondents may not be representative of all 300 invited students.", 2], ["Recommend a more suitable sampling method and justify why it would improve the investigation.", 2]]}, {"title": "Data manipulation and misleading representations", "marks": 4, "skills": "Percentage change · misleading axes · critical interpretation", "prompt": "<p>A report states that the number of bus passes sold increased from 40 in Week 1 to 50 in Week 2. Its bar chart uses a vertical axis beginning at 38 and ending at 52. The report headline says: <strong>“Bus-pass sales almost doubled!”</strong></p>", "parts": [["Calculate the actual percentage increase in sales.", 1], ["Explain how the truncated vertical axis could exaggerate the apparent change.", 2], ["Write one mathematically defensible sentence describing the change.", 1]]}, {"title": "Histograms and grouped continuous data", "marks": 5, "skills": "Continuous fixed intervals · histogram · modal class · estimated mean", "prompt": "<p>The table shows the time, in minutes, taken by 40 students to complete a task. The data are grouped into continuous intervals of equal width.</p><table class='data-table'><thead><tr><th>Time, t (minutes)</th><th>0 ≤ t &lt; 10</th><th>10 ≤ t &lt; 20</th><th>20 ≤ t &lt; 30</th><th>30 ≤ t &lt; 40</th><th>40 ≤ t &lt; 50</th></tr></thead><tbody><tr><th>Frequency</th><td>4</td><td>9</td><td>15</td><td>8</td><td>4</td></tr></tbody></table>", "parts": [["Construct a histogram. Label both axes and use the correct class boundaries.", 2], ["State the modal class. Explain why the exact mode cannot be identified from the grouped table alone.", 1], ["Estimate the mean time using class midpoints. Show your working.", 2]], "graph": {"xMin": 0, "xMax": 50, "xStep": 10, "yMin": 0, "yMax": 20, "yStep": 5, "xLabel": "Time (minutes)", "yLabel": "Frequency", "title": "Histogram workspace"}}, {"title": "Scatter graphs and lines of best fit", "marks": 7, "skills": "Bivariate data · scatter graph · correlation · interpolation · extrapolation", "prompt": "<p>A coach investigates the relationship between the number of training sessions completed and the number of errors made during a skills test.</p><table class='data-table'><thead><tr><th>Training sessions, x</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr></thead><tbody><tr><th>Errors, y</th><td>19</td><td>16</td><td>15</td><td>13</td><td>11</td><td>10</td><td>8</td></tr></tbody></table>", "parts": [["Plot the data on a scatter graph. Label the axes and choose suitable scales.", 2], ["Describe the direction and strength of the correlation.", 1], ["Draw a suitable line of best fit.", 1], ["Use your line to estimate the number of errors for 4.5 training sessions.", 1], ["Explain why using the same line to predict the number of errors after 15 training sessions would be unreliable.", 2]], "graph": {"xMin": 0, "xMax": 8, "xStep": 1, "yMin": 0, "yMax": 20, "yStep": 2, "xLabel": "Training sessions", "yLabel": "Number of errors", "title": "Scatter graph workspace"}}]}, "paper2": {"title": "Mock Paper 2 — Statistical Analysis & Conditional Probability", "subtitle": "Quartiles, percentiles, dispersion, correlation, regression and contextual evaluation", "questions": [{"title": "Quartiles, percentiles and box plots", "marks": 6, "skills": "Discrete data · median-of-halves · nearest-rank percentile · box plot · IQR", "prompt": "<p>The following 16 values are already in ascending order:</p><p class='number-row'>8, 9, 11, 12, 12, 13, 14, 15, 17, 19, 21, 23, 24, 26, 28, 31</p><p>For this question, use the <strong>median-of-halves convention</strong> for quartiles and the <strong>nearest-rank method</strong> for percentiles.</p>", "parts": [["Determine the minimum, lower quartile, median, upper quartile and maximum.", 3], ["Calculate the interquartile range and explain what it represents for this dataset.", 1], ["Estimate the 90th percentile using the nearest-rank method. Show how you selected the rank.", 1], ["Construct a box plot using your five-number summary.", 1]], "graph": {"xMin": 0, "xMax": 35, "xStep": 5, "yMin": 0, "yMax": 1, "yStep": 1, "xLabel": "Data value", "yLabel": "", "title": "Box-plot workspace"}}, {"title": "Cumulative frequency and continuous percentiles", "marks": 7, "skills": "Continuous grouped data · cumulative frequency · quartiles · percentile · IQR", "prompt": "<p>The time taken by 40 participants to complete a challenge is grouped below.</p><table class='data-table'><thead><tr><th>Time, t (minutes)</th><th>0 ≤ t &lt; 10</th><th>10 ≤ t &lt; 20</th><th>20 ≤ t &lt; 30</th><th>30 ≤ t &lt; 40</th><th>40 ≤ t &lt; 50</th></tr></thead><tbody><tr><th>Frequency</th><td>4</td><td>8</td><td>14</td><td>10</td><td>4</td></tr></tbody></table>", "parts": [["Complete a cumulative frequency table.", 1], ["Draw a cumulative frequency graph, with suitable scales and labelled axes.", 2], ["Use your graph to estimate Q1, the median and Q3.", 2], ["Calculate the estimated interquartile range.", 1], ["Use your graph to estimate the 90th percentile.", 1]], "graph": {"xMin": 0, "xMax": 50, "xStep": 10, "yMin": 0, "yMax": 40, "yStep": 5, "xLabel": "Time (minutes)", "yLabel": "Cumulative frequency", "title": "Cumulative frequency workspace"}}, {"title": "Mean and standard deviation", "marks": 6, "skills": "Mean · population standard deviation · dispersion · outliers", "prompt": "<p>Two groups complete the same assessment. Their scores are:</p><table class='data-table'><thead><tr><th>Group A</th><td>14</td><td>15</td><td>15</td><td>16</td><td>20</td></tr><tr><th>Group B</th><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td></tr></thead></table><p>Treat each list as the <strong>entire population</strong> for its group. Use the population standard deviation, σ.</p>", "parts": [["Calculate the mean score for each group.", 1], ["Use your calculator or statistical technology to find the population standard deviation for each group. Give suitable accuracy.", 2], ["Explain what the standard deviations show about the spread of scores, referring to the means in your comparison.", 2], ["For a different dataset containing a severe outlier, state whether the mean/standard deviation or median/IQR would usually give a more representative summary. Justify your choice.", 1]]}, {"title": "Numerical correlation using technology", "marks": 6, "skills": "Bivariate data · scatter graph · Pearson correlation coefficient · causation", "prompt": "<p>A learning researcher records the number of weekly practice sessions and the accuracy score for eight participants.</p><table class='data-table'><thead><tr><th>Practice sessions, x</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr></thead><tbody><tr><th>Accuracy, y (%)</th><td>42</td><td>46</td><td>45</td><td>53</td><td>52</td><td>59</td><td>57</td><td>66</td></tr></tbody></table><p>Use a school-approved calculator, spreadsheet or statistical tool to calculate the Pearson correlation coefficient.</p>", "parts": [["Plot the paired data on a scatter graph.", 2], ["Calculate the correlation coefficient, r, correct to three decimal places.", 2], ["Interpret the direction and strength of the linear association in context.", 1], ["Explain why the correlation does not, by itself, prove that practice sessions cause accuracy to increase.", 1]], "graph": {"xMin": 0, "xMax": 9, "xStep": 1, "yMin": 30, "yMax": 70, "yStep": 5, "xLabel": "Practice sessions", "yLabel": "Accuracy (%)", "title": "Scatter graph workspace"}}, {"title": "Regression and predictions", "marks": 5, "skills": "Line of best fit · regression equation · interpolation · extrapolation · model validity", "prompt": "<p>Use the same paired dataset from Question 4: practice sessions x = 1, 2, 3, 4, 5, 6, 7, 8 and accuracy scores y = 42, 46, 45, 53, 52, 59, 57, 66.</p>", "parts": [["Use technology to obtain the least-squares regression line in the form y = a + bx. State the equation to an appropriate degree of accuracy.", 2], ["Use your equation to estimate the accuracy score for 5.5 practice sessions. State whether this is interpolation or extrapolation.", 1], ["Use your equation to estimate the score for 12 practice sessions. Explain why this prediction should be treated with caution.", 2]]}, {"title": "Conditional probability from a two-way situation", "marks": 6, "skills": "Conditional probability · combined events · independent/dependent events", "prompt": "<p>In a group of 60 students, 30 are members of the school library, 38 participate in a sports club and 18 do both.</p><p>Let L = library member and S = sports-club participant.</p>", "parts": [["Calculate P(L | S). Give your answer as a simplified fraction.", 2], ["Calculate P(S | L).", 1], ["Determine whether L and S are independent. Show your test clearly.", 2], ["Calculate the probability that a randomly selected student belongs to neither group.", 1]]}, {"title": "Response rates and evaluating a survey claim", "marks": 4, "skills": "Response rate · percentage interpretation · non-response bias · validity", "prompt": "<p>A voluntary online survey is sent to 200 students. Only 86 respond, and 64 of those respondents support a proposed change to the school timetable. The year group contains 1,200 students.</p>", "parts": [["Calculate the response rate.", 1], ["Calculate the percentage of respondents who support the proposal.", 1], ["A student claims that this percentage reliably represents all 1,200 students. Evaluate the claim, referring to non-response and sampling bias.", 2]]}]}};
+const STORAGE_KEY = "myp5-sa2-two-mocks-v1";
+const INITIAL_SECONDS = 65 * 60;
+let currentPaperId = "paper1";
+let currentQuestionIndex = 0;
+let answerBar = null;
+let graphSpec = null;
+let graphTool = "point";
+let graphDrawing = false;
+let lastGraphPoint = null;
+let timers = { paper1: INITIAL_SECONDS, paper2: INITIAL_SECONDS };
+let runningPaper = null;
+let timerInterval = null;
+let saved = { paper1: {}, paper2: {} };
+let manualDone = { paper1: {}, paper2: {} };
+let toastTimeout = null;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const state = JSON.parse(raw);
+    if (state.answers) saved = { ...saved, ...state.answers };
+    if (state.done) manualDone = { ...manualDone, ...state.done };
+    if (state.timers) timers = { ...timers, ...state.timers };
+  } catch (error) { console.warn("Saved practice data could not be restored:", error); }
+}
+function persistState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ answers: saved, done: manualDone, timers })); }
+  catch (error) { console.warn("Browser storage is unavailable; export your answers to keep a copy.", error); }
+}
+function currentPaper() { return PAPERS[currentPaperId]; }
+function currentQuestion() { return currentPaper().questions[currentQuestionIndex]; }
+function escapeText(value) { return String(value).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])); }
+function showToast(message) {
+  const el = document.getElementById("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => el.classList.remove("show"), 2400);
+}
+function answerPresent(paperId, index) {
+  const q = saved[paperId]?.[index];
+  if (!q) return !!manualDone[paperId]?.[index];
+  const text = q.text || "";
+  const latex = q.latex || "";
+  const htmlValue = q.html || "";
+  return !!(text.trim() || latex.trim() || /<(img|math|table|svg)\b/i.test(htmlValue));
+}
+function getAnsweredCount(paperId) {
+  return currentPaperFor(paperId).questions.filter((_, i) => answerPresent(paperId, i)).length;
+}
+function currentPaperFor(id) { return PAPERS[id]; }
+function renderProgress() {
+  const total = currentPaper().questions.length;
+  const count = getAnsweredCount(currentPaperId);
+  document.getElementById("progress-label").textContent = `${count} / ${total}`;
+  document.getElementById("progress-bar").style.width = `${count / total * 100}%`;
+  document.querySelectorAll(".q-chip").forEach((chip, index) => {
+    chip.classList.toggle("done", answerPresent(currentPaperId, index));
+    chip.classList.toggle("active", index === currentQuestionIndex);
+    chip.setAttribute("aria-current", index === currentQuestionIndex ? "page" : "false");
+  });
+}
+function saveCurrentAnswer(htmlValue, meta = null) {
+  if (!saved[currentPaperId]) saved[currentPaperId] = {};
+  saved[currentPaperId][currentQuestionIndex] = {
+    html: htmlValue || "",
+    text: meta?.text || "",
+    latex: meta?.latex || "",
+    updatedAt: new Date().toISOString()
+  };
+  persistState();
+  renderProgress();
+}
+function renderNavigator() {
+  const nav = document.getElementById("q-nav");
+  nav.innerHTML = "";
+  currentPaper().questions.forEach((question, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "q-chip";
+    button.textContent = `Q${index + 1}`;
+    button.title = `${question.title} · ${question.marks} marks`;
+    button.addEventListener("click", () => selectQuestion(index));
+    nav.appendChild(button);
+  });
+  document.getElementById("sidebar-paper-title").textContent = currentPaperId === "paper1" ? "Mock Paper 1" : "Mock Paper 2";
+  renderProgress();
+}
+function renderQuestion() {
+  const q = currentQuestion();
+  document.getElementById("question-index").textContent = `Question ${currentQuestionIndex + 1} of ${currentPaper().questions.length}`;
+  document.getElementById("question-title").textContent = q.title;
+  document.getElementById("question-skills").textContent = q.skills;
+  document.getElementById("question-marks").textContent = `${q.marks} marks`;
+  document.getElementById("question-prompt").innerHTML = q.prompt;
+  const parts = document.getElementById("question-parts");
+  parts.innerHTML = "";
+  q.parts.forEach(([text, mark]) => {
+    const li = document.createElement("li");
+    const statement = document.createElement("span");
+    statement.textContent = text;
+    const markSpan = document.createElement("span");
+    markSpan.className = "part-mark";
+    markSpan.textContent = `${mark} mark${mark === 1 ? "" : "s"}`;
+    li.append(statement, markSpan);
+    parts.appendChild(li);
+  });
+  document.getElementById("previous-question").disabled = currentQuestionIndex === 0;
+  document.getElementById("next-question").disabled = currentQuestionIndex === currentPaper().questions.length - 1;
+  document.getElementById("save-next").textContent = currentQuestionIndex === currentPaper().questions.length - 1 ? "Save answer" : "Save & next";
+  const previous = document.getElementById("graph-workspace");
+  if (q.graph) {
+    previous.hidden = false;
+    graphSpec = q.graph;
+    document.getElementById("graph-title").textContent = q.graph.title;
+    drawGraphGrid();
+    setGraphTool("point");
+  } else {
+    previous.hidden = true;
+    graphSpec = null;
+  }
+  if (answerBar) {
+    const stored = saved[currentPaperId]?.[currentQuestionIndex]?.html || "";
+    answerBar.setValue(stored);
+  }
+  renderProgress();
+}
+function selectQuestion(index) {
+  if (index < 0 || index >= currentPaper().questions.length) return;
+  currentQuestionIndex = index;
+  renderQuestion();
+}
+function switchPaper(id) {
+  if (!PAPERS[id] || id === currentPaperId) return;
+  pauseTimer();
+  currentPaperId = id;
+  currentQuestionIndex = 0;
+  document.querySelectorAll(".tab-btn").forEach(tab => {
+    const active = tab.dataset.paper === id;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+  });
+  document.getElementById("paper-title").textContent = currentPaper().title;
+  document.getElementById("paper-subtitle").textContent = currentPaper().subtitle;
+  renderNavigator();
+  renderQuestion();
+  renderTimer();
+}
+function timerText(seconds) {
+  const safe = Math.max(0, seconds);
+  const mins = Math.floor(safe / 60).toString().padStart(2, "0");
+  const secs = (safe % 60).toString().padStart(2, "0");
+  return `${mins}:${secs}`;
+}
+function renderTimer() {
+  const left = timers[currentPaperId] ?? INITIAL_SECONDS;
+  document.getElementById("timer").textContent = timerText(left);
+  document.getElementById("timer-box").classList.toggle("ended", left <= 0);
+  document.getElementById("timer-start").textContent = left <= 0 ? "Time finished" : (runningPaper === currentPaperId ? "Pause timer" : "Start timer");
+  document.getElementById("timer-start").disabled = left <= 0;
+}
+function startOrPauseTimer() {
+  if (runningPaper === currentPaperId) { pauseTimer(); return; }
+  pauseTimer();
+  if ((timers[currentPaperId] ?? INITIAL_SECONDS) <= 0) return;
+  runningPaper = currentPaperId;
+  timerInterval = setInterval(() => {
+    timers[runningPaper] = Math.max(0, timers[runningPaper] - 1);
+    persistState();
+    renderTimer();
+    if (timers[runningPaper] <= 0) {
+      pauseTimer();
+      showToast("Time is up for this mock. Your saved answers are still available.");
+    }
+  }, 1000);
+  renderTimer();
+}
+function pauseTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+  runningPaper = null;
+  renderTimer();
+}
+function resetTimer() {
+  pauseTimer();
+  timers[currentPaperId] = INITIAL_SECONDS;
+  persistState();
+  renderTimer();
+  showToast("Timer reset to 65 minutes.");
+}
+function exportAnswers() {
+  const paper = currentPaper();
+  const sections = paper.questions.map((q, index) => {
+    const htmlAnswer = saved[currentPaperId]?.[index]?.html || "<p><em>No answer saved.</em></p>";
+    return `<section><h2>Question ${index + 1} — ${escapeText(q.title)} (${q.marks} marks)</h2>${htmlAnswer}</section>`;
+  }).join("\n");
+  const out = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${escapeText(paper.title)} — Responses</title><style>body{font:15px/1.6 Arial,sans-serif;max-width:900px;margin:35px auto;padding:0 18px;color:#182334}section{border-top:1px solid #ccc;padding:18px 0}img{max-width:100%}table{border-collapse:collapse}td,th{border:1px solid #aaa;padding:6px}</style></head><body><h1>${escapeText(paper.title)} — Student responses</h1><p>Exported ${new Date().toLocaleString()}</p>${sections}</body></html>`;
+  const blob = new Blob([out], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${currentPaperId}-responses.html`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast("Responses exported as an HTML file.");
+}
+function reviewUnanswered() {
+  const unanswered = currentPaper().questions.map((_, i) => i).filter(i => !answerPresent(currentPaperId, i));
+  if (!unanswered.length) { showToast("Every question has a response saved."); return; }
+  selectQuestion(unanswered[0]);
+  showToast(`${unanswered.length} question(s) have no saved response. Jumped to the first.`);
+}
+function setGraphTool(tool) {
+  graphTool = tool;
+  document.getElementById("tool-point").classList.toggle("active", tool === "point");
+  document.getElementById("tool-pen").classList.toggle("active", tool === "pen");
+}
+function drawGraphGrid() {
+  const canvas = document.getElementById("graph-canvas");
+  const ctx = canvas.getContext("2d");
+  const s = graphSpec;
+  const W = canvas.width, H = canvas.height;
+  const left = 78, right = W - 28, top = 25, bottom = H - 66;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, H);
+  const xTicks = Math.round((s.xMax - s.xMin) / s.xStep);
+  const yTicks = Math.round((s.yMax - s.yMin) / s.yStep);
+  ctx.lineWidth = 1; ctx.strokeStyle = "#e7edf2";
+  for (let i = 0; i <= xTicks; i++) {
+    const x = left + i / xTicks * (right - left);
+    ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke();
+  }
+  for (let i = 0; i <= yTicks; i++) {
+    const y = bottom - i / yTicks * (bottom - top);
+    ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(right, y); ctx.stroke();
+  }
+  ctx.strokeStyle = "#526477"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(left, top); ctx.lineTo(left, bottom); ctx.lineTo(right, bottom); ctx.stroke();
+  ctx.fillStyle = "#526477"; ctx.font = "13px Arial"; ctx.textAlign = "center"; ctx.textBaseline = "top";
+  for (let i = 0; i <= xTicks; i++) {
+    const value = s.xMin + i * s.xStep;
+    const x = left + i / xTicks * (right - left);
+    ctx.fillText(String(value), x, bottom + 9);
+  }
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  for (let i = 0; i <= yTicks; i++) {
+    const value = s.yMin + i * s.yStep;
+    const y = bottom - i / yTicks * (bottom - top);
+    ctx.fillText(String(value), left - 9, y);
+  }
+  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; ctx.font = "15px Arial"; ctx.fillStyle = "#283b4e";
+  ctx.fillText(s.xLabel || "", (left + right) / 2, H - 13);
+  if (s.yLabel) {
+    ctx.save(); ctx.translate(18, (top + bottom) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText(s.yLabel, 0, 0); ctx.restore();
+  }
+  ctx.fillStyle = "#91a0ae"; ctx.font = "11px Arial"; ctx.textAlign = "left"; ctx.fillText("Graph workspace · draw your own representation", left, 15);
+}
+function canvasPoint(event) {
+  const canvas = document.getElementById("graph-canvas");
+  const rect = canvas.getBoundingClientRect();
+  return { x: (event.clientX - rect.left) * canvas.width / rect.width, y: (event.clientY - rect.top) * canvas.height / rect.height };
+}
+const graphCanvas = document.getElementById("graph-canvas");
+graphCanvas.addEventListener("pointerdown", event => {
+  if (!graphSpec) return;
+  graphDrawing = true;
+  graphCanvas.setPointerCapture(event.pointerId);
+  lastGraphPoint = canvasPoint(event);
+  const ctx = graphCanvas.getContext("2d");
+  if (graphTool === "point") {
+    ctx.fillStyle = "#183c5a"; ctx.beginPath(); ctx.arc(lastGraphPoint.x, lastGraphPoint.y, 5, 0, Math.PI * 2); ctx.fill();
+    graphDrawing = false;
+  }
+});
+graphCanvas.addEventListener("pointermove", event => {
+  if (!graphDrawing || graphTool !== "pen") return;
+  const p = canvasPoint(event);
+  const ctx = graphCanvas.getContext("2d");
+  ctx.strokeStyle = "#183c5a"; ctx.lineWidth = 3; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.beginPath(); ctx.moveTo(lastGraphPoint.x, lastGraphPoint.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+  lastGraphPoint = p;
+});
+["pointerup", "pointercancel", "lostpointercapture"].forEach(name => graphCanvas.addEventListener(name, () => { graphDrawing = false; lastGraphPoint = null; }));
+document.getElementById("tool-point").addEventListener("click", () => setGraphTool("point"));
+document.getElementById("tool-pen").addEventListener("click", () => setGraphTool("pen"));
+document.getElementById("clear-graph").addEventListener("click", () => { if (graphSpec) drawGraphGrid(); });
+document.getElementById("insert-graph").addEventListener("click", () => {
+  if (!answerBar || !graphSpec) return;
+  const img = graphCanvas.toDataURL("image/png");
+  const current = answerBar.getValue("html");
+  answerBar.setValue(`${current}<p><img src="${img}" alt="${escapeText(graphSpec.title)}" /></p>`);
+  showToast("Graph inserted into this question's saved answer.");
+});
+
+// The single editor instance is deliberately reused. Each prompt stores a separate HTML answer,
+// while the WIRIS GenericIntegration and its document-level dialog remain attached to one editor.
+async function initializeAnswerEditor() {
+  try {
+    answerBar = await createAnswerInputBar(document.getElementById("answer-input-mount"), {
+      valueFormat: "html",
+      placeholder: "Write your working and conclusion here. Use Σ to insert equations with MathType…",
+      showLatexPreview: true,
+      onChange(value, meta) { saveCurrentAnswer(value, meta); },
+      onSubmit(value) { saveCurrentAnswer(value, answerBar.getDetails()); showToast("Answer saved for this question."); },
+      onStatus(message, kind) {
+        if (kind === "error" && message) showToast(message);
+      }
+    });
+    const stored = saved[currentPaperId]?.[currentQuestionIndex]?.html || "";
+    answerBar.setValue(stored);
+  } catch (error) {
+    console.error("Could not initialize WIRIS answer editor:", error);
+    showToast("The response editor could not start. Check the browser console and WIRIS connection.");
+  }
+}
+
+document.querySelectorAll(".tab-btn").forEach(tab => tab.addEventListener("click", () => switchPaper(tab.dataset.paper)));
+document.getElementById("timer-start").addEventListener("click", startOrPauseTimer);
+document.getElementById("timer-reset").addEventListener("click", resetTimer);
+document.getElementById("print-paper").addEventListener("click", () => window.print());
+document.getElementById("previous-question").addEventListener("click", () => selectQuestion(currentQuestionIndex - 1));
+document.getElementById("next-question").addEventListener("click", () => selectQuestion(currentQuestionIndex + 1));
+document.getElementById("save-next").addEventListener("click", () => {
+  if (answerBar) saveCurrentAnswer(answerBar.getValue(), answerBar.getDetails());
+  if (currentQuestionIndex < currentPaper().questions.length - 1) selectQuestion(currentQuestionIndex + 1);
+  else showToast("Last question saved. Review any unanswered questions from the sidebar.");
+});
+document.getElementById("export-paper").addEventListener("click", exportAnswers);
+document.getElementById("paper-review").addEventListener("click", reviewUnanswered);
+
+loadState();
+renderNavigator();
+renderQuestion();
+renderTimer();
+initializeAnswerEditor();
+window.addEventListener("beforeunload", () => {
+  if (answerBar) saveCurrentAnswer(answerBar.getValue(), answerBar.getDetails());
+  persistState();
+});
+
+</script>
+</body>
+</html>

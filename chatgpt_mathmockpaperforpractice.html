@@ -1206,15 +1206,13 @@ function createDesmosGraphingDock({ trigger, onInsertSnapshot, apiKey = "", stat
  */
 
 
-// Desmos key supplied by the site owner. This is public client-side code:
-// restrict this key to the intended GitHub Pages domain in the Desmos dashboard.
-const EMBEDDED_DESMOS_API_KEY = "a9eae145006f44448f0f60263fb36c6e";
+const DEMO_DESMOS_API_KEY = "a9eae145006f44448f0f60263fb36c6ea9eae145006f44448f0f60263fb36c6e";
 
 function runtimeDesmosApiKey() {
-  // Runtime host configuration may override the embedded site key.
+  // A host can provide a runtime config object such as window.__MYP_CONFIG__.DESMOS_API_KEY.
   const runtime = typeof window !== "undefined" ? window.__MYP_CONFIG__?.DESMOS_API_KEY : "";
   const bundled = (window.__MYP_CONFIG__ && (window.__MYP_CONFIG__.VITE_DESMOS_API_KEY || window.__MYP_CONFIG__.DESMOS_API_KEY)) || "";
-  return String(runtime || bundled || EMBEDDED_DESMOS_API_KEY).trim();
+  return String(runtime || bundled || DEMO_DESMOS_API_KEY).trim();
 }
 
 const DEFAULTS = {
@@ -1225,7 +1223,7 @@ const DEFAULTS = {
   loadWirisScripts: true,
   genericScriptUrl: "https://cdn.jsdelivr.net/npm/@wiris/mathtype-generic/wirisplugin-generic.js",
   viewerScriptUrl: "https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image",
-  desmosApiKey: "",
+  desmosApiKey: DEMO_DESMOS_API_KEY,
   desmosStateKeyPrefix: "myp-answer-input-default",
   onChange: null,
   onSubmit: null,
@@ -2095,14 +2093,6 @@ async function createAnswerInputBar(host, options = {}) {
     });
     return graphingDock;
   }
-
-  // Create the Desmos dock on first Sci click and open it immediately.
-  // When the dock is created, its constructor automatically connects using
-  // the embedded/runtime key above; subsequent clicks simply reopen it.
-  root.querySelector('[data-role="open-calculator"]').addEventListener("click", () => {
-    const dock = connectDesmosDock();
-    dock.open();
-  });
 
   function handlePaste(event) {
     const items = [...(event.clipboardData?.items || [])];

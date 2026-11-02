@@ -123,7 +123,6 @@ button { font: inherit; }
 .toast { position: fixed; bottom: 18px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 10000; background: #14263d; color: #fff; border-radius: 10px; padding: 10px 14px; box-shadow: 0 6px 24px #0003; font-size: 12px; transition: .2s ease; max-width: calc(100vw - 24px); }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 .print-head { display:none; }
-.answer-input__snapshot-trigger { display: none !important; }
 /* Keep the calculator launchers available in the answer toolbar. */
 .answer-input__calculator-trigger { display: inline-flex !important; }
 @media (max-width: 900px) {
@@ -430,7 +429,6 @@ button { font: inherit; }
 .answer-input__symbol-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
 .answer-input__symbol-grid button { min-width: 0; height: 31px; padding: 2px; border: 1px solid #c9c9c9; border-radius: 3px; background: linear-gradient(#fff, #ededed); color: #222; font: 18px/1 Georgia, serif; }
 .answer-input__symbol-grid button:hover, .answer-input__symbol-grid button:focus { background: #dedede; border-color: #777; }
-.answer-input__snapshot-trigger { min-width: 30px; font-size: 17px !important; }
 .answer-input__calculator-trigger { min-width: 35px; font-size: 19px !important; font-weight: 700; }
 
 /* Desmos scientific calculator: compact floating utility on the left, below the question navigator. */
@@ -452,34 +450,18 @@ button { font: inherit; }
 .desmos-dock__head-actions button { width: 27px; height: 27px; padding: 0; border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; color: #222; font: 18px/1 Arial, sans-serif; }
 .desmos-dock__body { flex: 1; min-height: 0; display: flex; flex-direction: column; background: #fff; }
 .desmos-dock__connect { padding: 13px; display: grid; gap: 8px; }
-.desmos-dock__connect[hidden], .desmos-dock__calculator[hidden], .desmos-dock__capture[hidden] { display: none !important; }
+.desmos-dock__connect[hidden], .desmos-dock__calculator[hidden] { display: none !important; }
 .desmos-dock__connect p { color: #555; font-size: 12px; margin: 0; }
-.desmos-dock__connect label, .desmos-dock__capture label { font-size: 11px; font-weight: 700; }
-.desmos-dock__keyrow { display: flex; gap: 6px; }
-.desmos-dock__keyrow input, .desmos-dock__capture input { min-width: 0; flex: 1; border: 1px solid #b7b7b7; border-radius: 4px; background: #fff; color: #222; padding: 8px; font: 12px/1.2 Calibri, Arial, sans-serif; }
-.desmos-dock__keyrow button, .desmos-dock__capture button { flex: 0 0 auto; border: 1px solid #333; border-radius: 4px; padding: 7px 10px; background: #222; color: #fff; font-size: 11px; font-weight: 700; }
-.desmos-dock__connect small, .desmos-dock__capture small { color: #777; font-size: 10px; }
-.desmos-dock__connect a { color: #444; }
 .desmos-dock__calculator { flex: 1; min-height: 200px; width: 100%; }
 .desmos-dock__status { flex: 0 0 auto; padding: 7px 10px; border-top: 1px solid #e2e2e2; color: #666; font-size: 10px; }
 .desmos-dock__status[data-kind="error"] { color: #a92018; background: #fff8f7; }
 .desmos-dock__status[data-kind="ok"] { color: #216d39; }
-.desmos-dock__capture { flex: 0 0 auto; border-top: 1px solid #ddd; background: #fafafa; padding: 8px 10px; display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: center; }
-.desmos-dock__capture label, .desmos-dock__capture input, .desmos-dock__capture small { grid-column: 1 / -1; }
-.desmos-dock__capture button { justify-self: start; }
-.desmos-dock__capture small { line-height: 1.35; }
 .desmos-scientific-dock.is-minimized { height: auto; max-height: none; }
 .desmos-scientific-dock.is-minimized .desmos-dock__body { display: none; }
 @media (max-width: 600px) {
   .answer-input__toolbar-spacer { flex-basis: 5px; }
   .answer-input__symbol-menu { left: -70px; }
   .desmos-scientific-dock { left: 8px; right: auto; bottom: 8px; width: calc(100vw - 16px); height: min(520px, calc(100vh - 16px)); }
-}
-
-/* Keep the graphing workspace on the right so it does not overlap the scientific calculator. */
-.desmos-graphing-dock { left: auto; right: 16px; }
-@media (max-width: 900px) {
-  .desmos-graphing-dock { left: 8px; right: 8px; bottom: auto; top: 8px; width: auto; height: min(600px, calc(100vh - 16px)); }
 }
 
 
@@ -634,14 +616,10 @@ function loadDesmosApi(apiKey, apiVersion = DEFAULT_API_VERSION) {
 
 /**
  * Desmos Scientific Calculator dock.
- * API-key driven, bottom-right floating panel. Keys are kept in memory only.
- * Snapshot capture uses a native screenshot method if the calculator exposes
- * one; otherwise it captures the actual rendered calculator DOM as pixels.
- * If neither produces an image, it reports an error and inserts nothing.
+ * Opens the raw interactive calculator only; no screenshot or export controls.
+ * The API key is supplied by runtimeDesmosApiKey() and is not requested from the user.
  */
-
-/** Create a floating Desmos Scientific Calculator UI. */
-function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", stateKey = "myp-answer-input-desmos-scientific-state-v1", onStatus = null } = {}) {
+function createDesmosScientificDock({ trigger, apiKey = runtimeDesmosApiKey(), stateKey = "myp-answer-input-desmos-scientific-state-v1", onStatus = null } = {}) {
   if (!(trigger instanceof Element)) throw new TypeError("Desmos dock requires a toolbar trigger element.");
 
   const panel = document.createElement("section");
@@ -650,7 +628,7 @@ function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", st
   panel.setAttribute("aria-label", "Desmos Scientific Calculator");
   panel.innerHTML = `
     <header class="desmos-dock__head">
-      <div class="desmos-dock__brand"><span class="desmos-dock__brand-mark">D</span><div><strong>Scientific Calculator</strong><small>Desmos · floating workspace</small></div></div>
+      <div class="desmos-dock__brand"><span class="desmos-dock__brand-mark">D</span><div><strong>Scientific Calculator</strong><small>Desmos · interactive workspace</small></div></div>
       <div class="desmos-dock__head-actions">
         <button type="button" data-desmos-action="minimize" title="Minimize calculator" aria-label="Minimize calculator">−</button>
         <button type="button" data-desmos-action="close" title="Close calculator" aria-label="Close calculator">×</button>
@@ -658,42 +636,30 @@ function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", st
     </header>
     <div class="desmos-dock__body" data-desmos-role="body">
       <div class="desmos-dock__connect" data-desmos-role="connect">
-        <p>Connect your Desmos API key to load the official scientific calculator. The key is kept in memory in this tab; it is not saved to local storage.</p>
-        <label for="desmos-api-key">Desmos API key</label>
-        <div class="desmos-dock__keyrow"><input id="desmos-api-key" type="password" autocomplete="off" spellcheck="false" placeholder="PASTE_YOUR_DESMOS_API_KEY_HERE"><button type="button" data-desmos-action="connect">Connect</button></div>
-        <small>Scientific Calculator access must be enabled for the API key. <a href="https://www.desmos.com/my-api" target="_blank" rel="noopener noreferrer">Manage API key ↗</a></small>
+        <p>Connecting to the Desmos Scientific Calculator automatically. No API key entry is required.</p>
       </div>
       <div class="desmos-dock__calculator" data-desmos-role="calculator" hidden></div>
-      <div class="desmos-dock__status" data-desmos-role="status" role="status" aria-live="polite">Not connected. Enter a Desmos API key.</div>
-      <div class="desmos-dock__capture" data-desmos-role="capture" hidden>
-        <label for="desmos-capture-caption">Snapshot caption (optional)</label>
-        <input id="desmos-capture-caption" type="text" maxlength="140" placeholder="e.g. Working for question 4">
-        <button type="button" data-desmos-action="capture">Insert calculator snapshot</button>
-        <small data-desmos-role="capture-note">Inserts a real image capture: native screenshot when exposed, otherwise rendered DOM pixels. No state-image fallback.</small>
-      </div>
+      <div class="desmos-dock__status" data-desmos-role="status" role="status" aria-live="polite">Preparing calculator…</div>
     </div>`;
   document.body.appendChild(panel);
 
   const connectView = panel.querySelector('[data-desmos-role="connect"]');
   const calculatorHost = panel.querySelector('[data-desmos-role="calculator"]');
   const status = panel.querySelector('[data-desmos-role="status"]');
-  const captureArea = panel.querySelector('[data-desmos-role="capture"]');
-  const keyInput = panel.querySelector("#desmos-api-key");
   let calculator = null;
   let currentKey = "";
   let destroyed = false;
   let minimized = false;
+  let isConnecting = false;
   let saveTimer = null;
   const stateStorageKey = String(stateKey || "myp-answer-input-desmos-scientific-state-v1");
   const onCalculatorChange = () => {
     clearTimeout(saveTimer);
     saveTimer = window.setTimeout(() => {
       try { if (calculator?.getState) localStorage.setItem(stateStorageKey, JSON.stringify(calculator.getState())); }
-      catch (_) { setStatus("Scientific calculator is running, but local state storage is unavailable or full.", "error"); }
+      catch (_) { setStatus("Calculator is running, but local state storage is unavailable or full.", "error"); }
     }, 500);
   };
-
-  if (apiKey) keyInput.value = apiKey;
 
   function setStatus(message, kind = "") {
     status.textContent = message;
@@ -701,34 +667,28 @@ function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", st
     if (typeof onStatus === "function") onStatus(message, kind);
   }
 
-  async function connect(key = keyInput.value) {
-    if (destroyed) return false;
+  async function connect(key = apiKey) {
+    if (destroyed || isConnecting) return false;
     const cleanKey = String(key || "").trim();
     if (!cleanKey) {
-      setStatus("Enter a Desmos API key to connect.", "error");
+      setStatus("No Desmos API key is configured for this site.", "error");
       connectView.hidden = false;
-      keyInput.focus();
       return false;
     }
     if (calculator && currentKey === cleanKey) {
-      open();
-      setStatus("Scientific calculator is already connected.", "ok");
+      setStatus("Scientific calculator ready.", "ok");
       return true;
     }
-    if (calculator && currentKey !== cleanKey) {
-      calculator.destroy?.();
-      calculator = null;
-      calculatorHost.innerHTML = "";
-    }
-
+    isConnecting = true;
     setStatus("Connecting to Desmos…");
+    connectView.hidden = false;
     try {
       const Desmos = await loadDesmosApi(cleanKey);
       if (Desmos.enabledFeatures && Desmos.enabledFeatures.ScientificCalculator === false) {
-        throw new Error("ScientificCalculator is not enabled for this API key. Check the features configured for your key.");
+        throw new Error("Scientific Calculator access is not enabled for this API key.");
       }
       if (typeof Desmos.ScientificCalculator !== "function") {
-        throw new Error("The loaded Desmos build doesn't expose ScientificCalculator.");
+        throw new Error("The loaded Desmos build does not expose ScientificCalculator.");
       }
       connectView.hidden = true;
       calculatorHost.hidden = false;
@@ -744,19 +704,19 @@ function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", st
       try {
         const savedState = localStorage.getItem(stateStorageKey);
         if (savedState && typeof calculator.setState === "function") calculator.setState(JSON.parse(savedState));
-      } catch (restoreError) { console.warn("Could not restore saved Desmos scientific state:", restoreError); }
+      } catch (restoreError) { console.warn("Could not restore the saved Desmos scientific state:", restoreError); }
       calculator.observeEvent?.("change", onCalculatorChange);
       currentKey = cleanKey;
-      captureArea.hidden = false;
-      setStatus("Connected. Snapshot capture will use native screenshot or rendered DOM pixels.", "ok");
+      setStatus("Connected · Scientific Calculator ready.", "ok");
       window.setTimeout(() => calculator?.resize?.(), 100);
       return true;
     } catch (error) {
       calculatorHost.hidden = true;
       connectView.hidden = false;
-      captureArea.hidden = true;
-      setStatus(error?.message || "Could not connect to Desmos.", "error");
+      setStatus(error?.message || "Could not connect to Desmos. Check the API key, allowed domain and network access.", "error");
       return false;
+    } finally {
+      isConnecting = false;
     }
   }
 
@@ -766,7 +726,7 @@ function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", st
     panel.classList.remove("is-minimized");
     minimized = false;
     window.setTimeout(() => calculator?.resize?.(), 120);
-    if (!calculator) keyInput.focus({ preventScroll: true });
+    if (!calculator && !isConnecting) connect(apiKey);
   }
 
   function close() {
@@ -775,183 +735,26 @@ function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", st
     minimized = false;
   }
 
-  async function loadHtml2Canvas() {
-    // IMPORTANT: always use html2canvas-pro, not the original html2canvas 1.4.1.
-    // Desmos emits CSS Color 4 values such as color(...), which the original
-    // parser rejects with: "Attempting to parse an unsupported color function \"color\"".
-    // html2canvas-pro supports color(), lab(), lch(), oklab(), and oklch().
-    const selector = 'script[data-html2canvas-pro="true"]';
-    let script = document.querySelector(selector);
-
-    if (script && script.dataset.loaded === "true" && typeof window.html2canvas === "function") {
-      return window.html2canvas;
-    }
-
-    if (!script) {
-      script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/html2canvas-pro@2.5.2/dist/html2canvas-pro.min.js";
-      script.async = true;
-      script.dataset.html2canvasPro = "true";
-    }
-
-    await new Promise((resolve, reject) => {
-      if (script.dataset.loaded === "true" && typeof window.html2canvas === "function") return resolve();
-      script.addEventListener("load", () => {
-        script.dataset.loaded = "true";
-        resolve();
-      }, { once: true });
-      script.addEventListener("error", () => reject(new Error("Could not load html2canvas-pro, the DOM pixel capture helper.")), { once: true });
-      if (!script.isConnected) document.head.appendChild(script);
-    });
-
-    if (typeof window.html2canvas !== "function") {
-      throw new Error("html2canvas-pro loaded without exposing its browser API.");
-    }
-    return window.html2canvas;
-  }
-  function dataUrlLooksLikeImage(value) {
-    return typeof value === "string" && /^data:image\/(?:png|jpeg|jpg|webp);base64,/i.test(value) && value.length > 100;
-  }
-
-  async function tryNativeScreenshot() {
-    if (typeof calculator?.screenshot !== "function") return null;
-
-    const width = Math.max(1, Math.round(calculatorHost.clientWidth || 600));
-    const height = Math.max(1, Math.round(calculatorHost.clientHeight || 420));
-    const result = await calculator.screenshot({ width, height, targetPixelRatio: 2 });
-
-    if (dataUrlLooksLikeImage(result)) {
-      return { src: result, method: "native .screenshot()" };
-    }
-
-    throw new Error("The calculator exposes screenshot(), but it did not return a PNG/JPEG/WebP image data URI.");
-  }
-
-  async function captureRenderedDomPixels() {
-    if (!calculatorHost.isConnected || calculatorHost.hidden || calculatorHost.clientWidth < 2 || calculatorHost.clientHeight < 2) {
-      throw new Error("The visible calculator DOM has no captureable size. Open the calculator and try again.");
-    }
-
-    const html2canvas = await loadHtml2Canvas();
-    // html2canvas-pro reads and rasterizes the actual rendered calculator DOM. It
-    // does not reconstruct an image from calculator state or substitute a mock.
-    const canvas = await html2canvas(calculatorHost, {
-      backgroundColor: "#ffffff",
-      scale: Math.min(2, Math.max(1, window.devicePixelRatio || 1)),
-      useCORS: true,
-      allowTaint: false,
-      logging: false,
-      imageTimeout: 15000,
-      width: Math.floor(calculatorHost.getBoundingClientRect().width),
-      height: Math.floor(calculatorHost.getBoundingClientRect().height),
-      windowWidth: Math.max(document.documentElement.clientWidth, window.innerWidth),
-      windowHeight: Math.max(document.documentElement.clientHeight, window.innerHeight),
-      scrollX: window.scrollX,
-      scrollY: window.scrollY
-    });
-
-    if (!(canvas instanceof HTMLCanvasElement) || canvas.width < 2 || canvas.height < 2) {
-      throw new Error("DOM pixel capture returned an empty canvas.");
-    }
-
-    // A cross-origin iframe may be shown as a blank rectangle by DOM capture.
-    // Do not insert a silent blank result and call it a screenshot.
-    const iframe = calculatorHost.querySelector("iframe");
-    if (iframe) {
-      let accessible = false;
-      try { accessible = !!iframe.contentDocument?.documentElement; } catch (_) { accessible = false; }
-      if (!accessible) {
-        throw new Error("Desmos rendered part of the calculator in a cross-origin iframe, which the browser will not expose to DOM pixel capture.");
-      }
-    }
-
-    const context = canvas.getContext("2d", { willReadFrequently: true });
-    if (!context) throw new Error("Could not read the rendered calculator pixels from the canvas.");
-    const sample = context.getImageData(0, 0, canvas.width, canvas.height).data;
-    let nonWhiteSamples = 0;
-    const stride = Math.max(4, Math.floor((canvas.width * canvas.height) / 2500) * 4);
-    for (let index = 0; index < sample.length; index += stride) {
-      if (sample[index] < 238 || sample[index + 1] < 238 || sample[index + 2] < 238) nonWhiteSamples++;
-    }
-    if (nonWhiteSamples < 8) {
-      throw new Error("The rendered calculator capture appears blank. No image was inserted.");
-    }
-
-    const src = canvas.toDataURL("image/png");
-    if (!dataUrlLooksLikeImage(src)) throw new Error("DOM pixel capture did not produce a valid PNG data URI.");
-    return { src, method: "DOM pixel capture (html2canvas-pro)" };
-  }
-
-  async function capture() {
-    if (!calculator) {
-      setStatus("Connect Desmos before inserting a calculator snapshot.", "error");
-      open();
-      return false;
-    }
-
-    const caption = panel.querySelector("#desmos-capture-caption").value.trim() || "Calculator work";
-    const captureButton = panel.querySelector('[data-desmos-action="capture"]');
-    captureButton.disabled = true;
-    captureButton.textContent = "Capturing pixels…";
-
-    try {
-      // The public ScientificCalculator API does not document screenshot(),
-      // but use it if the loaded build does expose a native method.
-      let result = null;
-      let nativeError = null;
-      if (typeof calculator.screenshot === "function") {
-        try { result = await tryNativeScreenshot(); }
-        catch (error) { nativeError = error; }
-      }
-
-      if (!result) {
-        try { result = await captureRenderedDomPixels(); }
-        catch (domError) {
-          const nativeDetails = nativeError ? ` Native screenshot failed: ${nativeError.message}` : " Native screenshot() is not available on this ScientificCalculator instance.";
-          throw new Error(`Could not capture a real Desmos image. DOM pixel capture failed: ${domError.message}.${nativeDetails} No image was inserted.`);
-        }
-      }
-
-      if (typeof onInsertSnapshot === "function") {
-        await onInsertSnapshot({
-          src: result.src,
-          alt: `Desmos Scientific Calculator screenshot (${result.method}): ${caption}`
-        });
-      }
-      setStatus(`Inserted real calculator pixels using ${result.method}.`, "ok");
-      return true;
-    } catch (error) {
-      setStatus(error?.message || "Unable to capture calculator pixels. No image was inserted.", "error");
-      return false;
-    } finally {
-      captureButton.disabled = false;
-      captureButton.textContent = "Insert calculator screenshot";
-    }
-  }
-
   trigger.addEventListener("click", open);
-  panel.querySelector('[data-desmos-action="connect"]').addEventListener("click", () => connect());
-  keyInput.addEventListener("keydown", event => { if (event.key === "Enter") connect(); });
   panel.querySelector('[data-desmos-action="close"]').addEventListener("click", close);
   panel.querySelector('[data-desmos-action="minimize"]').addEventListener("click", () => {
     minimized = !minimized;
     panel.classList.toggle("is-minimized", minimized);
     if (!minimized) window.setTimeout(() => calculator?.resize?.(), 100);
   });
-  panel.querySelector('[data-desmos-action="capture"]').addEventListener("click", capture);
 
+  // Pre-connect silently so the first click on Sci opens a ready calculator where possible.
   if (apiKey) connect(apiKey);
 
   return {
     open,
     close,
     connect,
-    capture,
     getCalculator: () => calculator,
     isConnected: () => !!calculator,
     getState: () => calculator?.getState?.() ?? null,
     setState(value) {
-      if (!calculator?.setState) throw new Error("Connect Scientific Calculator before restoring a saved state.");
+      if (!calculator?.setState) throw new Error("Connect the Scientific Calculator before restoring a saved state.");
       calculator.setState(value);
     },
     destroy() {
@@ -971,229 +774,6 @@ function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", st
 
 
 /**
- * Desmos Graphing Calculator dock.
- * Uses the stable Desmos v1.12 API, stores opaque calculator state in this
- * browser, and captures graphpaper through the official screenshot() method.
- * API keys remain in memory only and are never written to localStorage.
- */
-
-const DEFAULT_STATE_KEY = "myp-answer-input-desmos-graphing-state-v1";
-
-/** Create an independently managed floating Desmos Graphing Calculator. */
-function createDesmosGraphingDock({ trigger, onInsertSnapshot, apiKey = "", stateKey = DEFAULT_STATE_KEY, onStatus = null } = {}) {
-  if (!(trigger instanceof Element)) throw new TypeError("Desmos Graphing dock requires a toolbar trigger element.");
-
-  const panel = document.createElement("section");
-  panel.className = "desmos-scientific-dock desmos-graphing-dock";
-  panel.hidden = true;
-  panel.setAttribute("aria-label", "Desmos Graphing Calculator");
-  panel.innerHTML = `
-    <header class="desmos-dock__head">
-      <div class="desmos-dock__brand"><span class="desmos-dock__brand-mark">D</span><div><strong>Graphing Calculator</strong><small>Desmos · graph workspace</small></div></div>
-      <div class="desmos-dock__head-actions">
-        <button type="button" data-desmos-action="minimize" title="Minimize calculator" aria-label="Minimize calculator">−</button>
-        <button type="button" data-desmos-action="close" title="Close calculator" aria-label="Close calculator">×</button>
-      </div>
-    </header>
-    <div class="desmos-dock__body" data-desmos-role="body">
-      <div class="desmos-dock__connect" data-desmos-role="connect">
-        <p>Connect a Desmos API key with Graphing Calculator access enabled. The key stays in memory in this tab only.</p>
-        <label>Desmos API key</label>
-        <div class="desmos-dock__keyrow"><input data-desmos-role="key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste API key" aria-label="Desmos API key"><button type="button" data-desmos-action="connect">Connect</button></div>
-        <small>GraphingCalculator access must be enabled for this key. <a href="https://www.desmos.com/my-api" target="_blank" rel="noopener noreferrer">Manage API key ↗</a></small>
-      </div>
-      <div class="desmos-dock__calculator" data-desmos-role="calculator" hidden></div>
-      <div class="desmos-dock__status" data-desmos-role="status" role="status" aria-live="polite">Not connected. Enter a Desmos API key.</div>
-      <div class="desmos-dock__capture" data-desmos-role="capture" hidden>
-        <label>Snapshot caption (optional)</label>
-        <input data-desmos-role="caption" type="text" maxlength="140" placeholder="e.g. Graph for question 4" aria-label="Snapshot caption">
-        <button type="button" data-desmos-action="capture">Insert graph screenshot</button>
-        <small>Uses Desmos GraphingCalculator.screenshot() to return a PNG of the graphpaper.</small>
-      </div>
-    </div>`;
-  document.body.appendChild(panel);
-
-  const connectView = panel.querySelector('[data-desmos-role="connect"]');
-  const calculatorHost = panel.querySelector('[data-desmos-role="calculator"]');
-  const status = panel.querySelector('[data-desmos-role="status"]');
-  const captureArea = panel.querySelector('[data-desmos-role="capture"]');
-  const keyInput = panel.querySelector('[data-desmos-role="key"]');
-  const captureButton = panel.querySelector('[data-desmos-action="capture"]');
-  let calculator = null;
-  const stateStorageKey = String(stateKey || DEFAULT_STATE_KEY);
-  let currentKey = "";
-  let destroyed = false;
-  let minimized = false;
-  let saveTimer = null;
-  const onGraphChange = () => {
-    clearTimeout(saveTimer);
-    saveTimer = window.setTimeout(() => {
-      try {
-        if (calculator?.getState) localStorage.setItem(stateStorageKey, JSON.stringify(calculator.getState()));
-      } catch (error) {
-        setStatus("Graph is running, but browser storage is unavailable or full. Export the graph state from the host app.", "error");
-      }
-    }, 500);
-  };
-  if (apiKey) keyInput.value = apiKey;
-
-  function setStatus(message, kind = "") {
-    status.textContent = message;
-    status.dataset.kind = kind;
-    if (typeof onStatus === "function") onStatus(message, kind);
-  }
-
-  async function connect(key = keyInput.value) {
-    if (destroyed) return false;
-    const cleanKey = String(key || "").trim();
-    if (!cleanKey) {
-      setStatus("Enter a Desmos API key to connect.", "error");
-      connectView.hidden = false;
-      keyInput.focus();
-      return false;
-    }
-    if (calculator && currentKey === cleanKey) {
-      open();
-      setStatus("Graphing Calculator is already connected.", "ok");
-      return true;
-    }
-    if (calculator) {
-      try { calculator.unobserveEvent?.("change", onGraphChange); } catch (_) {}
-      calculator.destroy?.();
-      calculator = null;
-      calculatorHost.replaceChildren();
-    }
-
-    setStatus("Connecting to Desmos Graphing Calculator…");
-    try {
-      const Desmos = await loadDesmosApi(cleanKey);
-      if (Desmos.enabledFeatures && Desmos.enabledFeatures.GraphingCalculator === false) {
-        throw new Error("GraphingCalculator is not enabled for this API key. Enable it in the Desmos API settings.");
-      }
-      if (typeof Desmos.GraphingCalculator !== "function") throw new Error("The loaded Desmos build does not expose GraphingCalculator.");
-      connectView.hidden = true;
-      calculatorHost.hidden = false;
-      calculator = Desmos.GraphingCalculator(calculatorHost, {
-        expressions: true,
-        settingsMenu: true,
-        keypad: true,
-        autosize: true,
-        degreeMode: true,
-        images: true,
-        folders: true,
-        notes: true,
-        sliders: true
-      });
-      try {
-        const savedState = localStorage.getItem(stateStorageKey);
-        if (savedState && typeof calculator.setState === "function") calculator.setState(JSON.parse(savedState));
-      } catch (error) {
-        console.warn("Could not restore the saved Desmos graph state:", error);
-        setStatus("Connected. A previous graph state could not be restored; a new graph is ready.", "error");
-      }
-      calculator.observeEvent?.("change", onGraphChange);
-      currentKey = cleanKey;
-      captureArea.hidden = false;
-      if (status.dataset.kind !== "error") setStatus("Connected. Changes are saved in this browser; graph screenshots use the official PNG API.", "ok");
-      window.setTimeout(() => calculator?.resize?.(), 120);
-      return true;
-    } catch (error) {
-      calculatorHost.hidden = true;
-      connectView.hidden = false;
-      captureArea.hidden = true;
-      setStatus(error?.message || "Could not connect to Desmos Graphing Calculator.", "error");
-      return false;
-    }
-  }
-
-  function open() {
-    if (destroyed) return;
-    panel.hidden = false;
-    panel.classList.remove("is-minimized");
-    panel.style.height = "";
-    minimized = false;
-    window.setTimeout(() => calculator?.resize?.(), 120);
-    if (!calculator) keyInput.focus({ preventScroll: true });
-  }
-
-  function close() {
-    panel.hidden = true;
-    panel.classList.remove("is-minimized");
-    minimized = false;
-  }
-
-  async function capture() {
-    if (!calculator) {
-      setStatus("Connect Desmos before inserting a graph screenshot.", "error");
-      open();
-      return false;
-    }
-    captureButton.disabled = true;
-    captureButton.textContent = "Capturing graph…";
-    try {
-      if (typeof calculator.screenshot !== "function") throw new Error("The Graphing Calculator screenshot() API is unavailable in this loaded build.");
-      const width = Math.max(320, Math.round(calculatorHost.clientWidth || 720));
-      const height = Math.max(220, Math.round(calculatorHost.clientHeight || 480));
-      const src = calculator.screenshot({ width, height, targetPixelRatio: 2 });
-      if (!validPngDataUrl(src)) throw new Error("Desmos did not return a valid PNG data URI.");
-      const caption = panel.querySelector('[data-desmos-role="caption"]').value.trim();
-      const alt = caption ? `${caption} — Desmos graph screenshot` : "Desmos Graphing Calculator graph screenshot";
-      if (typeof onInsertSnapshot === "function") await onInsertSnapshot({ src, alt, kind: "graphing", method: "GraphingCalculator.screenshot()" });
-      setStatus("Inserted the genuine Desmos graphpaper PNG screenshot.", "ok");
-      return true;
-    } catch (error) {
-      setStatus(`${error?.message || "Graph screenshot failed."} No image was inserted.`, "error");
-      return false;
-    } finally {
-      captureButton.disabled = false;
-      captureButton.textContent = "Insert graph screenshot";
-    }
-  }
-
-  const onTrigger = () => open();
-  trigger.addEventListener("click", onTrigger);
-  panel.querySelector('[data-desmos-action="connect"]').addEventListener("click", () => connect());
-  keyInput.addEventListener("keydown", event => { if (event.key === "Enter") connect(); });
-  panel.querySelector('[data-desmos-action="close"]').addEventListener("click", close);
-  panel.querySelector('[data-desmos-action="minimize"]').addEventListener("click", () => {
-    minimized = !minimized;
-    panel.classList.toggle("is-minimized", minimized);
-    panel.style.height = minimized ? "auto" : "";
-    if (!minimized) window.setTimeout(() => calculator?.resize?.(), 120);
-  });
-  captureButton.addEventListener("click", capture);
-
-  if (apiKey) connect(apiKey);
-
-  return {
-    open,
-    close,
-    connect,
-    capture,
-    getCalculator: () => calculator,
-    isConnected: () => !!calculator,
-    getState: () => calculator?.getState?.() ?? null,
-    setState(value) {
-      if (!calculator?.setState) throw new Error("Connect Graphing Calculator before restoring a saved state.");
-      calculator.setState(value);
-    },
-    destroy() {
-      destroyed = true;
-      clearTimeout(saveTimer);
-      try {
-        if (calculator?.getState) localStorage.setItem(stateStorageKey, JSON.stringify(calculator.getState()));
-        calculator?.unobserveEvent?.("change", onGraphChange);
-      } catch (_) {}
-      calculator?.destroy?.();
-      calculator = null;
-      trigger.removeEventListener("click", onTrigger);
-      panel.remove();
-    }
-  };
-}
-
-
-/**
  * MYP Practice Answer Input Bar
  * Modular rich-text answer editor with WIRIS MathType, table insertion,
  * keyboard table navigation, MathML/LaTeX extraction and a single-string API.
@@ -1202,17 +782,18 @@ function createDesmosGraphingDock({ trigger, onInsertSnapshot, apiKey = "", stat
  *   const bar = await createAnswerInputBar(host, { onSubmit(answerString) {} });
  *   const answerHtml = bar.getValue();
  *   bar.submit();
- *   await bar.insertDesmosSnapshot({ src: dataUrl, alt: "Graph of y=x^2" });
  */
 
 
-const DEMO_DESMOS_API_KEY = "a9eae145006f44448f0f60263fb36c6ea9eae145006f44448f0f60263fb36c6e";
+// Desmos key supplied by the site owner. This is public client-side code;
+// restrict it to the intended GitHub Pages domain in the Desmos dashboard.
+const EMBEDDED_DESMOS_API_KEY = "a9eae145006f44448f0f60263fb36c6e";
 
 function runtimeDesmosApiKey() {
-  // A host can provide a runtime config object such as window.__MYP_CONFIG__.DESMOS_API_KEY.
+  // Runtime host configuration may override the embedded site key.
   const runtime = typeof window !== "undefined" ? window.__MYP_CONFIG__?.DESMOS_API_KEY : "";
   const bundled = (window.__MYP_CONFIG__ && (window.__MYP_CONFIG__.VITE_DESMOS_API_KEY || window.__MYP_CONFIG__.DESMOS_API_KEY)) || "";
-  return String(runtime || bundled || DEMO_DESMOS_API_KEY).trim();
+  return String(runtime || bundled || EMBEDDED_DESMOS_API_KEY).trim();
 }
 
 const DEFAULTS = {
@@ -1223,7 +804,7 @@ const DEFAULTS = {
   loadWirisScripts: true,
   genericScriptUrl: "https://cdn.jsdelivr.net/npm/@wiris/mathtype-generic/wirisplugin-generic.js",
   viewerScriptUrl: "https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image",
-  desmosApiKey: DEMO_DESMOS_API_KEY,
+  desmosApiKey: "",
   desmosStateKeyPrefix: "myp-answer-input-default",
   onChange: null,
   onSubmit: null,
@@ -1545,10 +1126,7 @@ async function createAnswerInputBar(host, options = {}) {
       </select>
       <div class="answer-input__wiris-toolbar" aria-label="Native WIRIS toolbar source (MathType only visible)" role="toolbar"></div>
       <span class="answer-input__toolbar-spacer"></span>
-      <button type="button" class="answer-input__tool answer-input__snapshot-trigger" data-role="capture-calculator" title="Insert scientific calculator snapshot" aria-label="Insert scientific calculator snapshot">▧</button>
       <button type="button" class="answer-input__tool answer-input__calculator-trigger" data-role="open-calculator" title="Open Desmos scientific calculator" aria-label="Open Desmos scientific calculator">Sci</button>
-      <button type="button" class="answer-input__tool answer-input__calculator-trigger" data-role="open-graphing" title="Open Desmos graphing calculator" aria-label="Open Desmos graphing calculator">Graph</button>
-      <button type="button" class="answer-input__tool answer-input__snapshot-trigger" data-role="capture-graph" title="Insert graph screenshot" aria-label="Insert graph screenshot">▧G</button>
     </div>
     <div class="answer-input__editor-wrap">
       <div class="answer-input__editor" contenteditable="true" role="textbox" aria-label="Student answer" aria-multiline="true"></div>
@@ -2053,46 +1631,25 @@ async function createAnswerInputBar(host, options = {}) {
     insertImageSource(src, alt);
   }
 
-  // Supported host integration: answerBar.insertDesmosSnapshot({src, alt}) or pass a Blob.
-  async function insertDesmosSnapshot(snapshot) {
-    if (snapshot instanceof Blob) return insertImageBlob(snapshot, "Desmos graph snapshot");
-    if (typeof snapshot === "string") return insertImageSource(snapshot, "Desmos graph snapshot");
-    if (snapshot && typeof snapshot === "object" && snapshot.src) return insertImageSource(snapshot.src, snapshot.alt || "Desmos graph snapshot");
-    throw new TypeError("insertDesmosSnapshot expects an image URL/data URL, {src, alt}, or an image Blob.");
-  }
-
   let desmosDock = null;
-  let graphingDock = null;
   function connectDesmosDock() {
     if (desmosDock) return desmosDock;
     desmosDock = createDesmosScientificDock({
       trigger: root.querySelector('[data-role="open-calculator"]'),
       apiKey: config.desmosApiKey || runtimeDesmosApiKey(),
       stateKey: `${config.desmosStateKeyPrefix}:scientific`,
-      onStatus: (message, kind) => setStatus(message, kind),
-      onInsertSnapshot: snapshot => insertDesmosSnapshot(snapshot)
-    });
-    root.querySelector('[data-role="capture-calculator"]').addEventListener("click", () => {
-      if (desmosDock.isConnected()) desmosDock.capture();
-      else { desmosDock.open(); setStatus("Open and connect the scientific calculator before inserting a snapshot.", "error"); }
+      onStatus: (message, kind) => setStatus(message, kind)
     });
     return desmosDock;
   }
-  function connectGraphingDock() {
-    if (graphingDock) return graphingDock;
-    graphingDock = createDesmosGraphingDock({
-      trigger: root.querySelector('[data-role="open-graphing"]'),
-      apiKey: config.desmosApiKey || runtimeDesmosApiKey(),
-      stateKey: `${config.desmosStateKeyPrefix}:graphing`,
-      onStatus: (message, kind) => setStatus(message, kind),
-      onInsertSnapshot: snapshot => insertDesmosSnapshot(snapshot)
-    });
-    root.querySelector('[data-role="capture-graph"]').addEventListener("click", () => {
-      if (graphingDock.isConnected()) graphingDock.capture();
-      else { graphingDock.open(); setStatus("Open and connect the graphing calculator before inserting a graph screenshot.", "error"); }
-    });
-    return graphingDock;
-  }
+
+  // Create the Desmos dock on first Sci click and open it immediately.
+  // When the dock is created, its constructor automatically connects using
+  // the embedded/runtime key above; subsequent clicks simply reopen it.
+  root.querySelector('[data-role="open-calculator"]').addEventListener("click", () => {
+    const dock = connectDesmosDock();
+    dock.open();
+  });
 
   function handlePaste(event) {
     const items = [...(event.clipboardData?.items || [])];
@@ -2145,7 +1702,7 @@ async function createAnswerInputBar(host, options = {}) {
     }
   }
 
-  root.querySelectorAll('.answer-input__tool[data-command], .answer-input__tool[data-insert-text], .answer-input__math-trigger, .answer-input__table-trigger, [data-role="symbol-trigger"], [data-role="capture-calculator"], [data-role="capture-graph"], [data-role="open-calculator"], [data-role="open-graphing"]').forEach(button => {
+  root.querySelectorAll('.answer-input__tool[data-command], .answer-input__tool[data-insert-text], .answer-input__math-trigger, .answer-input__table-trigger, [data-role="symbol-trigger"], [data-role="open-calculator"]').forEach(button => {
     button.addEventListener("mousedown", event => { event.preventDefault(); rememberSelection(); });
   });
 
@@ -2231,17 +1788,10 @@ async function createAnswerInputBar(host, options = {}) {
       if (srcOrOptions && typeof srcOrOptions === "object" && srcOrOptions.src) return insertImageSource(srcOrOptions.src, srcOrOptions.alt || alt || "");
       throw new TypeError("insertImage expects a source string, image Blob, or {src, alt} object.");
     },
-    insertDesmosSnapshot,
     openScientificCalculator() { return connectDesmosDock().open(); },
-    captureCalculatorSnapshot() { return connectDesmosDock().capture(); },
     getDesmosCalculator() { return desmosDock?.getCalculator() || null; },
     getScientificCalculatorState() { return desmosDock?.getState() ?? null; },
     setScientificCalculatorState(value) { connectDesmosDock().setState(value); },
-    openGraphingCalculator() { return connectGraphingDock().open(); },
-    captureGraphingSnapshot() { return connectGraphingDock().capture(); },
-    getDesmosGraphingCalculator() { return graphingDock?.getCalculator() || null; },
-    getGraphingState() { return graphingDock?.getState() ?? null; },
-    setGraphingState(value) { connectGraphingDock().setState(value); },
     submit() {
       const value = getValue();
       if (typeof config.onSubmit === "function") config.onSubmit(value);
@@ -2253,7 +1803,6 @@ async function createAnswerInputBar(host, options = {}) {
       if (bodyDialogObserver) bodyDialogObserver.disconnect();
       if (dialogContentObserver) dialogContentObserver.disconnect();
       desmosDock?.destroy();
-      graphingDock?.destroy();
       document.removeEventListener("pointerdown", outsidePointerHandler);
       clearTimeout(refreshTimer);
       currentDialog?.remove();

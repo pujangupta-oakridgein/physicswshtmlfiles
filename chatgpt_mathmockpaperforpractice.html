@@ -123,7 +123,9 @@ button { font: inherit; }
 .toast { position: fixed; bottom: 18px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 10000; background: #14263d; color: #fff; border-radius: 10px; padding: 10px 14px; box-shadow: 0 6px 24px #0003; font-size: 12px; transition: .2s ease; max-width: calc(100vw - 24px); }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 .print-head { display:none; }
-.answer-input__calculator-trigger, .answer-input__snapshot-trigger { display: none !important; }
+.answer-input__snapshot-trigger { display: none !important; }
+/* Keep the calculator launchers available in the answer toolbar. */
+.answer-input__calculator-trigger { display: inline-flex !important; }
 @media (max-width: 900px) {
   .workspace { grid-template-columns: 1fr; }
   .sidebar { position: static; }
@@ -431,11 +433,11 @@ button { font: inherit; }
 .answer-input__snapshot-trigger { min-width: 30px; font-size: 17px !important; }
 .answer-input__calculator-trigger { min-width: 35px; font-size: 19px !important; font-weight: 700; }
 
-/* Desmos scientific calculator: independent bottom-right floating utility. */
+/* Desmos scientific calculator: compact floating utility on the left, below the question navigator. */
 .desmos-scientific-dock {
-  position: fixed; z-index: 5000; right: 18px; bottom: 18px;
-  display: flex; flex-direction: column; width: min(430px, calc(100vw - 24px));
-  height: min(650px, calc(100vh - 36px)); max-height: calc(100vh - 36px);
+  position: fixed; z-index: 5000; left: 18px; right: auto; bottom: 18px;
+  display: flex; flex-direction: column; width: min(340px, calc(100vw - 24px));
+  height: min(470px, calc(100vh - 36px)); max-height: calc(100vh - 36px);
   background: #fff; color: #222; border: 1px solid #aeb3b7; border-radius: 7px;
   box-shadow: 0 12px 36px #00000038; overflow: hidden;
   font: 13px/1.45 Calibri, "Segoe UI", Arial, sans-serif;
@@ -471,11 +473,11 @@ button { font: inherit; }
 @media (max-width: 600px) {
   .answer-input__toolbar-spacer { flex-basis: 5px; }
   .answer-input__symbol-menu { left: -70px; }
-  .desmos-scientific-dock { right: 8px; bottom: 8px; width: calc(100vw - 16px); height: min(600px, calc(100vh - 16px)); }
+  .desmos-scientific-dock { left: 8px; right: auto; bottom: 8px; width: calc(100vw - 16px); height: min(520px, calc(100vh - 16px)); }
 }
 
-/* Keep the graphing workspace offset from the scientific dock on wide screens. */
-.desmos-graphing-dock { left: 16px; right: auto; }
+/* Keep the graphing workspace on the right so it does not overlap the scientific calculator. */
+.desmos-graphing-dock { left: auto; right: 16px; }
 @media (max-width: 900px) {
   .desmos-graphing-dock { left: 8px; right: 8px; bottom: auto; top: 8px; width: auto; height: min(600px, calc(100vh - 16px)); }
 }
@@ -658,7 +660,7 @@ function createDesmosScientificDock({ trigger, onInsertSnapshot, apiKey = "", st
       <div class="desmos-dock__connect" data-desmos-role="connect">
         <p>Connect your Desmos API key to load the official scientific calculator. The key is kept in memory in this tab; it is not saved to local storage.</p>
         <label for="desmos-api-key">Desmos API key</label>
-        <div class="desmos-dock__keyrow"><input id="desmos-api-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste API key"><button type="button" data-desmos-action="connect">Connect</button></div>
+        <div class="desmos-dock__keyrow"><input id="desmos-api-key" type="password" autocomplete="off" spellcheck="false" placeholder="PASTE_YOUR_DESMOS_API_KEY_HERE"><button type="button" data-desmos-action="connect">Connect</button></div>
         <small>Scientific Calculator access must be enabled for the API key. <a href="https://www.desmos.com/my-api" target="_blank" rel="noopener noreferrer">Manage API key ↗</a></small>
       </div>
       <div class="desmos-dock__calculator" data-desmos-role="calculator" hidden></div>
@@ -1204,11 +1206,15 @@ function createDesmosGraphingDock({ trigger, onInsertSnapshot, apiKey = "", stat
  */
 
 
+// Desmos key supplied by the site owner. This is public client-side code:
+// restrict this key to the intended GitHub Pages domain in the Desmos dashboard.
+const EMBEDDED_DESMOS_API_KEY = "a9eae145006f44448f0f60263fb36c6e";
+
 function runtimeDesmosApiKey() {
-  // A host can provide a runtime config object such as window.__MYP_CONFIG__.DESMOS_API_KEY.
+  // Runtime host configuration may override the embedded site key.
   const runtime = typeof window !== "undefined" ? window.__MYP_CONFIG__?.DESMOS_API_KEY : "";
   const bundled = (window.__MYP_CONFIG__ && (window.__MYP_CONFIG__.VITE_DESMOS_API_KEY || window.__MYP_CONFIG__.DESMOS_API_KEY)) || "";
-  return String(runtime || bundled || "").trim();
+  return String(runtime || bundled || EMBEDDED_DESMOS_API_KEY).trim();
 }
 
 const DEFAULTS = {
@@ -2089,6 +2095,14 @@ async function createAnswerInputBar(host, options = {}) {
     });
     return graphingDock;
   }
+
+  // Create the Desmos dock on first Sci click and open it immediately.
+  // When the dock is created, its constructor automatically connects using
+  // the embedded/runtime key above; subsequent clicks simply reopen it.
+  root.querySelector('[data-role="open-calculator"]').addEventListener("click", () => {
+    const dock = connectDesmosDock();
+    dock.open();
+  });
 
   function handlePaste(event) {
     const items = [...(event.clipboardData?.items || [])];
